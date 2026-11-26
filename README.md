@@ -38,10 +38,10 @@ Every page has a language switch (EN, 中文, 日本語, 한국어) in the top b
 ## Run it
 
 ```
-python serve.py
+node dev/server.mjs
 ```
 
-Then open http://127.0.0.1:8765. (Opening `index.html` straight from the folder does not work: browsers block the JavaScript modules on `file://`.)
+Then open http://127.0.0.1:8765. This runs the functions in `api/` too, against a test database kept in memory (`dev/mock-redis.js`); the editors' page password is `local`. `python serve.py` serves the pages only. (Opening `index.html` straight from the folder does not work: browsers block the JavaScript modules on `file://`.) How to work on the site together: `CONTRIBUTING.md`.
 
 ## Credits and outside files
 

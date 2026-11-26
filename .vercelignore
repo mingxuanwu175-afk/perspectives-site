@@ -7,3 +7,5 @@ design-system
 .env*
 .gitignore
 qr
+dev
+CONTRIBUTING.md

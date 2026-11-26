@@ -38,6 +38,8 @@ export const K = {
 
 // Several Redis commands in one request (Upstash REST pipeline).
 export async function redis(commands) {
+  // Local development (dev/server.mjs) keeps its data in memory instead.
+  if (!URL && !TOKEN && globalThis.__mockRedis) return globalThis.__mockRedis(commands);
   if (!URL || !TOKEN) throw Object.assign(new Error('The database is not connected.'), { status: 503 });
   const res = await fetch(`${URL}/pipeline`, {
     method: 'POST',
