@@ -1,0 +1,6 @@
+{
+  "name": "perspectives-site",
+  "private": true,
+  "type": "module",
+  "description": "Perspectives, the student magazine of XWA: static site plus sign-up functions in api/ for Vercel."
+}
