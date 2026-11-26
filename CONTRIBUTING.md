@@ -22,9 +22,9 @@ node dev/server.mjs
 1. 每件事新开一个分支：`git checkout -b 分支名`
 2. 改好、本地测过后推上去：`git push -u origin 分支名`
 3. 在 GitHub 上开 Pull Request，写清楚改了什么、为什么改。
-4. Steve 看过、点 Merge 以后，Vercel 自动把 `main` 发布到 https://perspectives-xwa.vercel.app 。
+4. Steve 批准（Approve）并点 Merge 以后，Vercel 自动把 `main` 发布到 https://perspectives-xwa.vercel.app 。
 
-**不要直接推 `main`。** `main` 上的每一次提交都会直接上线。
+`main` 已锁：只能通过 Pull Request 合并，并且要 Steve 批准。`main` 上的每一次提交都会直接上线。
 
 ## 不碰的东西
 
