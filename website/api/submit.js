@@ -48,11 +48,13 @@ async function sweepAbandoned() {
 async function start(req, res, b) {
   if (!(await allowed(req, 'submit', 10))) return refuse(res, 429, 'err.rate', 'Too many submissions from this connection. Try again in 10 minutes.');
   await sweepAbandoned().catch((err) => console.error('sweep', err));
+  // Submitting needs an account (the form signs people in or creates one).
   const user = await userOf(req);
+  if (!user) return refuse(res, 401, 'err.signin', 'Sign in first.');
   const row = {
-    user_id: user?.id ?? null,
+    user_id: user.id,
     name: clean(b.name, 80),
-    email: clean(b.email, 120).toLowerCase(),
+    email: String(user.email || clean(b.email, 120)).toLowerCase(),
     contact: clean(b.contact, 120),
     title: clean(b.title, 200),
     kind: KINDS.includes(b.kind) ? b.kind : 'other',

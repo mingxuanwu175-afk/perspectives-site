@@ -63,3 +63,12 @@
 .c-linkbtn { font: inherit; font-size: .9rem; background: none; border: 0; padding: 0; margin-top: 12px; color: #000; text-decoration: underline; cursor: pointer; }
 .c-dialog .c-field { margin: 4px 0 8px; }
 .c-dialog input { font: inherit; width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #999; border-radius: 6px; }
+
+/* signed-in line and "My submissions" */
+.c-who { margin: -8px 0 0; display: flex; gap: 4px; flex-wrap: wrap; align-items: baseline; }
+.c-who .c-linkbtn { margin: 0; font-size: .82rem; }
+#contribute h3 { margin: 24px 0 10px; }
+.c-mine { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.c-mine li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding-bottom: 10px; border-bottom: 1px solid #e5e5e5; }
+.c-mine-title { font-weight: 600; overflow-wrap: anywhere; }
+.c-mine .c-hint { grid-column: 1 / -1; }
