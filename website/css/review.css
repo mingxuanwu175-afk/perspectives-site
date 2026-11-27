@@ -1,7 +1,7 @@
 /* Review dashboard (review.html): a working tool, plain and dense. */
 :root { --ink: #111; --muted: #5f6368; --line: #dadce0; --soft: #f4f5f7; --accent: #000; --bad: #b00020; }
 * { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--ink); background: #fff; font-size: 15px; line-height: 1.5; }
+body { margin: 0; font-family: system-ui, -apple-system, sans-serif; color: var(--ink); background: #fff; font-size: 15px; line-height: 1.5; }
 .r-top { display: flex; gap: 14px; align-items: center; padding: 12px max(16px, 3vw); background: #000; color: #fff; flex-wrap: wrap; }
 .r-logo { color: #fff; font-weight: 700; text-decoration: none; }
 .r-where { opacity: .7; }
