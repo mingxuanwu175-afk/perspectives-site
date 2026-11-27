@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>审稿后台 | Perspectives</title>
+<meta name="theme-color" content="#0B0B10">
+<link rel="stylesheet" href="css/review.css">
+</head>
+<body>
+<header class="r-top">
+  <a href="index.html" class="r-logo">Perspectives</a>
+  <span class="r-where">审稿后台</span>
+  <span class="r-me" id="me"></span>
+</header>
+<main id="app" class="r-main">
+  <p class="r-muted">加载中……</p>
+</main>
+<!-- 编辑和管理员用的页面，网站上不放链接。数据权限由 Supabase 的行级规则把关：
+     不是 editor / admin 的账号登录进来也读不到任何投稿。 -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="js/review.js"></script>
+</body>
+</html>

@@ -5,8 +5,8 @@
  * they arrived. Afterwards the submitter gets a progress link
  * (contribution.html?t=<token>), which shows the submission's status.
  *
- * Words: English and Chinese here, merged into lang.js; Japanese and Korean
- * fall back to English until someone translates them.
+ * Words: all four site languages here, merged into lang.js. The Japanese and
+ * Korean are a first draft: ask a native speaker to read them.
  */
 (function () {
   "use strict";
@@ -110,6 +110,102 @@
       "err.network": "连不上服务器，请检查网络后再试。",
       "err.server": "我们这边出了问题，请稍后再试。",
       "err.unknown": "这个链接找不到对应的投稿。"
+    },
+    ja: {
+      "c.title": "作品を投稿する",
+      "c.lead": "文章、絵、写真など、なんでも歓迎します。ファイル形式は自由、最大10個、1つ50MBまで。編集部がすべて読み、メールでお返事します。",
+      "c.name": "名前またはペンネーム",
+      "c.email": "メールアドレス",
+      "c.emailHint": "お返事はこちらに送ります。",
+      "c.contact": "その他の連絡先（任意）",
+      "c.contactHint": "WeChat、Instagram、小紅書、ビリビリなど",
+      "c.workTitle": "作品のタイトル",
+      "c.kind": "種類",
+      "k.writing": "文章", "k.art": "絵", "k.photo": "写真", "k.other": "その他",
+      "c.note": "伝えたいこと（任意）",
+      "c.files": "ファイル",
+      "c.filesHint": "形式は自由。最大10個、1つ50MBまで、合計200MBまで。それより大きいものはリンクを書いてください。",
+      "c.consent": "これは自分の作品です。Perspectives編集部が読むことに同意します。掲載する前に必ず確認があります。",
+      "c.send": "投稿する",
+      "c.sending": "アップロード中…",
+      "c.done": "受け取りました。ありがとうございます！",
+      "c.doneText": "このリンクを保存すると、いつでも進み具合を確認できます：",
+      "c.copy": "リンクをコピー",
+      "c.copied": "コピーしました",
+      "c.another": "もう一つ投稿する",
+      "s.heading": "あなたの投稿",
+      "s.status": "状況",
+      "s.files": "ファイル",
+      "s.sent": "送信日",
+      "st.uploading": "アップロード未完了",
+      "st.received": "受付済み、審査待ち",
+      "st.reviewing": "審査中",
+      "st.revise": "修正のお願いがあります。メールを確認してください",
+      "st.accepted": "採用",
+      "st.published": "掲載済み",
+      "st.declined": "今回は見送り",
+      "err.name": "名前またはペンネームを入力してください。",
+      "err.email": "正しいメールアドレスを入力してください。",
+      "err.title": "作品のタイトルを入力してください。",
+      "err.noFiles": "ファイルを1つ以上選んでください。",
+      "err.tooMany": "ファイルは最大10個です。",
+      "err.empty": "空のファイルがあります。",
+      "err.size": "1つのファイルは50MBまでです。",
+      "err.total": "ファイルの合計は200MBまでです。",
+      "err.consent": "確認のチェックを入れてください。",
+      "err.rate": "この回線からの投稿が多すぎます。10分後にもう一度お試しください。",
+      "err.upload": "アップロードが終わらなかったファイルがあります。もう一度お試しください。",
+      "err.network": "サーバーにつながりません。接続を確認してもう一度お試しください。",
+      "err.server": "こちらで問題が起きました。しばらくしてからお試しください。",
+      "err.unknown": "このリンクに対応する投稿が見つかりません。"
+    },
+    ko: {
+      "c.title": "작품 투고",
+      "c.lead": "글, 그림, 사진 등 무엇이든 좋습니다. 파일 형식은 자유이며 최대 10개, 파일당 50MB까지입니다. 편집부가 모두 읽고 이메일로 답장드립니다.",
+      "c.name": "이름 또는 필명",
+      "c.email": "이메일",
+      "c.emailHint": "이 주소로 답장을 보냅니다.",
+      "c.contact": "다른 연락처 (선택)",
+      "c.contactHint": "WeChat, Instagram, 샤오훙수, 빌리빌리 등",
+      "c.workTitle": "작품 제목",
+      "c.kind": "종류",
+      "k.writing": "글", "k.art": "그림", "k.photo": "사진", "k.other": "기타",
+      "c.note": "전하고 싶은 말 (선택)",
+      "c.files": "파일",
+      "c.filesHint": "형식은 자유입니다. 최대 10개, 파일당 50MB, 합계 200MB까지. 더 큰 파일은 위에 링크를 남겨 주세요.",
+      "c.consent": "본인의 작품입니다. Perspectives 편집부가 읽는 데 동의합니다. 게재 전에는 반드시 먼저 동의를 구합니다.",
+      "c.send": "투고하기",
+      "c.sending": "업로드 중…",
+      "c.done": "잘 받았습니다. 감사합니다!",
+      "c.doneText": "이 링크를 저장하면 언제든 진행 상황을 볼 수 있습니다:",
+      "c.copy": "링크 복사",
+      "c.copied": "복사됨",
+      "c.another": "하나 더 투고하기",
+      "s.heading": "내 투고",
+      "s.status": "상태",
+      "s.files": "파일",
+      "s.sent": "보낸 날짜",
+      "st.uploading": "업로드 미완료",
+      "st.received": "접수됨, 검토 대기",
+      "st.reviewing": "검토 중",
+      "st.revise": "수정 요청이 있습니다. 이메일을 확인해 주세요",
+      "st.accepted": "채택",
+      "st.published": "게재됨",
+      "st.declined": "이번에는 선정되지 않음",
+      "err.name": "이름 또는 필명을 입력해 주세요.",
+      "err.email": "올바른 이메일 주소를 입력해 주세요.",
+      "err.title": "작품 제목을 입력해 주세요.",
+      "err.noFiles": "파일을 하나 이상 선택해 주세요.",
+      "err.tooMany": "파일은 최대 10개입니다.",
+      "err.empty": "빈 파일이 있습니다.",
+      "err.size": "파일 하나는 50MB까지입니다.",
+      "err.total": "파일 합계는 200MB까지입니다.",
+      "err.consent": "확인란에 체크해 주세요.",
+      "err.rate": "이 네트워크에서 투고가 너무 많습니다. 10분 후에 다시 시도해 주세요.",
+      "err.upload": "업로드가 끝나지 않은 파일이 있습니다. 다시 시도해 주세요.",
+      "err.network": "서버에 연결할 수 없습니다. 연결을 확인하고 다시 시도해 주세요.",
+      "err.server": "저희 쪽에 문제가 생겼습니다. 잠시 후 다시 시도해 주세요.",
+      "err.unknown": "이 링크에 해당하는 투고를 찾을 수 없습니다."
     }
   };
 
@@ -145,9 +241,29 @@
     return n >= MB ? (n / MB).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
   }
 
+  // A signed-in visitor's Supabase session (supabase-js keeps it in
+  // localStorage under sb-<project>-auth-token). Sent along so the submission
+  // is linked to their account; without one the submission is anonymous.
+  function accessToken() {
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (/^sb-.+-auth-token$/.test(k)) {
+          var s = JSON.parse(localStorage.getItem(k));
+          var tok = s && (s.access_token || (s.currentSession && s.currentSession.access_token));
+          if (tok && (!s.expires_at || s.expires_at * 1000 > Date.now())) return tok;
+        }
+      }
+    } catch (e) { /* storage blocked: submit anonymously */ }
+    return null;
+  }
+
   function api(path, body) {
+    var headers = { "Content-Type": "application/json" };
+    var tok = accessToken();
+    if (tok) headers.Authorization = "Bearer " + tok;
     return fetch(path, body ? {
-      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body)
+      method: "POST", headers: headers, body: JSON.stringify(body)
     } : { cache: "no-store" }).then(function (res) {
       return res.json().catch(function () { return {}; }).then(function (data) {
         if (!res.ok) throw Object.assign(new Error(data.error || "HTTP " + res.status), { key: data.key || "err.server" });

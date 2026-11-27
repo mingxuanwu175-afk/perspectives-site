@@ -16,7 +16,7 @@
 // (contribution.html?t=<token>).
 
 import {
-  EMAIL, STORAGE, UUID, allowed, body, clean, cleanBlock, clientIp, db, failed, ready, refuse, send, storage,
+  EMAIL, STORAGE, UUID, allowed, body, clean, cleanBlock, clientIp, db, failed, ready, refuse, send, storage, userOf,
 } from './_lib.js';
 
 const KINDS = ['writing', 'art', 'photo', 'other'];
@@ -33,9 +33,24 @@ function slug(name) {
   return (base || 'file') + ext;
 }
 
+// Submissions whose upload never finished (closed tab, lost connection) are
+// removed with their files after a day. Runs a little at a time, on new submissions.
+async function sweepAbandoned() {
+  const old = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+  const stale = await db(`submissions?status=eq.uploading&created_at=lt.${old}&select=id&limit=20`);
+  if (!stale.length) return;
+  const ids = stale.map((s) => s.id);
+  const files = await db(`submission_files?submission_id=in.(${ids.join(',')})&select=path`);
+  if (files.length) await storage('object/submissions', { method: 'DELETE', body: { prefixes: files.map((f) => f.path) } });
+  await db(`submissions?id=in.(${ids.join(',')})&status=eq.uploading`, { method: 'DELETE' });
+}
+
 async function start(req, res, b) {
   if (!(await allowed(req, 'submit', 10))) return refuse(res, 429, 'err.rate', 'Too many submissions from this connection. Try again in 10 minutes.');
+  await sweepAbandoned().catch((err) => console.error('sweep', err));
+  const user = await userOf(req);
   const row = {
+    user_id: user?.id ?? null,
     name: clean(b.name, 80),
     email: clean(b.email, 120).toLowerCase(),
     contact: clean(b.contact, 120),

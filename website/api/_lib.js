@@ -39,6 +39,18 @@ export async function storage(path, { method = 'POST', body } = {}) {
   return text ? JSON.parse(text) : null;
 }
 
+// The signed-in user behind a request, or null. The page sends the Supabase
+// session's access token as "Authorization: Bearer <token>"; Supabase Auth
+// checks it. A missing or expired token simply means "not signed in".
+export async function userOf(req) {
+  const m = String(req.headers.authorization ?? '').match(/^Bearer\s+(\S+)$/i);
+  if (!m) return null;
+  const res = await fetch(`${BASE}/auth/v1/user`, { headers: { apikey: KEY, Authorization: `Bearer ${m[1]}` } });
+  if (!res.ok) return null;
+  const user = await res.json().catch(() => null);
+  return user?.id ? user : null;
+}
+
 // ---------- requests
 
 export function body(req) {
