@@ -1,0 +1,190 @@
+header{
+    background-color: #000000;
+    /* sticky：顶栏占住自己的位置（内容不会被挡住），滚动时又始终贴在最上面 */
+    position: sticky;
+    top: 0;
+    width: 100%;
+    left: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    min-height: 50px;
+    /* 不加这条，width:100% + 左右 padding 会把页面撑出横向滚动条 */
+    box-sizing: border-box;
+    z-index: 10;
+}
+.logo{
+    margin-left: 0.5vw;
+    font-size:clamp(0.6rem, 2.5vw, 1.2rem);
+    color: #ffffff;
+    font-family: sans-serif;
+}
+.nav_links{
+    display: flex;
+    flex-wrap: wrap;               /* 窄屏放不下时整项换行，不会把词拆成两半 */
+    align-items: center;
+    gap: 12px;
+    margin-right: 1rem;
+    margin-left: auto;
+    justify-content: space-between;
+    font-size:clamp(0.5rem, 1.5vw, 0.8rem);
+}
+.nav_links > a,
+.nav_links > div,
+.lang-btn{
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+/* 登录后这里显示名字：名字可能较长，保持一行，超出用省略号 */
+.nav_links > a.nav-user{
+    display: block;
+    max-width: 14em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* 窄屏（≤480px）：导航项变多以后会挤，收紧间距、去掉装饰性的竖线 */
+@media (max-width: 480px){
+    header{
+        padding: 0 12px;
+    }
+    .nav_links{
+        gap: 8px;
+        margin-right: 0;
+    }
+    .nav_links > div{
+        display: none;
+    }
+    .nav_links > a.nav-user{
+        max-width: 9em;
+    }
+}
+.lang-btn{
+    background: transparent;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-size:clamp(0.5rem, 1.5vw, 0.8rem);
+    transition: opacity .2s ease;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+/* 按钮右侧的小三角，表示点开有列表 */
+.lang-btn::after{
+    content: "";
+    width: 0;
+    height: 0;
+    margin-left: .45em;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid currentColor;
+    opacity: .75;
+    transition: transform .2s ease;
+}
+.lang-btn[aria-expanded="true"]::after{
+    transform: rotate(180deg);
+}
+.lang-btn:hover{
+    opacity: .7;
+}
+.lang-btn:focus-visible{
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+}
+
+/* 语言列表 */
+.lang-menu{
+    position: fixed;
+    z-index: 1000;
+    min-width: 150px;
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    margin: 0;
+    padding: 6px;
+    background: #141419;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 10px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .5);
+    font-family: sans-serif;
+    text-align: left;
+    animation: lang-menu-in .14s ease-out;
+}
+.lang-menu[hidden]{
+    display: none;
+}
+@keyframes lang-menu-in{
+    from{
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to{
+        opacity: 1;
+        transform: none;
+    }
+}
+.lang-menu__item{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 10px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #e6e6ee;
+    font: inherit;
+    font-size: .82rem;
+    line-height: 1.2;
+    text-align: left;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+}
+.lang-menu__item:hover,
+.lang-menu__item:focus-visible{
+    background: rgba(255, 255, 255, .1);
+    color: #ffffff;
+    outline: none;
+}
+.lang-menu__item[aria-checked="true"]{
+    color: #ffffff;
+    font-weight: 600;
+}
+.lang-menu__tick{
+    margin-left: auto;
+    font-size: .9em;
+    line-height: 1;
+}
+@media (prefers-reduced-motion: reduce){
+    .lang-menu{
+        animation: none;
+    }
+    .lang-btn::after{
+        transition: none;
+    }
+}
+body{
+    margin:0;
+    background:#fff;
+    color:#000;
+    font-family:sans-serif;
+    min-height:100vh;
+    display:grid;
+    grid-template-rows: auto 1fr auto;   /* 顶栏 / 主体（占满剩余高度）/ 底栏：底栏始终贴页面最下方 */
+    place-items:center;
+    text-align:center;
+}
+a{
+    text-decoration:none;
+    color:#fff;
+}
+footer{
+    background-color: #000000;
+    color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    font-size:clamp(0.5rem, 1.5vw, 0.8rem);
+}
