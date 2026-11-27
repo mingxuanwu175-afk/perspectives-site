@@ -16,6 +16,15 @@
 
   var WORDS = {
     en: {
+      "a.ask": "Create an account?",
+      "a.text": "We can make you an account with {email}. Sign in any time to see all your submissions, without keeping links. No password: we email you a sign-in link.",
+      "a.yes": "Send me the link",
+      "a.no": "No thanks",
+      "a.sent": "Check your email",
+      "a.sentText": "We sent a sign-in link to {email}. Open it on this device to finish.",
+      "a.fail": "Could not send the email right now. You can still use the link above.",
+      "a.linked": "Signed in. Your submissions are now linked to your account.",
+      "a.close": "Close",
       "c.title": "Submit your work",
       "c.lead": "Writing, art, photos, anything else. Any file type, up to 10 files, 50 MB each. Our editors read everything and write back by email.",
       "c.name": "Name or pen name",
@@ -64,6 +73,15 @@
       "err.unknown": "This link does not match any submission."
     },
     zh: {
+      "a.ask": "要不要建个账号？",
+      "a.text": "可以用 {email} 给你建一个账号。以后登录就能看到你所有投稿的进度，不用保存链接。不用设密码，我们把登录链接发到你的邮箱。",
+      "a.yes": "发登录链接给我",
+      "a.no": "不用了",
+      "a.sent": "请查看邮箱",
+      "a.sentText": "登录链接已发到 {email}，在这台设备上打开就完成了。",
+      "a.fail": "暂时发不出邮件。你仍然可以用上面的进度链接。",
+      "a.linked": "已登录，你的投稿已经关联到账号。",
+      "a.close": "关闭",
       "c.title": "投稿",
       "c.lead": "文章、画、摄影，什么都可以。文件格式不限，最多 10 个，每个 50 MB 以内。编辑会逐一阅读，用邮件回复你。",
       "c.name": "姓名或笔名",
@@ -112,6 +130,15 @@
       "err.unknown": "这个链接找不到对应的投稿。"
     },
     ja: {
+      "a.ask": "アカウントを作りますか？",
+      "a.text": "{email} でアカウントを作れます。ログインすれば、リンクを保存しなくても投稿の状況をいつでも見られます。パスワードは不要で、ログイン用のリンクをメールで送ります。",
+      "a.yes": "リンクを送る",
+      "a.no": "今はしない",
+      "a.sent": "メールを確認してください",
+      "a.sentText": "{email} にログイン用のリンクを送りました。この端末で開くと完了します。",
+      "a.fail": "今はメールを送れません。上のリンクはそのまま使えます。",
+      "a.linked": "ログインしました。投稿がアカウントにひも付けられました。",
+      "a.close": "閉じる",
       "c.title": "作品を投稿する",
       "c.lead": "文章、絵、写真など、なんでも歓迎します。ファイル形式は自由、最大10個、1つ50MBまで。編集部がすべて読み、メールでお返事します。",
       "c.name": "名前またはペンネーム",
@@ -160,6 +187,15 @@
       "err.unknown": "このリンクに対応する投稿が見つかりません。"
     },
     ko: {
+      "a.ask": "계정을 만들까요?",
+      "a.text": "{email}로 계정을 만들 수 있습니다. 로그인하면 링크를 저장하지 않아도 모든 투고의 진행 상황을 볼 수 있습니다. 비밀번호 없이, 로그인 링크를 이메일로 보내 드립니다.",
+      "a.yes": "링크 보내기",
+      "a.no": "괜찮아요",
+      "a.sent": "이메일을 확인해 주세요",
+      "a.sentText": "{email}로 로그인 링크를 보냈습니다. 이 기기에서 열면 완료됩니다.",
+      "a.fail": "지금은 이메일을 보낼 수 없습니다. 위의 링크는 그대로 쓸 수 있습니다.",
+      "a.linked": "로그인했습니다. 투고가 계정에 연결되었습니다.",
+      "a.close": "닫기",
       "c.title": "작품 투고",
       "c.lead": "글, 그림, 사진 등 무엇이든 좋습니다. 파일 형식은 자유이며 최대 10개, 파일당 50MB까지입니다. 편집부가 모두 읽고 이메일로 답장드립니다.",
       "c.name": "이름 또는 필명",
@@ -237,6 +273,8 @@
     return n;
   }
 
+  function put() { root.replaceChildren.apply(root, Array.prototype.filter.call(arguments, Boolean)); }
+
   function fmtSize(n) {
     return n >= MB ? (n / MB).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
   }
@@ -290,11 +328,12 @@
 
   /* ---------------- progress link view ---------------- */
 
-  function statusView(token) {
+  function statusView(token, notice) {
     root.replaceChildren(el("h2", { i18n: "s.heading" }), el("p", { class: "c-muted", text: "…" }));
     api("/api/status?t=" + encodeURIComponent(token)).then(function (s) {
       var date = new Date(s.created_at);
-      root.replaceChildren(
+      put(
+        notice ? el("p", { class: "c-notice", i18n: notice }) : null,
         el("h2", { i18n: "s.heading" }),
         el("p", { class: "c-work", text: s.title }),
         el("dl", { class: "c-status" }, [
@@ -398,7 +437,7 @@
       }).then(function () {
         return api("/api/submit", { action: "finish", id: started.id, token: started.token });
       }).then(function () {
-        doneView(started.token);
+        doneView(started.token, v("c-email"));
       }).catch(function (err) {
         fail(err.key || "err.server");
         send.disabled = false; send.setAttribute("data-i18n", "c.send"); send.textContent = t("c.send");
@@ -410,7 +449,68 @@
     apply();
   }
 
-  function doneView(token) {
+  /* ---------------- optional account after submitting ---------------- */
+
+  var SB = window.supabase && window.supabase.createClient(
+    "https://itnylaavtwmhvzepmxrt.supabase.co",
+    "sb_publishable_zrfDWNTiHJSEdaK4lxlo3Q_3vz08ZR_" // public by design
+  );
+  function fill(key, email) { return t(key).replace("{email}", email); }
+
+  // Shown once on the thank-you screen, to people who are not signed in.
+  // Passwordless: Supabase emails a sign-in link that also creates the account.
+  function askAccount(email, token) {
+    if (!SB || accessToken()) return;
+    var text = el("p", { text: fill("a.text", email) });
+    var msg = el("p", { class: "c-error", role: "status" });
+    var yes = el("button", { type: "button", class: "c-send" });
+    var no = el("button", { type: "button", class: "c-ghost" });
+    var dlg = el("dialog", { class: "c-dialog", "aria-labelledby": "c-ask" }, [
+      el("h3", { id: "c-ask" }), text, msg, el("div", { class: "c-actions" }, [yes, no])
+    ]);
+    function words() {
+      dlg.querySelector("h3").textContent = t(dlg.dataset.sent ? "a.sent" : "a.ask");
+      text.textContent = fill(dlg.dataset.sent ? "a.sentText" : "a.text", email);
+      yes.textContent = t("a.yes"); yes.hidden = !!dlg.dataset.sent;
+      no.textContent = t(dlg.dataset.sent ? "a.close" : "a.no");
+      if (msg.dataset.key) msg.textContent = t(msg.dataset.key);
+    }
+    document.addEventListener("languagechange", words);
+    no.addEventListener("click", function () { dlg.close(); dlg.remove(); document.removeEventListener("languagechange", words); });
+    dlg.addEventListener("close", function () { document.removeEventListener("languagechange", words); dlg.remove(); });
+    yes.addEventListener("click", function () {
+      yes.disabled = true;
+      SB.auth.signInWithOtp({
+        email: email,
+        options: { emailRedirectTo: location.origin + location.pathname + "?claim=1&t=" + token }
+      }).then(function (r) {
+        yes.disabled = false;
+        if (r.error) { console.warn(r.error); msg.dataset.key = "a.fail"; }
+        else { dlg.dataset.sent = "1"; msg.dataset.key = ""; msg.textContent = ""; }
+        words();
+      });
+    });
+    words();
+    document.body.appendChild(dlg);
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+  }
+
+  // Back from the email link: the session arrives in the address, then every
+  // submission made with this email is linked to the new account.
+  function finishClaim(token) {
+    var done = function (ok) {
+      history.replaceState(null, "", location.pathname + (token ? "?t=" + token : ""));
+      if (token) statusView(token, ok ? "a.linked" : null); else formView();
+    };
+    SB.auth.getSession().then(function (r) {
+      var s = r.data && r.data.session;
+      if (!s) return done(false);
+      return fetch("/api/claim", { method: "POST", headers: { Authorization: "Bearer " + s.access_token } })
+        .then(function (res) { done(res.ok); }, function () { done(false); });
+    });
+  }
+
+  function doneView(token, email) {
     var link = location.origin + location.pathname + "?t=" + token;
     var copy = el("button", { type: "button", class: "c-copy", i18n: "c.copy" });
     var out = el("input", { class: "c-out", readonly: "", value: link, "aria-label": "link" });
@@ -427,8 +527,11 @@
     );
     apply();
     window.scrollTo(0, 0);
+    askAccount(email, token);
   }
 
-  var token = new URLSearchParams(location.search).get("t");
-  if (token) statusView(token); else formView();
+  var params = new URLSearchParams(location.search);
+  var token = params.get("t");
+  if (params.get("claim") && SB) finishClaim(token);
+  else if (token) statusView(token); else formView();
 })();
