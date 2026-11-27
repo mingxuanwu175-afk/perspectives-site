@@ -1,6 +1,0 @@
-{
-  "name": "perspectives-website",
-  "private": true,
-  "type": "module",
-  "description": "Perspectives website: static pages plus the functions in api/ (Supabase)."
-}
