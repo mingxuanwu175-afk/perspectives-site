@@ -35,6 +35,13 @@ header{
     flex: 0 0 auto;
     white-space: nowrap;
 }
+/* 登录后这里显示名字：名字可能较长，保持一行，超出用省略号 */
+.nav_links > a.nav-user{
+    display: block;
+    max-width: 14em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 /* 窄屏（≤480px）：导航项变多以后会挤，收紧间距、去掉装饰性的竖线 */
 @media (max-width: 480px){
     header{
@@ -46,6 +53,9 @@ header{
     }
     .nav_links > div{
         display: none;
+    }
+    .nav_links > a.nav-user{
+        max-width: 9em;
     }
 }
 .lang-btn{
