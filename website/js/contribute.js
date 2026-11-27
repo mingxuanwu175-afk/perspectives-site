@@ -17,14 +17,22 @@
   var WORDS = {
     en: {
       "a.ask": "Create an account?",
-      "a.text": "We can make you an account with {email}. Sign in any time to see all your submissions, without keeping links. No password: we email you a sign-in link.",
-      "a.yes": "Send me the link",
+      "a.text": "Choose a password for {email}. Signed in, you can see all your submissions any time, without keeping links.",
+      "a.pass": "Password (at least 8 characters)",
+      "a.yes": "Create account",
+      "a.signin": "Sign in",
+      "a.have": "I already have an account",
+      "a.new": "I need a new account",
       "a.no": "No thanks",
-      "a.sent": "Check your email",
-      "a.sentText": "We sent a sign-in link to {email}. Open it on this device to finish.",
-      "a.fail": "Could not send the email right now. You can still use the link above.",
-      "a.linked": "Signed in. Your submissions are now linked to your account.",
+      "a.done": "Done. This submission is now in your account.",
       "a.close": "Close",
+      "a.err.exists": "This email already has an account. Sign in instead.",
+      "a.err.login": "Wrong password for this email.",
+      "a.err.short": "The password needs at least 8 characters.",
+      "a.err.other": "Something went wrong. You can still use the link above.",
+      "s.add": "Add to my account",
+      "s.added": "Added to your account.",
+      "s.other": "This submission belongs to another account.",
       "c.title": "Submit your work",
       "c.lead": "Writing, art, photos, anything else. Any file type, up to 10 files, 50 MB each. Our editors read everything and write back by email.",
       "c.name": "Name or pen name",
@@ -74,14 +82,22 @@
     },
     zh: {
       "a.ask": "要不要建个账号？",
-      "a.text": "可以用 {email} 给你建一个账号。以后登录就能看到你所有投稿的进度，不用保存链接。不用设密码，我们把登录链接发到你的邮箱。",
-      "a.yes": "发登录链接给我",
+      "a.text": "给 {email} 设一个密码就行。登录后随时能看到你所有投稿的进度，不用保存链接。",
+      "a.pass": "密码（至少 8 位）",
+      "a.yes": "建账号",
+      "a.signin": "登录",
+      "a.have": "我已经有账号了",
+      "a.new": "我要新建账号",
       "a.no": "不用了",
-      "a.sent": "请查看邮箱",
-      "a.sentText": "登录链接已发到 {email}，在这台设备上打开就完成了。",
-      "a.fail": "暂时发不出邮件。你仍然可以用上面的进度链接。",
-      "a.linked": "已登录，你的投稿已经关联到账号。",
+      "a.done": "好了，这篇投稿已经放进你的账号。",
       "a.close": "关闭",
+      "a.err.exists": "这个邮箱已经有账号了，请直接登录。",
+      "a.err.login": "密码不对。",
+      "a.err.short": "密码至少要 8 位。",
+      "a.err.other": "出了点问题。你仍然可以用上面的进度链接。",
+      "s.add": "放进我的账号",
+      "s.added": "已放进你的账号。",
+      "s.other": "这篇投稿属于另一个账号。",
       "c.title": "投稿",
       "c.lead": "文章、画、摄影，什么都可以。文件格式不限，最多 10 个，每个 50 MB 以内。编辑会逐一阅读，用邮件回复你。",
       "c.name": "姓名或笔名",
@@ -131,14 +147,22 @@
     },
     ja: {
       "a.ask": "アカウントを作りますか？",
-      "a.text": "{email} でアカウントを作れます。ログインすれば、リンクを保存しなくても投稿の状況をいつでも見られます。パスワードは不要で、ログイン用のリンクをメールで送ります。",
-      "a.yes": "リンクを送る",
+      "a.text": "{email} のパスワードを決めるだけです。ログインすれば、リンクを保存しなくても投稿の状況をいつでも見られます。",
+      "a.pass": "パスワード（8文字以上）",
+      "a.yes": "作成する",
+      "a.signin": "ログイン",
+      "a.have": "すでにアカウントがあります",
+      "a.new": "新しく作ります",
       "a.no": "今はしない",
-      "a.sent": "メールを確認してください",
-      "a.sentText": "{email} にログイン用のリンクを送りました。この端末で開くと完了します。",
-      "a.fail": "今はメールを送れません。上のリンクはそのまま使えます。",
-      "a.linked": "ログインしました。投稿がアカウントにひも付けられました。",
+      "a.done": "完了しました。この投稿はあなたのアカウントに入りました。",
       "a.close": "閉じる",
+      "a.err.exists": "このメールアドレスはすでに登録されています。ログインしてください。",
+      "a.err.login": "パスワードが違います。",
+      "a.err.short": "パスワードは8文字以上にしてください。",
+      "a.err.other": "問題が起きました。上のリンクはそのまま使えます。",
+      "s.add": "自分のアカウントに追加",
+      "s.added": "アカウントに追加しました。",
+      "s.other": "この投稿は別のアカウントのものです。",
       "c.title": "作品を投稿する",
       "c.lead": "文章、絵、写真など、なんでも歓迎します。ファイル形式は自由、最大10個、1つ50MBまで。編集部がすべて読み、メールでお返事します。",
       "c.name": "名前またはペンネーム",
@@ -188,14 +212,22 @@
     },
     ko: {
       "a.ask": "계정을 만들까요?",
-      "a.text": "{email}로 계정을 만들 수 있습니다. 로그인하면 링크를 저장하지 않아도 모든 투고의 진행 상황을 볼 수 있습니다. 비밀번호 없이, 로그인 링크를 이메일로 보내 드립니다.",
-      "a.yes": "링크 보내기",
+      "a.text": "{email}의 비밀번호만 정하면 됩니다. 로그인하면 링크를 저장하지 않아도 모든 투고의 진행 상황을 볼 수 있습니다.",
+      "a.pass": "비밀번호 (8자 이상)",
+      "a.yes": "계정 만들기",
+      "a.signin": "로그인",
+      "a.have": "이미 계정이 있어요",
+      "a.new": "새 계정을 만들게요",
       "a.no": "괜찮아요",
-      "a.sent": "이메일을 확인해 주세요",
-      "a.sentText": "{email}로 로그인 링크를 보냈습니다. 이 기기에서 열면 완료됩니다.",
-      "a.fail": "지금은 이메일을 보낼 수 없습니다. 위의 링크는 그대로 쓸 수 있습니다.",
-      "a.linked": "로그인했습니다. 투고가 계정에 연결되었습니다.",
+      "a.done": "완료했습니다. 이 투고가 내 계정에 들어갔습니다.",
       "a.close": "닫기",
+      "a.err.exists": "이미 가입된 이메일입니다. 로그인해 주세요.",
+      "a.err.login": "비밀번호가 맞지 않습니다.",
+      "a.err.short": "비밀번호는 8자 이상이어야 합니다.",
+      "a.err.other": "문제가 생겼습니다. 위의 링크는 그대로 쓸 수 있습니다.",
+      "s.add": "내 계정에 추가",
+      "s.added": "계정에 추가했습니다.",
+      "s.other": "이 투고는 다른 계정의 것입니다.",
       "c.title": "작품 투고",
       "c.lead": "글, 그림, 사진 등 무엇이든 좋습니다. 파일 형식은 자유이며 최대 10개, 파일당 50MB까지입니다. 편집부가 모두 읽고 이메일로 답장드립니다.",
       "c.name": "이름 또는 필명",
@@ -328,6 +360,22 @@
 
   /* ---------------- progress link view ---------------- */
 
+  function addButton(token) {
+    var note = el("span", { class: "c-hint", role: "status" });
+    var btn = el("button", { type: "button", class: "c-ghost", i18n: "s.add" });
+    btn.addEventListener("click", function () {
+      btn.disabled = true;
+      claim(token).then(function () {
+        btn.remove(); note.setAttribute("data-i18n", "s.added"); note.textContent = t("s.added");
+      }, function (err) {
+        btn.disabled = false;
+        var k = err && err.key === "err.claimed" ? "s.other" : "a.err.other";
+        note.setAttribute("data-i18n", k); note.textContent = t(k);
+      });
+    });
+    return el("p", { class: "c-linkrow" }, [btn, note]);
+  }
+
   function statusView(token, notice) {
     root.replaceChildren(el("h2", { i18n: "s.heading" }), el("p", { class: "c-muted", text: "…" }));
     api("/api/status?t=" + encodeURIComponent(token)).then(function (s) {
@@ -341,6 +389,7 @@
           el("dt", { i18n: "s.files" }), el("dd", { text: String(s.files) }),
           el("dt", { i18n: "s.sent" }), el("dd", { text: date.toLocaleDateString() })
         ]),
+        (SB && accessToken() && !s.linked) ? addButton(token) : null,
         el("p", {}, [el("a", { class: "c-link", href: "contribution.html", i18n: "c.another" })])
       );
       apply();
@@ -458,56 +507,87 @@
   function fill(key, email) { return t(key).replace("{email}", email); }
 
   // Shown once on the thank-you screen, to people who are not signed in.
-  // Passwordless: Supabase emails a sign-in link that also creates the account.
+  // Sign-up sends no email: the account is ready at once, and this submission
+  // is added to it with its progress-link token as proof that it is theirs.
+  function errKey(err) {
+    var m = String(err && err.message || err);
+    if (/already registered/i.test(m)) return "a.err.exists";
+    if (/invalid login/i.test(m)) return "a.err.login";
+    if (/password/i.test(m) && /(least|short|characters)/i.test(m)) return "a.err.short";
+    console.warn(m);
+    return "a.err.other";
+  }
+
+  function claim(token) {
+    return SB.auth.getSession().then(function (r) {
+      var s = r.data && r.data.session;
+      if (!s) throw new Error("no session");
+      return fetch("/api/claim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + s.access_token },
+        body: JSON.stringify({ token: token })
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (d) {
+          if (!res.ok) throw Object.assign(new Error(d.error || res.status), { key: d.key });
+          return d;
+        });
+      });
+    });
+  }
+
   function askAccount(email, token) {
     if (!SB || accessToken()) return;
-    var text = el("p", { text: fill("a.text", email) });
+    var mode = "new";
+    var text = el("p");
+    var pass = el("input", { id: "c-pass", type: "password", minlength: "8", autocomplete: "new-password" });
+    var passLabel = el("label", { for: "c-pass" });
+    var passField = el("div", { class: "c-field" }, [passLabel, pass]);
     var msg = el("p", { class: "c-error", role: "status" });
     var yes = el("button", { type: "button", class: "c-send" });
     var no = el("button", { type: "button", class: "c-ghost" });
+    var swap = el("button", { type: "button", class: "c-linkbtn" });
     var dlg = el("dialog", { class: "c-dialog", "aria-labelledby": "c-ask" }, [
-      el("h3", { id: "c-ask" }), text, msg, el("div", { class: "c-actions" }, [yes, no])
+      el("h3", { id: "c-ask" }), text, passField, msg, el("div", { class: "c-actions" }, [yes, no]), swap
     ]);
     function words() {
-      dlg.querySelector("h3").textContent = t(dlg.dataset.sent ? "a.sent" : "a.ask");
-      text.textContent = fill(dlg.dataset.sent ? "a.sentText" : "a.text", email);
-      yes.textContent = t("a.yes"); yes.hidden = !!dlg.dataset.sent;
-      no.textContent = t(dlg.dataset.sent ? "a.close" : "a.no");
-      if (msg.dataset.key) msg.textContent = t(msg.dataset.key);
+      var done = !!dlg.dataset.done;
+      dlg.querySelector("h3").textContent = t(done ? "a.done" : "a.ask");
+      text.textContent = done ? "" : fill("a.text", email);
+      passLabel.textContent = t("a.pass");
+      passField.hidden = done; swap.hidden = done; yes.hidden = done;
+      yes.textContent = t(mode === "new" ? "a.yes" : "a.signin");
+      swap.textContent = t(mode === "new" ? "a.have" : "a.new");
+      no.textContent = t(done ? "a.close" : "a.no");
+      msg.textContent = msg.dataset.key ? t(msg.dataset.key) : "";
     }
+    function close() { dlg.close(); dlg.remove(); document.removeEventListener("languagechange", words); }
     document.addEventListener("languagechange", words);
-    no.addEventListener("click", function () { dlg.close(); dlg.remove(); document.removeEventListener("languagechange", words); });
-    dlg.addEventListener("close", function () { document.removeEventListener("languagechange", words); dlg.remove(); });
+    no.addEventListener("click", close);
+    swap.addEventListener("click", function () {
+      mode = mode === "new" ? "old" : "new";
+      pass.setAttribute("autocomplete", mode === "new" ? "new-password" : "current-password");
+      msg.dataset.key = "";
+      words();
+    });
     yes.addEventListener("click", function () {
+      if (mode === "new" && pass.value.length < 8) { msg.dataset.key = "a.err.short"; return words(); }
       yes.disabled = true;
-      SB.auth.signInWithOtp({
-        email: email,
-        options: { emailRedirectTo: location.origin + location.pathname + "?claim=1&t=" + token }
-      }).then(function (r) {
-        yes.disabled = false;
-        if (r.error) { console.warn(r.error); msg.dataset.key = "a.fail"; }
-        else { dlg.dataset.sent = "1"; msg.dataset.key = ""; msg.textContent = ""; }
-        words();
-      });
+      var go = mode === "new"
+        ? SB.auth.signUp({ email: email, password: pass.value })
+        : SB.auth.signInWithPassword({ email: email, password: pass.value });
+      go.then(function (r) {
+        if (r.error) throw r.error;
+        if (!r.data.session) throw new Error("no session");
+        return claim(token);
+      }).then(function () {
+        dlg.dataset.done = "1"; msg.dataset.key = "";
+      }, function (err) {
+        msg.dataset.key = err && err.key ? "a.err.other" : errKey(err);
+      }).then(function () { yes.disabled = false; words(); });
     });
     words();
     document.body.appendChild(dlg);
     if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
-  }
-
-  // Back from the email link: the session arrives in the address, then every
-  // submission made with this email is linked to the new account.
-  function finishClaim(token) {
-    var done = function (ok) {
-      history.replaceState(null, "", location.pathname + (token ? "?t=" + token : ""));
-      if (token) statusView(token, ok ? "a.linked" : null); else formView();
-    };
-    SB.auth.getSession().then(function (r) {
-      var s = r.data && r.data.session;
-      if (!s) return done(false);
-      return fetch("/api/claim", { method: "POST", headers: { Authorization: "Bearer " + s.access_token } })
-        .then(function (res) { done(res.ok); }, function () { done(false); });
-    });
   }
 
   function doneView(token, email) {
@@ -530,8 +610,6 @@
     askAccount(email, token);
   }
 
-  var params = new URLSearchParams(location.search);
-  var token = params.get("t");
-  if (params.get("claim") && SB) finishClaim(token);
-  else if (token) statusView(token); else formView();
+  var token = new URLSearchParams(location.search).get("t");
+  if (token) statusView(token); else formView();
 })();

@@ -59,3 +59,7 @@
 .c-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
 .c-ghost { font: inherit; padding: 12px 16px; border: 1px solid #999; border-radius: 6px; background: #fff; color: #000; cursor: pointer; }
 .c-notice { background: #eef7f1; border-radius: 6px; padding: 10px 14px; margin: 0 0 16px; }
+
+.c-linkbtn { font: inherit; font-size: .9rem; background: none; border: 0; padding: 0; margin-top: 12px; color: #000; text-decoration: underline; cursor: pointer; }
+.c-dialog .c-field { margin: 4px 0 8px; }
+.c-dialog input { font: inherit; width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #999; border-radius: 6px; }

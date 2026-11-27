@@ -241,12 +241,7 @@
   /* ---------------- signed in ---------------- */
 
   function signedIn(user, note) {
-    // Link submissions made earlier with this (verified) email, then show them.
-    sb.auth.getSession().then(function (r) {
-      var tok = r.data.session && r.data.session.access_token;
-      var claim = tok ? fetch("/api/claim", { method: "POST", headers: { Authorization: "Bearer " + tok } }).catch(function () {}) : Promise.resolve();
-      return claim;
-    }).then(function () {
+    Promise.resolve().then(function () {
       return Promise.all([
         sb.from("profiles").select("username,role").eq("id", user.id).maybeSingle(),
         sb.from("submissions").select("title,status,created_at,token").eq("user_id", user.id).order("created_at", { ascending: false })
