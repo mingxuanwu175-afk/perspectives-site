@@ -306,7 +306,8 @@
     if (!nos.length) return [];
     return [secHead("ar.issues", "article.html"), el("ul", { class: "nt-coll" }, nos.map(function (n) {
       var inIssue = all.filter(function (a) { return a.issue === n; });
-      var pic = inIssue.filter(function (a) { return a.cover_path; })[0];
+      var withPic = inIssue.filter(function (a) { return a.cover_path; });
+      var pic = withPic.filter(function (a) { return /封面|cover/i.test(a.title); })[0] || withPic[0];
       return el("li", {}, [
         el("div", {}, [
           el("h3", { class: "nt-card-title" }, [el("a", { href: "article.html?issue=" + n, text: t("ar.issueN", { n: n }) })]),
@@ -344,7 +345,10 @@
       var others = all.filter(function (a) { return !inLead[a.id]; });
 
       var issueNo = all.reduce(function (m, a) { return Math.max(m, a.issue || 0); }, 0);
-      var issueCover = issueNo ? all.filter(function (a) { return a.issue === issueNo && a.cover_path; })[0] : null;
+      // The issue's own cover art if there is one (a piece titled "...封面" or
+      // "... cover"), otherwise the first piece of that issue with a picture.
+      var inIssue = all.filter(function (a) { return a.issue === issueNo && a.cover_path; });
+      var issueCover = issueNo ? (inIssue.filter(function (a) { return /封面|cover/i.test(a.title); })[0] || inIssue[0]) : null;
       var cards = others.slice(0, issueCover ? 4 : 5).map(card);
       if (issueCover) cards.push(issueCard(issueNo, issueCover));
 

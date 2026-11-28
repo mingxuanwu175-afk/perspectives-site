@@ -2,3 +2,6 @@
 .env*
 .claude
 node_modules
+
+# local demo content (contributors have not agreed to the website yet); never commit
+website/demo/
