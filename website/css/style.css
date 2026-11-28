@@ -19,7 +19,7 @@
     --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Noto Serif SC", "Songti SC", SimSun, serif;
 }
 header{
-    background-color: var(--paper-3);
+    background-color: #F7F2E8;
     /* sticky：顶栏占住自己的位置（内容不会被挡住），滚动时又始终贴在最上面 */
     position: sticky;
     top: 0;
@@ -29,10 +29,10 @@ header{
     align-items: center;
     padding: 0 20px;
     min-height: 56px;
-    /* nature.com: white bar, heavy black rule under it */
-    border-bottom: 4px solid #000;
     /* 不加这条，width:100% + 左右 padding 会把页面撑出横向滚动条 */
     box-sizing: border-box;
+    /* 顶栏最底部的红色细线：与 logo 同色系，作为顶栏与正文的分界 */
+    border-bottom: 1px solid var(--crimson);
     z-index: 10;
 }
 .logo{
@@ -372,6 +372,12 @@ header.nav-collapsed .nav-collapse svg{
     header.nav-collapsed .nav_links{
         display:none;
     }
+    /* 收起后只剩第一行：高度对齐展开时中间那条红线的位置（内容 64px + 1px 红线），
+       同时把第一行的内容往上补 4px，让 logo 和快捷链接收起前后停在同一个位置 */
+    header.nav-collapsed{
+        min-height:65px;
+        padding-top:4px;
+    }
     header.nav-collapsed .nav-collapse{
         margin-left:auto;
     }
@@ -388,7 +394,8 @@ header.nav-collapsed .nav-collapse svg{
     header[data-nav-ready="1"] .nav_links{
         display:none;
         position:absolute;
-        top:100%;
+        /* 顶栏有 1px 红边，面板往下让 1px，红线才不会被面板盖住 */
+        top:calc(100% + 1px);
         left:0;
         right:0;
         margin:0;
@@ -471,7 +478,8 @@ header.nav-collapsed .nav-collapse svg{
         justify-content: flex-start;
         gap: 6px 22px;
         font-size: 16px;
-        border-top: 1px solid var(--line);
+        /* 两行之间的分隔线：与 logo 同色系的细红线 */
+        border-top: 1px solid var(--crimson);
     }
     .nav_links > a{
         font-weight: 700;
@@ -537,7 +545,6 @@ header.nav-collapsed .nav-collapse svg{
 @media (max-width: 768px){
     .nav-util{ margin-right: 4px; }
     .nav-util > a{ padding: 6px 10px; border-left: 0; font-size: .85rem; }
-    .nav-util > a[data-i18n="util.all"]{ display: none; }
     .nav-util > a.nav-util-ico span{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
     .nav-util > a.nav-user .nav-badge{ display: none; }
     .nav-util > a.nav-user{ max-width: 7em; overflow: hidden; }
