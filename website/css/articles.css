@@ -15,46 +15,91 @@
 .ar-type { margin: 0; font-size: .8rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 0 8px; }
 .ar-type b { color: var(--ink); font-weight: 700; }
 .ar-type span + span::before, .ar-type b + span::before { content: "|"; margin-right: 8px; color: var(--line); }
-.ar-noimg { background: var(--paper-3, #F2ECE0); }
+.ar-noimg { background: #F5F5F5; }
 
-/* Carousel, after Vogue Singapore, Teen Ink and Polyphony Lit: edge to edge right
-   under the top bar, picture fills the slide, words over a dark fade at the lower
-   left, thin arrows at the sides, white dots at the bottom, slides fade. */
-body:has(#ar-home) { overflow-x: clip; }
-.ar-main:has(.ar-carousel) { padding-top: 0; }
-.ar-carousel { position: relative; width: 100vw; margin-left: calc(50% - 50vw); height: clamp(420px, 78vh, 720px); overflow: hidden; background: var(--ink); }
-.ar-slides { position: absolute; inset: 0; }
-.ar-slide { position: absolute; inset: 0; display: block; opacity: 0; visibility: hidden; transition: opacity .8s ease, visibility 0s linear .8s; }
-.ar-slide.is-on { opacity: 1; visibility: visible; transition: opacity .8s ease; }
-.ar-main a.ar-slide { color: #fff; text-decoration: none; }
-.ar-slide-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.ar-slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,0) 30%, rgba(0,0,0,.8) 99%); pointer-events: none; }
-.ar-slide-text { position: absolute; z-index: 1; left: max(24px, calc((100vw - 1200px) / 2 + 3vw)); right: max(24px, 12vw); bottom: 64px; display: grid; gap: 10px; max-width: 760px; }
-.ar-slide-text .ar-type { color: rgba(255,255,255,.8); }
-.ar-slide-text .ar-type b { color: #fff; }
-.ar-slide-text .ar-type span + span::before, .ar-slide-text .ar-type b + span::before { color: rgba(255,255,255,.4); }
-.ar-slide-title { margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 4.6vw, 4rem); line-height: 1.08; color: #fff; }
-.ar-slide-stand { margin: 0; font-size: clamp(.9rem, 1.3vw, 1.05rem); line-height: 1.5; max-width: 600px; }
-.ar-slide-by { margin: 0; font-size: .85rem; opacity: .8; }
-.ar-slide-btn { justify-self: start; margin-top: 6px; padding: 8px 18px; border: 1px solid #fff; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.ar-slide:hover .ar-slide-btn { background: #fff; color: var(--ink); }
-.ar-arrow { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); width: 44px; height: 64px; padding: 0; border: 0; background: transparent; cursor: pointer; }
-.ar-arrow::before { content: ""; position: absolute; top: 50%; left: 50%; width: 22px; height: 22px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; filter: drop-shadow(0 0 2px rgba(0,0,0,.5)); }
-.ar-arrow--prev { left: max(12px, 4vw); }
-.ar-arrow--prev::before { transform: translate(-30%, -50%) rotate(45deg); }
-.ar-arrow--next { right: max(12px, 4vw); }
-.ar-arrow--next::before { transform: translate(-70%, -50%) rotate(-135deg); }
-.ar-dots { position: absolute; z-index: 2; left: 0; right: 0; bottom: 24px; display: flex; justify-content: center; gap: 10px; }
-.ar-dot { width: 12px; height: 12px; padding: 0; border-radius: 50%; border: 0; background: #fff; opacity: .45; cursor: pointer; }
-.ar-dot.is-on { opacity: 1; }
-.ar-carousel + .ar-sec { margin-top: 40px; }
-@media (max-width: 760px) {
-  .ar-carousel { height: clamp(420px, 72vh, 640px); }
-  .ar-slide-text { left: 20px; right: 20px; bottom: 52px; }
-  .ar-slide-stand { display: none; }
-  .ar-arrow { display: none; }
+/* Front page after science.org (measured at 1440 px wide): a 1248 px column;
+   lead story 710 px with its words over the bottom of the picture, three text
+   cards under it, a 185 px column of picture cards, a "Latest" rail with a
+   heavy rule and grey boxes; then the current issue, cover beside contents.
+   Type: bold sans titles, red upper-case labels, grey upper-case dates and
+   by-lines, a serif summary on the lead. */
+.ar-main:has(#ar-home) { max-width: 1296px; }
+.sc-top { display: grid; grid-template-columns: minmax(0, 710fr) minmax(0, 185fr) minmax(0, 282fr); gap: 20px 24px; align-items: start; }
+.sc-top--nomid { grid-template-columns: minmax(0, 919fr) minmax(0, 282fr); }
+.sc-label { margin: 0 0 4px; display: flex; flex-wrap: wrap; gap: 0 8px; font-size: 11px; line-height: 1.25; font-weight: 700; text-transform: uppercase; letter-spacing: .2px; }
+.sc-kind { color: var(--accent-red); }
+.sc-date { color: var(--muted); }
+.sc-label .sc-date + .sc-date::before, .sc-label .sc-kind + .sc-date::before { content: "|"; margin-right: 8px; color: var(--line); font-weight: 400; }
+.sc-label--light .sc-kind, .sc-label--light .sc-date { color: #DBDBDB; }
+.sc-title { margin: 4px 0 8px; font-family: inherit; font-size: 18px; line-height: 1.22; font-weight: 700; color: var(--ink); }
+.ar-main .sc-title a { color: var(--ink); text-decoration: none; }
+.ar-main .sc-title a:hover { text-decoration: underline; }
+.sc-by { margin: 0; font-size: 11px; line-height: 1.55; text-transform: uppercase; letter-spacing: .2px; color: var(--muted); }
+
+/* Lead story box, rotating through the featured articles. */
+.sc-lead { position: relative; aspect-ratio: 710 / 432; background: #262626; overflow: hidden; }
+.sc-slides { position: absolute; inset: 0; }
+.sc-slide { position: absolute; inset: 0; display: block; opacity: 0; visibility: hidden; transition: opacity .7s ease, visibility 0s linear .7s; }
+.sc-slide.is-on { opacity: 1; visibility: visible; transition: opacity .7s ease; }
+.ar-main a.sc-slide { color: #fff; text-decoration: none; }
+.sc-slide-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.sc-slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,0) 40%, rgba(0,0,0,.78)); pointer-events: none; }
+.sc-slide-text { position: absolute; z-index: 1; left: 31px; right: 31px; bottom: 28px; }
+.sc-slide-title { margin: 6px 0 6px; font-family: inherit; font-size: 22px; line-height: 1.25; font-weight: 700; color: #fff; }
+.sc-by--light { color: #DBDBDB; font-weight: 700; }
+.sc-slide-stand { margin: 12px 0 0; font-family: var(--serif); font-size: 14px; line-height: 1.5; letter-spacing: .28px; color: #fff; }
+.sc-arrow { position: absolute; z-index: 2; top: 0; bottom: 0; width: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; opacity: 0; transition: opacity .2s; }
+.sc-lead:hover .sc-arrow, .sc-arrow:focus-visible { opacity: 1; }
+.sc-arrow::before { content: ""; position: absolute; top: 50%; left: 50%; width: 14px; height: 14px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; }
+.sc-arrow--prev { left: 0; }
+.sc-arrow--prev::before { transform: translate(-30%, -50%) rotate(45deg); }
+.sc-arrow--next { right: 0; }
+.sc-arrow--next::before { transform: translate(-70%, -50%) rotate(-135deg); }
+.sc-dots { position: absolute; z-index: 2; right: 31px; top: 20px; display: flex; gap: 6px; }
+.sc-dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: #fff; opacity: .45; cursor: pointer; }
+.sc-dot.is-on { opacity: 1; }
+
+/* Three text cards under the lead; picture cards in the middle column. */
+.sc-row { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.sc-card { padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.sc-mid { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
+.sc-card-img { width: 100%; aspect-ratio: 185 / 142; object-fit: cover; display: block; margin-bottom: 10px; }
+
+/* "Latest" rail. */
+.sc-head { margin: 0 0 16px; padding-top: 8px; border-top: 3.5px solid var(--ink); font-family: inherit; font-size: 24px; line-height: 1.2; font-weight: 900; text-transform: uppercase; color: var(--ink); }
+.sc-latest { list-style: none; margin: 0; padding: 0; }
+.sc-latest li { margin-bottom: 8px; padding: 12px 16px; background: var(--soft); }
+.sc-latest .sc-date { margin: 0 0 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.ar-main a.sc-latest-title { display: block; font-size: 14px; line-height: 1.25; font-weight: 700; color: var(--ink); text-decoration: none; }
+.ar-main a.sc-latest-title:hover { text-decoration: underline; }
+.ar-main a.sc-more { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--accent-red); text-decoration: none; }
+
+/* Current issue: heading with a rule, cover beside the contents. */
+.sc-issue { margin-top: 56px; }
+.sc-issue-head { margin: 0 0 24px; padding-top: 10px; border-top: 3.5px solid var(--ink); display: flex; align-items: baseline; gap: 12px; font-family: inherit; }
+.sc-issue-name { font-size: 24px; font-weight: 900; text-transform: uppercase; }
+.sc-issue-meta { font-size: 12px; font-weight: 400; color: var(--muted); }
+.sc-issue-body { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 32px; align-items: start; }
+.sc-issue-img { width: 100%; display: block; box-shadow: 0 2px 10px rgba(0,0,0,.18); }
+.sc-toc { list-style: none; margin: 0; padding: 0; }
+.sc-toc li { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.sc-toc li:first-child { padding-top: 0; }
+.ar-main a.sc-toc-title { font-size: 16px; line-height: 1.3; font-weight: 700; color: var(--ink); text-decoration: none; }
+.ar-main a.sc-toc-title:hover { text-decoration: underline; }
+
+@media (max-width: 1100px) {
+  .sc-top, .sc-top--nomid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+  .sc-main { grid-column: 1 / -1; }
 }
-@media (prefers-reduced-motion: reduce) { .ar-slide, .ar-slide.is-on { transition: none; } }
+@media (max-width: 700px) {
+  .sc-top, .sc-top--nomid { grid-template-columns: minmax(0, 1fr); }
+  .sc-lead { aspect-ratio: 4 / 5; }
+  .sc-row { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .sc-mid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .sc-issue-body { grid-template-columns: 120px minmax(0, 1fr); gap: 16px; }
+  .sc-arrow { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .sc-slide, .sc-slide.is-on { transition: none; } }
 
 /* Section heading with a heavy rule, as on nature.com. */
 .ar-sec { margin: 48px 0 0; padding-top: 10px; border-top: 4px solid var(--ink); font-family: var(--serif); font-size: 1.35rem; }
@@ -62,9 +107,9 @@ body:has(#ar-home) { overflow-x: clip; }
 
 /* Dated list: type and date on the left, title in the middle, picture on the right. */
 .ar-h1 { margin: 8px 0 16px; font-family: var(--serif); font-size: 2rem; }
-.ar-filters { display: flex; flex-wrap: wrap; gap: 12px 32px; background: #EFEBE3; padding: 14px 16px; margin-bottom: 8px; }
+.ar-filters { display: flex; flex-wrap: wrap; gap: 12px 32px; background: #F5F5F5; padding: 14px 16px; margin-bottom: 8px; }
 .ar-filter { display: grid; gap: 4px; font-size: .85rem; font-weight: 600; }
-.ar-filter select { font: inherit; font-weight: 400; min-width: 180px; padding: 6px 8px; border: 1px solid #BDB5A8; border-radius: 3px; background: #fff; color: var(--ink); }
+.ar-filter select { font: inherit; font-weight: 400; min-width: 180px; padding: 6px 8px; border: 1px solid #BDBDBD; border-radius: 3px; background: #fff; color: var(--ink); }
 .ar-list { list-style: none; margin: 0; padding: 0; }
 .ar-row { display: grid; grid-template-columns: 120px minmax(0, 1fr) 140px; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line); }
 .ar-row-meta p { margin: 0 0 2px; font-size: .78rem; color: var(--muted); }

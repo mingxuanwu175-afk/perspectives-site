@@ -1,19 +1,21 @@
-/* Brand palette taken from img/logo (the wordmark red is #BE0C15). The site is
-   meant to read like a printed journal: warm paper, ink text, crimson only as
-   the accent and hairlines. */
+/* Palette after science.org: white page, near-black text, grey hairlines and
+   boxes, red only for labels and accents (the logo red is #BE0C15). */
 :root{
-    --paper: #FAF8F3;
-    /* 比主背景略深一档，用来把顶栏从纸面里“压”出来 */
-    --paper-3: #F2ECE0;
+    --paper: #FFFFFF;
+    /* 顶栏和底栏的底色（照 science.org 用白色） */
+    --paper-3: #FFFFFF;
     --paper-2: #FFFFFF;
-    --ink: #1C1917;
-    --muted: #6B645C;
-    --line: #E6DFD3;
+    --ink: #262626;
+    --muted: #595959;
+    --line: #DBDBDB;
     --crimson: #BE0C15;
     --oxblood: #A50E16;
     --oxblood-dark: #7F0A10;
-    --ivory: #F5F0E6;
+    --ivory: #FFFFFF;
     --gold: #C8A24A;
+    /* science.org palette: grey boxes and the red of its section labels */
+    --soft: #F5F5F5;
+    --accent-red: #CA2015;
     --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Noto Serif SC", "Songti SC", SimSun, serif;
 }
 header{
@@ -27,7 +29,8 @@ header{
     align-items: center;
     padding: 0 20px;
     min-height: 56px;
-    border-bottom: 2px solid var(--crimson);
+    /* science.org: white bar, hairline grey rule under it */
+    border-bottom: 1px solid var(--line);
     /* 不加这条，width:100% + 左右 padding 会把页面撑出横向滚动条 */
     box-sizing: border-box;
     z-index: 10;
@@ -269,7 +272,8 @@ h1, h2, h3{
 }
 /* 底栏与顶栏共用同一套配色：一样的纸色底 + 墨色字（底栏上方不加分隔线） */
 footer{
-    background-color: var(--paper-3, #F2ECE0);
+    background-color: var(--paper-3, #FFFFFF);
+    border-top: 1px solid var(--line);
     color: var(--ink);
     padding: 8px 0 10px;
     text-align: center;

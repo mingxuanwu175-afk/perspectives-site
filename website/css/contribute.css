@@ -23,7 +23,7 @@
 .c-form input::placeholder, .c-form textarea::placeholder { color: #A39A8C; opacity: 1; }
 .c-form input:not([type="checkbox"]), .c-form select, .c-form textarea, .c-out {
   font: inherit; width: 100%; box-sizing: border-box;
-  padding: 10px 12px; border: 1px solid #D8D0C2; border-radius: 6px; background: var(--paper-2); color: var(--ink);
+  padding: 10px 12px; border: 1px solid #BDBDBD; border-radius: 6px; background: var(--paper-2); color: var(--ink);
 }
 .c-form textarea { resize: vertical; }
 .c-form input:focus-visible, .c-form select:focus-visible, .c-form textarea:focus-visible,
@@ -35,8 +35,8 @@
 /* The native file box is hidden; the dashed area below is its label (click or drop). */
 .c-form input.c-fileinput { position: absolute; width: 1px; height: 1px; padding: 0; margin: 0; border: 0; overflow: hidden; clip-path: inset(50%); opacity: 0; pointer-events: none; }
 .c-label { font-weight: 600; }
-.c-drop { display: grid; gap: 6px; justify-items: start; padding: 16px; border: 1.5px dashed #BDB5A8; border-radius: 8px; background: #fff; cursor: pointer; }
-.c-drop.is-over, .c-drop:hover { border-color: var(--oxblood); background: #FBF7EF; }
+.c-drop { display: grid; gap: 6px; justify-items: start; padding: 16px; border: 1.5px dashed #BDBDBD; border-radius: 8px; background: #fff; cursor: pointer; }
+.c-drop.is-over, .c-drop:hover { border-color: var(--oxblood); background: #F5F5F5; }
 .c-fileinput:focus-visible + .c-drop { outline: 2px solid var(--oxblood); outline-offset: 2px; }
 .c-drop-btn { font-weight: 700; color: var(--oxblood); }
 .c-remove { font: inherit; font-size: 1.1rem; line-height: 1; width: 26px; height: 26px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--muted); cursor: pointer; }
@@ -81,7 +81,7 @@
 
 .c-linkbtn { font: inherit; font-size: .9rem; background: none; border: 0; padding: 0; margin-top: 12px; color: var(--oxblood); text-decoration: underline; cursor: pointer; }
 .c-dialog .c-field { margin: 4px 0 8px; }
-.c-dialog input { font: inherit; width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #D8D0C2; border-radius: 6px; }
+.c-dialog input { font: inherit; width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #BDBDBD; border-radius: 6px; }
 
 /* signed-in line under the email, and "My submissions" after submitting */
 .c-who { margin: -8px 0 0; display: flex; gap: 4px; flex-wrap: wrap; align-items: baseline; }
