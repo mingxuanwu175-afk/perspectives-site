@@ -1,10 +1,10 @@
 /* Perspectives: published articles on the public pages.
  *
- *   index.html   <div id="ar-home">  lead story + up to 4 featured cards, then the latest
+ *   index.html   <div id="ar-home">  carousel of up to 5 featured articles, then the latest
  *   article.html <div id="ar-list">  every published article, newest first, filter by type and issue
  *   read.html    <div id="ar-read">  one article: details, PDF reader, download
  *
- * Layout follows nature.com: one lead story, a row of cards, and a dated list.
+ * Layout follows nature.com (lead story, dated list); the lead slot rotates through the featured articles.
  * Reads the articles table with the public key; row level security only returns
  * published rows. PDFs and covers are public files in the "articles" bucket.
  * Featured articles and their order are set by editors in manage.html.
@@ -20,6 +20,7 @@
 
   var WORDS = {
     en: {
+      "ar.featured": "Featured", "ar.prev": "Previous", "ar.next": "Next",
       "ar.articles": "Articles", "ar.latest": "Latest articles", "ar.all": "All articles",
       "ar.type": "Type", "ar.issue": "Issue", "ar.any": "All", "ar.issueN": "Issue {n}",
       "ar.none": "No articles yet.", "ar.noMatch": "No articles match.",
@@ -29,6 +30,7 @@
       "k.writing": "Writing", "k.art": "Art", "k.photo": "Photography", "k.other": "Other"
     },
     zh: {
+      "ar.featured": "精选", "ar.prev": "上一篇", "ar.next": "下一篇",
       "ar.articles": "文章", "ar.latest": "最新文章", "ar.all": "全部文章",
       "ar.type": "类型", "ar.issue": "期号", "ar.any": "全部", "ar.issueN": "第 {n} 期",
       "ar.none": "还没有文章。", "ar.noMatch": "没有符合条件的文章。",
@@ -38,6 +40,7 @@
       "k.writing": "文章", "k.art": "绘画", "k.photo": "摄影", "k.other": "其他"
     },
     ja: {
+      "ar.featured": "注目の記事", "ar.prev": "前へ", "ar.next": "次へ",
       "ar.articles": "記事", "ar.latest": "最新の記事", "ar.all": "すべての記事",
       "ar.type": "種類", "ar.issue": "号", "ar.any": "すべて", "ar.issueN": "第{n}号",
       "ar.none": "まだ記事はありません。", "ar.noMatch": "該当する記事はありません。",
@@ -47,6 +50,7 @@
       "k.writing": "文章", "k.art": "アート", "k.photo": "写真", "k.other": "その他"
     },
     ko: {
+      "ar.featured": "추천 기사", "ar.prev": "이전", "ar.next": "다음",
       "ar.articles": "기사", "ar.latest": "최신 기사", "ar.all": "전체 기사",
       "ar.type": "종류", "ar.issue": "호", "ar.any": "전체", "ar.issueN": "제{n}호",
       "ar.none": "아직 기사가 없습니다.", "ar.noMatch": "해당하는 기사가 없습니다.",
@@ -130,6 +134,67 @@
   }
   function message(root, key) { root.replaceChildren(el("p", { class: "ar-msg", text: t(key) })); }
 
+  /* ---------------- homepage carousel ---------------- */
+
+  // Featured articles (up to 5, in the order set in Manage) take turns in the
+  // lead slot: one every 6 seconds, paused while the pointer or keyboard focus
+  // is on it, while the tab is hidden, and for readers who ask for less motion.
+  var slideAt = 0, timer = null;
+  function carousel(feat) {
+    if (timer) { clearInterval(timer); timer = null; }
+    if (slideAt >= feat.length) slideAt = 0;
+    var slides = feat.map(function (a, i) {
+      return el("a", { class: "ar-lead ar-slide", href: href(a), "aria-hidden": i === slideAt ? null : "true", tabindex: i === slideAt ? null : "-1" }, [
+        el("div", { class: "ar-lead-text" }, [
+          typeLine(a),
+          el("h2", { class: "ar-lead-title" }, [el("span", { text: a.title })]),
+          a.standfirst ? el("p", { text: a.standfirst }) : null,
+          a.author_name ? el("p", { class: "ar-lead-by", text: a.author_name }) : null
+        ]),
+        cover(a, "ar-lead-img")
+      ]);
+    });
+    var dots = feat.map(function (a, i) {
+      return el("button", { type: "button", class: "ar-dot", "aria-label": (i + 1) + " / " + feat.length + ": " + a.title, on: { click: function () { go(i); } } });
+    });
+    var box = el("section", { class: "ar-carousel", "aria-roledescription": "carousel", "aria-label": t("ar.featured") }, [
+      el("div", { class: "ar-slides" }, slides),
+      feat.length > 1 ? el("div", { class: "ar-controls" }, [
+        el("button", { type: "button", class: "ar-arrow", "aria-label": t("ar.prev"), text: "‹", on: { click: function () { go(slideAt - 1); } } }),
+        el("div", { class: "ar-dots" }, dots),
+        el("button", { type: "button", class: "ar-arrow", "aria-label": t("ar.next"), text: "›", on: { click: function () { go(slideAt + 1); } } })
+      ]) : null
+    ]);
+    function go(i) {
+      slideAt = (i + feat.length) % feat.length;
+      slides.forEach(function (s, j) {
+        var on = j === slideAt;
+        s.classList.toggle("is-on", on);
+        if (on) { s.removeAttribute("aria-hidden"); s.removeAttribute("tabindex"); }
+        else { s.setAttribute("aria-hidden", "true"); s.setAttribute("tabindex", "-1"); }
+      });
+      dots.forEach(function (d, j) { d.classList.toggle("is-on", j === slideAt); d.setAttribute("aria-current", j === slideAt ? "true" : "false"); });
+    }
+    go(slideAt);
+    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var paused = false;
+    function pause() { paused = true; }
+    function resume() { paused = false; }
+    box.addEventListener("mouseenter", pause); box.addEventListener("mouseleave", resume);
+    box.addEventListener("focusin", pause); box.addEventListener("focusout", resume);
+    // Swipe on phones.
+    var x0 = null;
+    box.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; pause(); }, { passive: true });
+    box.addEventListener("touchend", function (e) {
+      if (x0 != null) { var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(slideAt + (dx < 0 ? 1 : -1)); }
+      x0 = null; resume();
+    });
+    if (feat.length > 1 && !still) {
+      timer = setInterval(function () { if (!paused && !document.hidden) go(slideAt + 1); }, 6000);
+    }
+    return box;
+  }
+
   /* ---------------- homepage ---------------- */
 
   function home(root) {
@@ -137,33 +202,8 @@
     function paint() {
       var feat = data.featured.length ? data.featured : data.latest.slice(0, 5);
       if (!feat.length) return message(root, "ar.none");
-      var lead = feat[0];
-      var parts = [
-        el("a", { class: "ar-lead", href: href(lead) }, [
-          el("div", { class: "ar-lead-text" }, [
-            el("h2", { class: "ar-lead-title" }, [el("span", { text: lead.title })]),
-            lead.standfirst ? el("p", { text: lead.standfirst }) : null,
-            lead.author_name ? el("p", { class: "ar-lead-by", text: lead.author_name }) : null
-          ]),
-          cover(lead, "ar-lead-img")
-        ])
-      ];
-      if (feat.length > 1) {
-        parts.push(el("ul", { class: "ar-cards" }, feat.slice(1).map(function (a) {
-          return el("li", { class: "ar-card" }, [
-            el("a", { href: href(a), tabindex: "-1", "aria-hidden": "true" }, [cover(a, "ar-card-img")]),
-            el("h3", { class: "ar-title" }, [el("a", { href: href(a), text: a.title })]),
-            a.standfirst ? el("p", { class: "ar-stand", text: a.standfirst }) : null,
-            el("div", { class: "ar-card-foot" }, [
-              a.author_name ? el("p", { class: "ar-author", text: a.author_name }) : null,
-              typeLine(a)
-            ])
-          ]);
-        })));
-      }
-      var shown = {};
-      feat.forEach(function (a) { shown[a.id] = 1; });
-      var rest = data.latest.filter(function (a) { return !shown[a.id]; }).slice(0, 6);
+      var parts = [carousel(feat)];
+      var rest = data.latest.slice(0, 6);
       if (rest.length) {
         parts.push(sectionHead("ar.latest", "article.html"));
         parts.push(el("ul", { class: "ar-list" }, rest.map(row)));

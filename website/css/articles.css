@@ -1,5 +1,5 @@
-/* Published articles: homepage lead + cards, the article list, the reading page.
-   Layout after nature.com: a lead story, a row of cards, a dated list. */
+/* Published articles: homepage carousel, the article list, the reading page.
+   Layout after nature.com (lead story, dated list); the lead slot rotates. */
 .ar-main {
   width: 100%; max-width: 1200px; margin: 0 auto; box-sizing: border-box;
   padding: 24px max(16px, 3vw) 64px; text-align: left; align-self: start; justify-self: stretch;
@@ -28,14 +28,21 @@
 .ar-lead-by { opacity: .75; font-size: .85rem !important; }
 .ar-lead-img { width: 100%; height: 100%; min-height: 320px; max-height: 460px; object-fit: cover; object-position: top; display: block; }
 
-/* Featured cards under the lead story. */
-/* Always four columns on a wide screen, as on nature.com, so two cards stay card-sized. */
-.ar-cards { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px 20px; }
-@media (max-width: 980px) { .ar-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 520px) { .ar-cards { grid-template-columns: minmax(0, 1fr); } }
-.ar-card { display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
-.ar-card-img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: top; display: block; }
-.ar-card-foot { margin-top: auto; padding-top: 10px; display: grid; gap: 4px; }
+/* Carousel: the slides sit on top of each other and fade; only one is shown. */
+.ar-carousel { position: relative; }
+.ar-slides { display: grid; }
+.ar-slide { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s linear .6s; }
+.ar-slide.is-on { opacity: 1; visibility: visible; transition: opacity .6s ease; }
+.ar-lead-text .ar-type { color: rgba(245, 240, 230, .7); }
+.ar-lead-text .ar-type b { color: var(--ivory); }
+.ar-lead-text .ar-type span + span::before, .ar-lead-text .ar-type b + span::before { color: rgba(245, 240, 230, .35); }
+.ar-controls { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 12px; }
+.ar-arrow { font: inherit; font-size: 1.4rem; line-height: 1; width: 36px; height: 36px; border: 1px solid var(--ink); border-radius: 50%; background: transparent; color: var(--ink); cursor: pointer; }
+.ar-arrow:hover { background: var(--ink); color: var(--ivory); }
+.ar-dots { display: flex; gap: 8px; }
+.ar-dot { width: 10px; height: 10px; padding: 0; border-radius: 50%; border: 1px solid var(--ink); background: transparent; cursor: pointer; }
+.ar-dot.is-on { background: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .ar-slide, .ar-slide.is-on { transition: none; } }
 
 /* Section heading with a heavy rule, as on nature.com. */
 .ar-sec { margin: 48px 0 0; padding-top: 10px; border-top: 4px solid var(--ink); font-family: var(--serif); font-size: 1.35rem; }
