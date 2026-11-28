@@ -14,6 +14,13 @@
 .c-field { display: grid; gap: 6px; }
 .c-field label { font-weight: 600; font-size: .95rem; }
 .c-hint { margin: 0; font-size: .82rem; }
+
+/* 其他联系方式：平台下拉 + 账号填空（电话类前面是国家区号） */
+.c-contact-row { display: flex; gap: 8px; align-items: stretch; }
+.c-contact-row[hidden] { display: none; }
+#c-dial { flex: 0 0 auto; width: auto; max-width: 45%; }
+.c-contact-row input { flex: 1 1 0; width: auto; min-width: 0; }
+.c-form input::placeholder, .c-form textarea::placeholder { color: #aaa; opacity: 1; }
 .c-form input:not([type="checkbox"]), .c-form select, .c-form textarea, .c-out {
   font: inherit; width: 100%; box-sizing: border-box;
   padding: 10px 12px; border: 1px solid #999; border-radius: 6px; background: #fff; color: #000;

@@ -40,6 +40,14 @@
       "c.emailHint": "We write back here.",
       "c.contact": "Other contact (optional)",
       "c.contactHint": "WeChat, Instagram, Xiaohongshu, Bilibili…",
+      "c.channelPick": "Choose a platform (optional)",
+      "ch.wechat": "WeChat", "ch.xiaohongshu": "Xiaohongshu", "ch.instagram": "Instagram", "ch.whatsapp": "WhatsApp",
+      "c.dial": "Country code",
+      "ph.wechat": "Phone number (with country code) or WeChat ID",
+      "ph.instagram": "Username",
+      "ph.xiaohongshu": "Xiaohongshu ID",
+      "ph.whatsapp": "Phone number",
+      "err.contact": "Fill in your contact detail, or leave the platform blank.",
       "c.workTitle": "Title of the work",
       "c.kind": "Type",
       "k.writing": "Writing", "k.art": "Art", "k.photo": "Photography", "k.other": "Other",
@@ -105,6 +113,14 @@
       "c.emailHint": "我们会回复到这里。",
       "c.contact": "其他联系方式（选填）",
       "c.contactHint": "微信、Instagram、小红书、B站……",
+      "c.channelPick": "请选择平台（选填）",
+      "ch.wechat": "微信", "ch.xiaohongshu": "小红书", "ch.instagram": "Instagram", "ch.whatsapp": "WhatsApp",
+      "c.dial": "国家电话区号",
+      "ph.wechat": "请填入手机号(需加国家区号)/微信号",
+      "ph.instagram": "请填入用户名",
+      "ph.xiaohongshu": "请填入小红书ID",
+      "ph.whatsapp": "请填入电话号码",
+      "err.contact": "请填入联系方式，或把上面的平台留空。",
       "c.workTitle": "作品标题",
       "c.kind": "类型",
       "k.writing": "文字", "k.art": "绘画", "k.photo": "摄影", "k.other": "其他",
@@ -170,6 +186,14 @@
       "c.emailHint": "お返事はこちらに送ります。",
       "c.contact": "その他の連絡先（任意）",
       "c.contactHint": "WeChat、Instagram、小紅書、ビリビリなど",
+      "c.channelPick": "プラットフォームを選ぶ（任意）",
+      "ch.wechat": "WeChat", "ch.xiaohongshu": "小紅書", "ch.instagram": "Instagram", "ch.whatsapp": "WhatsApp",
+      "c.dial": "国番号",
+      "ph.wechat": "電話番号（国番号付き）またはWeChat ID",
+      "ph.instagram": "ユーザー名",
+      "ph.xiaohongshu": "小紅書ID",
+      "ph.whatsapp": "電話番号",
+      "err.contact": "連絡先を入力するか、上の選択を空にしてください。",
       "c.workTitle": "作品のタイトル",
       "c.kind": "種類",
       "k.writing": "文章", "k.art": "絵", "k.photo": "写真", "k.other": "その他",
@@ -235,6 +259,14 @@
       "c.emailHint": "이 주소로 답장을 보냅니다.",
       "c.contact": "다른 연락처 (선택)",
       "c.contactHint": "WeChat, Instagram, 샤오훙수, 빌리빌리 등",
+      "c.channelPick": "플랫폼 선택 (선택)",
+      "ch.wechat": "WeChat", "ch.xiaohongshu": "샤오훙수", "ch.instagram": "Instagram", "ch.whatsapp": "WhatsApp",
+      "c.dial": "국가 번호",
+      "ph.wechat": "전화번호(국가 번호 포함) 또는 WeChat ID",
+      "ph.instagram": "사용자 이름",
+      "ph.xiaohongshu": "샤오훙수 ID",
+      "ph.whatsapp": "전화번호",
+      "err.contact": "연락처를 입력하거나 위의 플랫폼을 비워 두세요.",
       "c.workTitle": "작품 제목",
       "c.kind": "종류",
       "k.writing": "글", "k.art": "그림", "k.photo": "사진", "k.other": "기타",
@@ -400,6 +432,40 @@
     });
   }
 
+  /* ---------------- other contact: platform first ---------------- */
+
+  // 先选平台，再填对应账号；WhatsApp 是电话号码，所以前面带国家区号
+  var CHANNELS = [
+    { key: "wechat", label: "WeChat", dial: false, type: "text" },
+    { key: "xiaohongshu", label: "Xiaohongshu", dial: false, type: "text" },
+    { key: "instagram", label: "Instagram", dial: false, type: "text" },
+    { key: "whatsapp", label: "WhatsApp", dial: true, type: "tel" }
+  ];
+
+  // 常用国家电话区号。中国排在最前，作为默认值
+  var DIAL = [
+    ["+86", "China"], ["+852", "Hong Kong"], ["+853", "Macao"], ["+886", "Taiwan"],
+    ["+81", "Japan"], ["+82", "Korea"], ["+65", "Singapore"], ["+60", "Malaysia"],
+    ["+62", "Indonesia"], ["+63", "Philippines"], ["+66", "Thailand"], ["+84", "Vietnam"],
+    ["+855", "Cambodia"], ["+856", "Laos"], ["+95", "Myanmar"], ["+91", "India"],
+    ["+92", "Pakistan"], ["+94", "Sri Lanka"], ["+880", "Bangladesh"], ["+976", "Mongolia"],
+    ["+1", "US / Canada"], ["+44", "UK"], ["+61", "Australia"], ["+64", "New Zealand"],
+    ["+33", "France"], ["+49", "Germany"], ["+39", "Italy"], ["+34", "Spain"],
+    ["+31", "Netherlands"], ["+32", "Belgium"], ["+41", "Switzerland"], ["+43", "Austria"],
+    ["+46", "Sweden"], ["+47", "Norway"], ["+45", "Denmark"], ["+358", "Finland"],
+    ["+353", "Ireland"], ["+351", "Portugal"], ["+30", "Greece"], ["+48", "Poland"],
+    ["+420", "Czechia"], ["+36", "Hungary"], ["+40", "Romania"], ["+7", "Russia"],
+    ["+380", "Ukraine"], ["+90", "Türkiye"], ["+972", "Israel"], ["+971", "UAE"],
+    ["+966", "Saudi Arabia"], ["+20", "Egypt"], ["+27", "South Africa"], ["+234", "Nigeria"],
+    ["+254", "Kenya"], ["+55", "Brazil"], ["+52", "Mexico"], ["+54", "Argentina"],
+    ["+56", "Chile"], ["+57", "Colombia"], ["+51", "Peru"]
+  ];
+
+  function channelAt(key) {
+    for (var i = 0; i < CHANNELS.length; i++) if (CHANNELS[i].key === key) return CHANNELS[i];
+    return null;
+  }
+
   /* ---------------- form view ---------------- */
 
   function field(id, labelKey, input, hintKey) {
@@ -420,10 +486,54 @@
     var error = el("p", { class: "c-error", role: "alert" });
     var send = el("button", { type: "submit", class: "c-send", i18n: "c.send" });
 
+    // 其他联系方式：平台下拉 -> 出现对应的填空（WhatsApp 前面多一个国家区号）
+    var channel = el("select", { id: "c-channel" }, [el("option", { value: "", i18n: "c.channelPick" })].concat(
+      CHANNELS.map(function (c) { return el("option", { value: c.key, i18n: "ch." + c.key }); })
+    ));
+    var dial = el("select", { id: "c-dial", "aria-label": t("c.dial") }, DIAL.map(function (d) {
+      return el("option", { value: d[0], text: d[0] + " " + d[1] });
+    }));
+    var contact = el("input", { id: "c-contact", maxlength: "120", autocomplete: "off" });
+    var contactRow = el("div", { class: "c-contact-row", hidden: "" }, [dial, contact]);
+    var contactField = el("div", { class: "c-field" }, [
+      el("label", { for: "c-channel", i18n: "c.contact" }),
+      channel,
+      contactRow
+    ]);
+
+    // 换了平台：提示词、是否显示区号、键盘类型都跟着换；换平台时清空旧内容
+    var lastChannel = null;
+    function syncChannel() {
+      var c = channelAt(channel.value);
+      if (channel.value !== lastChannel) { contact.value = ""; lastChannel = channel.value; }
+      contactRow.hidden = !c;
+      dial.hidden = !(c && c.dial);
+      if (!c) {
+        contact.removeAttribute("data-i18n-ph");
+        contact.removeAttribute("placeholder");
+        contact.setAttribute("type", "text");
+        return;
+      }
+      contact.setAttribute("data-i18n-ph", "ph." + c.key);
+      contact.setAttribute("placeholder", t("ph." + c.key));
+      contact.setAttribute("type", c.type);
+    }
+    channel.addEventListener("change", function () {
+      syncChannel();
+      if (channel.value) contact.focus();
+    });
+    syncChannel();
+    function contactValue() {
+      var c = channelAt(channel.value);
+      var raw = contact.value.trim();
+      if (!c || !raw) return "";
+      return c.label + ": " + (c.dial ? dial.value + " " : "") + raw;
+    }
+
     var form = el("form", { class: "c-form", novalidate: "" }, [
       field("c-name", "c.name", el("input", { id: "c-name", name: "name", maxlength: "80", autocomplete: "name", required: "" })),
       field("c-email", "c.email", el("input", { id: "c-email", name: "email", type: "email", maxlength: "120", autocomplete: "email", required: "" }), "c.emailHint"),
-      field("c-contact", "c.contact", el("input", { id: "c-contact", name: "contact", maxlength: "120" }), "c.contactHint"),
+      contactField,
       field("c-title", "c.workTitle", el("input", { id: "c-title", name: "title", maxlength: "200", required: "" })),
       field("c-kind", "c.kind", kind),
       field("c-note", "c.note", el("textarea", { id: "c-note", name: "note", rows: "4", maxlength: "2000" })),
@@ -459,6 +569,7 @@
       if (!v("c-name")) return fail("err.name");
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v("c-email"))) return fail("err.email");
       if (!v("c-title")) return fail("err.title");
+      if (channel.value && !contact.value.trim()) return fail("err.contact");
       if (!files.length) return fail("err.noFiles");
       if (files.length > MAX_FILES) return fail("err.tooMany");
       if (files.some(function (f) { return f.size === 0; })) return fail("err.empty");
@@ -472,7 +583,7 @@
 
       var started;
       api("/api/submit", {
-        action: "start", name: v("c-name"), email: v("c-email"), contact: v("c-contact"),
+        action: "start", name: v("c-name"), email: v("c-email"), contact: contactValue(),
         title: v("c-title"), kind: kind.value, note: document.getElementById("c-note").value,
         files: files.map(function (f) { return { name: f.name, size: f.size, type: f.type }; })
       }).then(function (s) {

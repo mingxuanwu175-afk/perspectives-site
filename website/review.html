@@ -4,22 +4,50 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Review | Perspectives</title>
+<title data-i18n="rv.title">Review | Perspectives</title>
 <meta name="theme-color" content="#0B0B10">
+<link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/review.css">
 </head>
 <body>
-<header class="r-top">
-  <a href="index.html" class="r-logo">Perspectives</a>
-  <span class="r-where">Review</span>
-  <span class="r-me" id="me"></span>
+<!-- 导航栏：与站内其他页面一致（外壳样式在 css/style.css） -->
+<header>
+  <a href="index.html"><h1 class="logo" data-i18n="Perspectives">Perspectives</h1></a>
+  <nav class="nav_links">
+    <a href="business.html" data-i18n="Business">Business</a>
+    <div style="color: #fff;">|</div>
+    <a href="join_us.html" data-i18n="Join Us">Join Us</a>
+    <div style="color: #fff;">|</div>
+    <a href="article.html" data-i18n="Article">Article</a>
+    <div style="color: #fff;">|</div>
+    <a href="about.html" data-i18n="About">About</a>
+    <div style="color: #fff;">|</div>
+    <a href="contribution.html" data-i18n="Contribution">Contribution</a>
+    <button class="lang-btn" id="langSwitch" data-i18n="Language" style="margin-right: 3vw;">Language</button>
+  </nav>
 </header>
-<main id="app" class="r-main">
-  <p class="r-muted">Loading…</p>
+<main class="r-main">
+  <div class="r-who" id="me"></div>
+  <div id="app">
+    <p class="r-muted">Loading…</p>
+  </div>
 </main>
+<!-- 底栏：与站内其他页面一致 -->
+<footer>
+  <div class="footer-content">
+    <p data-i18n="copyright">© 2027 Perspectives Student Magazine. All rights reserved.</p>
+    <p class="footer-links">
+      <a href="#top" data-i18n="footer.top">Back to top</a>
+      <span aria-hidden="true">·</span>
+      <a href="index.html" data-i18n="footer.home">Back to home</a>
+    </p>
+  </div>
+</footer>
 <!-- For editors and admins; not linked from the site. Supabase row level security decides
      what each account can read: a reader who signs in here sees no submissions. -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="lang.js"></script>
+<script src="js/auth-nav.js"></script>
 <script src="js/review.js"></script>
 </body>
 </html>

@@ -27,6 +27,9 @@
       "Contribution": "Contribution",
       "Language": "Language",
       "copyright": "© 2027 Perspectives Student Magazine. All rights reserved.",
+      "footer.top": "Back to top",
+      "footer.home": "Back to home",
+      "footer.label": "Footer",
       "page.business": "Business | Perspectives",
       "page.join_us": "Join Us | Perspectives",
       "page.article": "Article | Perspectives",
@@ -44,6 +47,9 @@
       "Contribution": "投稿",
       "Language": "语言",
       "copyright": "© 2027 Perspectives 学生杂志。保留所有权利。",
+      "footer.top": "回到上方",
+      "footer.home": "回到首页",
+      "footer.label": "页脚",
       "page.business": "商务 | Perspectives",
       "page.join_us": "加入我们 | Perspectives",
       "page.article": "文章 | Perspectives",
@@ -61,6 +67,9 @@
       "Contribution": "投稿",
       "Language": "言語",
       "copyright": "© 2027 Perspectives 学生マガジン。無断転載を禁じます。",
+      "footer.top": "ページ上部へ",
+      "footer.home": "ホームへ戻る",
+      "footer.label": "フッター",
       "page.business": "ビジネス | Perspectives",
       "page.join_us": "参加する | Perspectives",
       "page.article": "記事 | Perspectives",
@@ -78,6 +87,9 @@
       "Contribution": "투고",
       "Language": "언어",
       "copyright": "© 2027 Perspectives 학생 잡지. 모든 권리 보유.",
+      "footer.top": "맨 위로",
+      "footer.home": "홈으로",
+      "footer.label": "바닥글",
       "page.business": "비즈니스 | Perspectives",
       "page.join_us": "참여하기 | Perspectives",
       "page.article": "기사 | Perspectives",
@@ -153,6 +165,15 @@
       if (!key) continue;
       var text = textFor(lang, key, el);
       if (text !== null && text !== undefined) el.textContent = text;
+    }
+
+    // 输入框里的浅色提示词：data-i18n-ph="键名" -> placeholder 属性
+    var holders = document.querySelectorAll("[data-i18n-ph]");
+    for (var j = 0; j < holders.length; j++) {
+      var phKey = holders[j].getAttribute("data-i18n-ph");
+      if (!phKey) continue;
+      var phText = textFor(lang, phKey, null);
+      if (phText !== null && phText !== undefined) holders[j].setAttribute("placeholder", phText);
     }
 
     // 告诉浏览器和读屏软件当前语言
