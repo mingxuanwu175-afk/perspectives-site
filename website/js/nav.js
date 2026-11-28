@@ -134,7 +134,11 @@
       if (window.innerWidth > BREAKPOINT && header.classList.contains("nav-open")) setOpen(false);
     });
 
-    if (readFolded()) setFolded(true);
+    // The homepage always opens with the links showing; other pages keep the
+    // reader's last choice.
+    var onHome = /(^|\/)(index\.html)?$/.test(location.pathname);
+    if (onHome) saveFolded(false);
+    else if (readFolded()) setFolded(true);
     if (I18N) I18N.setLanguage(I18N.current);
   }
 
