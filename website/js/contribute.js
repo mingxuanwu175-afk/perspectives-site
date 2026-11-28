@@ -18,6 +18,7 @@
 
   var WORDS = {
     en: {
+      "c.addFiles": "+ Add files", "c.dropHint": "Pick as many times as you like, or drag files here. Pictures and documents both go here.", "c.remove": "Remove",
       "c.lead": "Writing, art, photos, anything else. Any file type, up to 10 files, 50 MB each. Your email and a password make your account, so you can follow your submissions here any time.",
       "c.password": "Password",
       "c.passwordHint": "First time: choose one (at least 8 characters) and your account is made. Been here before: use the same one.",
@@ -83,6 +84,7 @@
       "err.unknown": "This link does not match any submission."
     },
     zh: {
+      "c.addFiles": "+ 添加文件", "c.dropHint": "可以多次添加，也可以把文件拖进来。图片和文档都放这里。", "c.remove": "移除",
       "c.lead": "文章、画、摄影，什么都可以。文件格式不限，最多 10 个，每个 50 MB 以内。邮箱加密码就是你的账号，随时能在这里看投稿进度。",
       "c.password": "密码",
       "c.passwordHint": "第一次来：设一个密码（至少 8 位），账号就建好了。来过的：用原来的密码。",
@@ -148,6 +150,7 @@
       "err.unknown": "这个链接找不到对应的投稿。"
     },
     ja: {
+      "c.addFiles": "+ ファイルを追加", "c.dropHint": "何回でも追加できます。ここにドラッグしてもかまいません。画像も文書もここに入れてください。", "c.remove": "削除",
       "c.lead": "文章、絵、写真など、なんでも歓迎します。形式は自由、最大10個、1つ50MBまで。メールアドレスとパスワードがあなたのアカウントになり、ここでいつでも投稿の状況を見られます。",
       "c.password": "パスワード",
       "c.passwordHint": "初めての方：パスワード（8文字以上）を決めるとアカウントができます。2回目以降：同じパスワードを使ってください。",
@@ -213,6 +216,7 @@
       "err.unknown": "このリンクに対応する投稿が見つかりません。"
     },
     ko: {
+      "c.addFiles": "+ 파일 추가", "c.dropHint": "여러 번 추가할 수 있고, 여기로 끌어다 놓아도 됩니다. 이미지와 문서 모두 여기에 넣으세요.", "c.remove": "삭제",
       "c.lead": "글, 그림, 사진 등 무엇이든 좋습니다. 형식은 자유, 최대 10개, 파일당 50MB까지. 이메일과 비밀번호가 곧 계정이 되어, 여기서 언제든 투고 진행 상황을 볼 수 있습니다.",
       "c.password": "비밀번호",
       "c.passwordHint": "처음이라면 비밀번호(8자 이상)를 정하면 계정이 만들어집니다. 전에 온 적이 있다면 같은 비밀번호를 쓰세요.",
@@ -451,7 +455,15 @@
     var kind = el("select", { id: "c-kind", name: "kind" }, ["writing", "art", "photo", "other"].map(function (k) {
       return el("option", { value: k, i18n: "k." + k });
     }));
-    var fileInput = el("input", { id: "c-files", name: "files", type: "file", multiple: "" });
+    // The browser's own file box replaces its choice each time it is used, so
+    // the form keeps its own list: every pick (or drop) adds to it, and each
+    // file has a remove button. Pictures and documents go in the same list.
+    var fileInput = el("input", { id: "c-files", name: "files", type: "file", multiple: "", class: "c-fileinput" });
+    var picked = [];
+    var drop = el("label", { for: "c-files", class: "c-drop" }, [
+      el("span", { class: "c-drop-btn", i18n: "c.addFiles" }),
+      el("span", { class: "c-hint", i18n: "c.dropHint" })
+    ]);
     var list = el("ul", { class: "c-filelist" });
     var consent = el("input", { id: "c-consent", type: "checkbox" });
     var error = el("p", { class: "c-error", role: "alert" });
@@ -522,7 +534,11 @@
       field("c-title", "c.workTitle", el("input", { id: "c-title", name: "title", maxlength: "200", required: "" })),
       field("c-kind", "c.kind", kind),
       field("c-note", "c.note", el("textarea", { id: "c-note", name: "note", rows: "4", maxlength: "2000" })),
-      field("c-files", "c.files", fileInput, "c.filesHint"),
+      el("div", { class: "c-field" }, [
+        el("span", { class: "c-label", i18n: "c.files" }),
+        fileInput, drop,
+        el("p", { class: "c-hint", i18n: "c.filesHint" })
+      ]),
       list,
       el("label", { class: "c-consent", for: "c-consent" }, [consent, el("span", { i18n: "c.consent" })]),
       error,
@@ -533,13 +549,40 @@
     function showFiles() {
       list.replaceChildren();
       bars = [];
-      Array.prototype.forEach.call(fileInput.files, function (f) {
+      picked.forEach(function (f, i) {
         var bar = el("span", { class: "c-bar" });
         bars.push(bar);
-        list.appendChild(el("li", {}, [el("span", { class: "c-fname", text: f.name }), el("span", { class: "c-fsize", text: fmtSize(f.size) }), bar]));
+        list.appendChild(el("li", {}, [
+          el("span", { class: "c-fname", text: f.name }),
+          el("span", { class: "c-fsize", text: fmtSize(f.size) }),
+          el("button", { type: "button", class: "c-remove", "aria-label": t("c.remove") + " " + f.name, text: "×", on: { click: function () {
+            if (fileInput.disabled) return;
+            picked.splice(i, 1); showFiles();
+          } } }),
+          bar
+        ]));
       });
     }
-    fileInput.addEventListener("change", function () { error.textContent = ""; error.removeAttribute("data-i18n"); showFiles(); });
+    function addFiles(fileList) {
+      error.textContent = ""; error.removeAttribute("data-i18n");
+      Array.prototype.forEach.call(fileList, function (f) {
+        var dup = picked.some(function (g) { return g.name === f.name && g.size === f.size && g.lastModified === f.lastModified; });
+        if (!dup) picked.push(f);
+      });
+      fileInput.value = "";
+      showFiles();
+    }
+    fileInput.addEventListener("change", function () { addFiles(fileInput.files); });
+    ["dragenter", "dragover"].forEach(function (ev) {
+      drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add("is-over"); });
+    });
+    ["dragleave", "drop"].forEach(function (ev) {
+      drop.addEventListener(ev, function () { drop.classList.remove("is-over"); });
+    });
+    drop.addEventListener("drop", function (e) {
+      e.preventDefault();
+      if (!fileInput.disabled && e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files);
+    });
 
     function fail(key) {
       error.setAttribute("data-i18n", key);
@@ -549,7 +592,7 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var v = function (id) { return document.getElementById(id).value.trim(); };
-      var files = Array.prototype.slice.call(fileInput.files);
+      var files = picked.slice();
       var total = files.reduce(function (n, f) { return n + f.size; }, 0);
       if (!v("c-name")) return fail("err.name");
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v("c-email"))) return fail("err.email");

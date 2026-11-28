@@ -30,8 +30,17 @@
 .c-send:focus-visible, .c-copy:focus-visible { outline: 2px solid var(--oxblood); outline-offset: 2px; }
 .c-filelist { list-style: none; margin: -6px 0 0; padding: 0; display: grid; gap: 6px; }
 .c-filelist li {
-  display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; font-size: .88rem;
+  display: grid; grid-template-columns: 1fr auto auto; gap: 2px 12px; align-items: center; font-size: .88rem;
 }
+/* The native file box is hidden; the dashed area below is its label (click or drop). */
+.c-form input.c-fileinput { position: absolute; width: 1px; height: 1px; padding: 0; margin: 0; border: 0; overflow: hidden; clip-path: inset(50%); opacity: 0; pointer-events: none; }
+.c-label { font-weight: 600; }
+.c-drop { display: grid; gap: 6px; justify-items: start; padding: 16px; border: 1.5px dashed #BDB5A8; border-radius: 8px; background: #fff; cursor: pointer; }
+.c-drop.is-over, .c-drop:hover { border-color: var(--oxblood); background: #FBF7EF; }
+.c-fileinput:focus-visible + .c-drop { outline: 2px solid var(--oxblood); outline-offset: 2px; }
+.c-drop-btn { font-weight: 700; color: var(--oxblood); }
+.c-remove { font: inherit; font-size: 1.1rem; line-height: 1; width: 26px; height: 26px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--muted); cursor: pointer; }
+.c-remove:hover { color: #8A2B2B; border-color: #8A2B2B; }
 .c-fname { overflow-wrap: anywhere; }
 .c-fsize { color: var(--muted); }
 .c-bar {
