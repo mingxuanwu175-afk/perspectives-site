@@ -414,7 +414,7 @@
       root.replaceChildren(
         el("h1", { class: "ar-h1", text: t("ar.articles") }),
         el("div", { class: "ar-filters" }, [
-          el("div", { class: "ar-filter ar-filter--q", id: "search" }, [el("label", { for: "ar-f-q", text: t("ar.search") }), box]),
+          el("div", { class: "ar-filter ar-filter--q" }, [el("label", { for: "ar-f-q", text: t("ar.search") }), box]),
           select("ar-f-type", "ar.type", [["", t("ar.any") + " (" + all.length + ")"]].concat(kinds.map(function (k) {
             return [k, t("k." + k) + " (" + all.filter(function (a) { return a.kind === k; }).length + ")"];
           })), kind, function (v) { kind = v; paint(); }),
@@ -428,7 +428,15 @@
     get("order=published_at.desc").then(function (r) {
       all = r;
       paint();
-      if (location.hash === "#search") document.getElementById("ar-f-q").focus();
+      // The top bar's "Search" link (article.html?focus=search) lands here with
+      // the cursor in the search box, without scrolling the page; on this page
+      // the same link just puts the cursor there.
+      function focusSearch() { var b = document.getElementById("ar-f-q"); if (b) { window.scrollTo(0, 0); b.focus({ preventScroll: true }); } }
+      if (qs.get("focus") === "search" || location.hash === "#search") focusSearch();
+      document.addEventListener("click", function (e) {
+        var link = e.target.closest && e.target.closest('a[href="article.html?focus=search"]');
+        if (link) { e.preventDefault(); focusSearch(); }
+      });
       document.addEventListener("languagechange", paint);
     }, function () { message(root, "ar.error"); });
   }
