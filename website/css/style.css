@@ -496,3 +496,54 @@ header.nav-collapsed .nav-collapse svg{
         font-size: 16px;
     }
 }
+
+/* nature.com's first header row: quick links right of the logo, each
+   underlined, split by grey vertical rules, icons on "My submissions" and
+   "Search". On phones only the icons and the account link stay. */
+.nav-util{
+    display: flex;
+    align-items: stretch;
+    margin-left: auto;
+}
+.nav-util > a{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 18px;
+    border-left: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 16px;
+    white-space: nowrap;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+}
+.nav-util > a:first-child{
+    border-left: 0;
+}
+.nav-util > a:last-child{
+    padding-right: 0;
+}
+.nav-util > a:hover{
+    text-decoration-thickness: 3px;
+}
+.nav-util svg{
+    flex: 0 0 auto;
+}
+@media (min-width: 769px){
+    .nav-util{ order: 1; }
+    header > a:first-child{ flex: 0 1 auto; margin-right: auto; }
+}
+@media (max-width: 768px){
+    .nav-util{ margin-right: 4px; }
+    .nav-util > a{ padding: 6px 10px; border-left: 0; font-size: .85rem; }
+    .nav-util > a[data-i18n="util.all"]{ display: none; }
+    .nav-util > a.nav-util-ico span{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .nav-util > a.nav-user .nav-badge{ display: none; }
+    .nav-util > a.nav-user{ max-width: 7em; overflow: hidden; }
+}
+@media (min-width: 769px){
+    /* with the account link in the quick-link row, language closes the main row on the right */
+    .nav_links .lang-btn{ margin-left: auto; }
+    .nav_links > [data-review-link] ~ .lang-btn{ margin-left: 8px; }
+}

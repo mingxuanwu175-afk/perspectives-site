@@ -20,6 +20,7 @@
 
   var WORDS = {
     en: {
+      "ar.search": "Search", "ar.searchHint": "Title, author or words",
       "ar.secWriting": "Writing", "ar.secVisual": "Art & Photography", "ar.issues": "Issues", "ar.nArticles": "{n} pieces", "ar.stripText": "Students write, students read. Send us your writing, art or photos: every submission gets a reply.", "ar.submit": "Submit your work", "ar.joinTeam": "Join the team",
       "ar.contents": "Contents", "ar.currentIssue": "Current issue",
       "ar.featured": "Featured", "ar.prev": "Previous", "ar.next": "Next",
@@ -32,6 +33,7 @@
       "k.writing": "Writing", "k.art": "Art", "k.photo": "Photography", "k.other": "Other"
     },
     zh: {
+      "ar.search": "搜索", "ar.searchHint": "标题、作者或关键词",
       "ar.secWriting": "文字", "ar.secVisual": "绘画与摄影", "ar.issues": "往期", "ar.nArticles": "{n} 篇", "ar.stripText": "学生写，学生读。文章、画、摄影都可以投给我们，每一篇都会回复。", "ar.submit": "投稿", "ar.joinTeam": "加入我们",
       "ar.contents": "目录", "ar.currentIssue": "本期",
       "ar.featured": "精选", "ar.prev": "上一篇", "ar.next": "下一篇",
@@ -44,6 +46,7 @@
       "k.writing": "文章", "k.art": "绘画", "k.photo": "摄影", "k.other": "其他"
     },
     ja: {
+      "ar.search": "検索", "ar.searchHint": "題名・作者・言葉",
       "ar.secWriting": "文章", "ar.secVisual": "絵と写真", "ar.issues": "バックナンバー", "ar.nArticles": "{n}本", "ar.stripText": "学生が書き、学生が読む。文章・絵・写真を送ってください。すべての投稿に返事します。", "ar.submit": "投稿する", "ar.joinTeam": "チームに参加",
       "ar.contents": "目次", "ar.currentIssue": "最新号",
       "ar.featured": "注目の記事", "ar.prev": "前へ", "ar.next": "次へ",
@@ -56,6 +59,7 @@
       "k.writing": "文章", "k.art": "アート", "k.photo": "写真", "k.other": "その他"
     },
     ko: {
+      "ar.search": "검색", "ar.searchHint": "제목, 작가 또는 단어",
       "ar.secWriting": "글", "ar.secVisual": "그림과 사진", "ar.issues": "지난 호", "ar.nArticles": "{n}편", "ar.stripText": "학생이 쓰고 학생이 읽습니다. 글, 그림, 사진을 보내 주세요. 모든 투고에 답합니다.", "ar.submit": "투고하기", "ar.joinTeam": "팀 합류",
       "ar.contents": "목차", "ar.currentIssue": "이번 호",
       "ar.featured": "추천 기사", "ar.prev": "이전", "ar.next": "다음",
@@ -381,7 +385,14 @@
 
   function list(root) {
     var qs = new URLSearchParams(location.search);
-    var all = null, kind = qs.get("kind") || "", issue = qs.get("issue") || "";
+    var all = null, kind = qs.get("kind") || "", issue = qs.get("issue") || "", q = qs.get("q") || "";
+    // Search (the "Search" link in the top bar opens article.html#search):
+    // matches title, author and summary, as you type.
+    function matches(a) {
+      var k = q.trim().toLowerCase();
+      if (!k) return true;
+      return [a.title, a.author_name, a.standfirst].some(function (v) { return String(v || "").toLowerCase().indexOf(k) >= 0; });
+    }
     function select(id, labelKey, options, value, onChange) {
       var s = el("select", { id: id, on: { change: function () { onChange(s.value); } } }, options.map(function (o) {
         return el("option", { value: o[0], text: o[1], selected: o[0] === value });
@@ -391,10 +402,19 @@
     function paint() {
       var kinds = ["writing", "art", "photo", "other"].filter(function (k) { return all.some(function (a) { return a.kind === k; }); });
       var issues = all.map(function (a) { return a.issue; }).filter(function (n, i, arr) { return n && arr.indexOf(n) === i; }).sort(function (x, y) { return y - x; });
-      var hits = all.filter(function (a) { return (!kind || a.kind === kind) && (!issue || String(a.issue) === issue); });
+      var hits = all.filter(function (a) { return (!kind || a.kind === kind) && (!issue || String(a.issue) === issue) && matches(a); });
+      var box = el("input", { id: "ar-f-q", type: "search", value: q, placeholder: t("ar.searchHint"), autocomplete: "off" });
+      box.addEventListener("input", function () {
+        q = box.value;
+        var at = box.selectionStart;
+        paint();
+        var again = document.getElementById("ar-f-q");
+        again.focus(); try { again.setSelectionRange(at, at); } catch (e) {}
+      });
       root.replaceChildren(
         el("h1", { class: "ar-h1", text: t("ar.articles") }),
         el("div", { class: "ar-filters" }, [
+          el("div", { class: "ar-filter ar-filter--q", id: "search" }, [el("label", { for: "ar-f-q", text: t("ar.search") }), box]),
           select("ar-f-type", "ar.type", [["", t("ar.any") + " (" + all.length + ")"]].concat(kinds.map(function (k) {
             return [k, t("k." + k) + " (" + all.filter(function (a) { return a.kind === k; }).length + ")"];
           })), kind, function (v) { kind = v; paint(); }),
@@ -408,6 +428,7 @@
     get("order=published_at.desc").then(function (r) {
       all = r;
       paint();
+      if (location.hash === "#search") document.getElementById("ar-f-q").focus();
       document.addEventListener("languagechange", paint);
     }, function () { message(root, "ar.error"); });
   }

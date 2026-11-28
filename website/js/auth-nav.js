@@ -141,7 +141,7 @@
     if (!nav) return;
     ["data-auth-link", "data-auth-divider", "data-review-link", "data-review-divider",
       "data-manage-link", "data-manage-divider"].forEach(function (attr) {
-      var old = nav.querySelector("[" + attr + "]");
+      var old = document.querySelector("header [" + attr + "]");
       if (old) old.parentNode.removeChild(old);
     });
 
@@ -203,7 +203,14 @@
       a.textContent = WORDS.en[key];
     }
     out.push(a);
-    out.forEach(function (n) { nav.insertBefore(n, before); });
+    // The sign-in / account link sits in the quick-link row (after nature.com)
+    // when the page has one; Review and Manage stay in the main links.
+    var util = document.querySelector("header .nav-util");
+    out.forEach(function (n) {
+      if (util && (n.hasAttribute("data-auth-link") || n.hasAttribute("data-auth-divider"))) {
+        if (n.hasAttribute("data-auth-link")) util.appendChild(n);
+      } else nav.insertBefore(n, before);
+    });
     if (I18N) I18N.setLanguage(I18N.current);
   }
 
