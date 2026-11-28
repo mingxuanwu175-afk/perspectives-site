@@ -20,6 +20,7 @@
     en: {
       "Perspectives Student Magazine": "Perspectives Student Magazine",
       "Perspectives": "Perspectives",
+      "Home": "Home",
       "Business": "Business",
       "Join Us": "Join Us",
       "Article": "Article",
@@ -40,6 +41,7 @@
     zh: {
       "Perspectives Student Magazine": "Perspectives 学生杂志",
       "Perspectives": "Perspectives",
+      "Home": "首页",
       "Business": "商务",
       "Join Us": "加入我们",
       "Article": "文章",
@@ -60,6 +62,7 @@
     ja: {
       "Perspectives Student Magazine": "Perspectives 学生マガジン",
       "Perspectives": "Perspectives",
+      "Home": "ホーム",
       "Business": "ビジネス",
       "Join Us": "参加する",
       "Article": "記事",
@@ -80,6 +83,7 @@
     ko: {
       "Perspectives Student Magazine": "Perspectives 학생 잡지",
       "Perspectives": "Perspectives",
+      "Home": "홈",
       "Business": "비즈니스",
       "Join Us": "참여하기",
       "Article": "기사",

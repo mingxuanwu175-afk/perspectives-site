@@ -34,6 +34,7 @@
       "ma.onlyPublished": "Publish it first.",
       "ma.back": "← All articles",
       "ma.newTitle": "New article",
+      "ma.fromSub": "From the submission “{title}”. Its files are in Review; upload the laid-out PDF and a cover here.",
       "ma.title": "Title", "ma.author": "Author (as printed)", "ma.type": "Type", "ma.issue": "Issue number",
       "ma.stand": "Summary (one or two sentences, shown under the title)",
       "ma.cover": "Cover image (JPG, PNG or WebP, up to 10 MB)", "ma.pdf": "Laid-out PDF (up to 50 MB)",
@@ -65,6 +66,7 @@
       "ma.onlyPublished": "先发布才能上首页。",
       "ma.back": "← 全部文章",
       "ma.newTitle": "新建文章",
+      "ma.fromSub": "来自投稿“{title}”。原始文件在“审稿”里；这里上传排好版的 PDF 和封面。",
       "ma.title": "标题", "ma.author": "作者（按刊登时的署名）", "ma.type": "类型", "ma.issue": "期号",
       "ma.stand": "摘要（一两句话，显示在标题下面）",
       "ma.cover": "封面图（JPG、PNG 或 WebP，10 MB 以内）", "ma.pdf": "排版好的 PDF（50 MB 以内）",
@@ -261,6 +263,7 @@
         issue: issue.value ? parseInt(issue.value, 10) : null, standfirst: stand.value.trim(),
         author_confirmed: ok.checked
       };
+      if (!a.id && a.submission_id) fields.submission_id = a.submission_id;
       var old = { cover: a.cover_path, pdf: a.pdf_path };
       var id = a.id;
       // A new article gets its row first: its id names the folder for its files.
@@ -313,6 +316,7 @@
     return el("section", { class: "ma ma-form" }, [
       el("button", { type: "button", class: "r-link", text: t("ma.back"), on: { click: function () { editing = null; paint(); } } }),
       el("h1", { text: isNew ? t("ma.newTitle") : a.title }),
+      a.fromTitle ? el("p", { class: "r-note", text: t("ma.fromSub", { title: a.fromTitle }) }) : null,
       isNew ? null : el("p", {}, [el("span", { class: "r-pill r-pill--" + (published ? "published" : "uploading"), text: t("ma.st." + a.status) })]),
       el("div", { class: "ma-grid" }, [
         field("ma-title", "ma.title", title),
@@ -332,6 +336,19 @@
     ]);
   }
 
+  // manage.html?from=<submission id> (the "Put it on the website" link in
+  // Review): open that submission's article if it already has one, otherwise
+  // a new article filled in from the submission.
+  function fromSubmission(id) {
+    if (!id || !/^[0-9a-f-]{36}$/i.test(id)) return null;
+    var had = rows.filter(function (a) { return a.submission_id === id; })[0];
+    if (had) { editing = had; return null; }
+    return ctx.sb.from("submissions").select("id,title,name,kind").eq("id", id).maybeSingle().then(function (r) {
+      if (r.error) throw r.error;
+      if (r.data) editing = { title: r.data.title, author_name: r.data.name, kind: r.data.kind, submission_id: r.data.id, fromTitle: r.data.title };
+    });
+  }
+
   function paint() {
     if (!root) return;
     root.replaceChildren(editing ? formView(editing) : listView());
@@ -341,7 +358,7 @@
     mount: function (node, c) {
       ctx = c; root = node;
       root.replaceChildren(el("p", { class: "r-muted", text: "…" }));
-      load().then(paint, function (err) { root.replaceChildren(el("p", { class: "r-error", text: errText(err) })); });
+      load().then(function () { return fromSubmission(c.from); }).then(paint, function (err) { root.replaceChildren(el("p", { class: "r-error", text: errText(err) })); });
     },
     // On a language switch, keep what is being typed: repaint the list only.
     repaint: function () { if (!editing) paint(); }

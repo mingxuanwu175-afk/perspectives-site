@@ -133,3 +133,7 @@ body.r-preview-open { overflow: hidden; }
 /* The site footer (css/style.css) is shared; the dashboard body is a column
    so it stays at the bottom even when the table is short. */
 .r-main + footer { margin-top: 0; }
+
+/* Link from a submission to its article in Manage. */
+.r-toarticle { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); display: grid; gap: 6px; justify-items: start; }
+.r-main a.r-toarticle, .r-toarticle a.r-btn { color: var(--ivory); text-decoration: none; }

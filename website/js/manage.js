@@ -273,7 +273,7 @@
     }
     app.replaceChildren(tabsBar(), artNode);
     if (!ART) return;
-    if (!artMounted) { artMounted = true; ART.mount(artNode, { sb: sb, t: t, el: el, when: when, url: SUPABASE_URL }); }
+    if (!artMounted) { artMounted = true; ART.mount(artNode, { sb: sb, t: t, el: el, when: when, url: SUPABASE_URL, from: new URLSearchParams(location.search).get("from") }); }
     else ART.repaint();
   }
 

@@ -70,6 +70,7 @@
       "rv.close": "Close",
       "rv.previewUnsupported": "This file type cannot be previewed here. Download it to open.",
       "rv.status": "Status",
+      "rv.toArticle": "Put it on the website →", "rv.toArticleHint": "The status alone does not show anything on the website. To publish it, upload the laid-out PDF and a cover in Manage; this opens the form with the title, author and type filled in.",
       "rv.saveStatus": "Save status",
       "rv.saved": "Saved",
       "rv.notSaved": "Not saved: ",
@@ -141,6 +142,7 @@
       "rv.close": "关闭",
       "rv.previewUnsupported": "该文件类型无法在线预览，请下载后查看。",
       "rv.status": "状态",
+      "rv.toArticle": "发到网站上 →", "rv.toArticleHint": "只改状态不会让文章出现在网站上。要发布，在“管理”里上传排好版的 PDF 和封面；点这里会打开新建文章表单，标题、作者、类型已经填好。",
       "rv.saveStatus": "保存状态",
       "rv.saved": "已保存",
       "rv.notSaved": "未保存：",
@@ -212,6 +214,7 @@
       "rv.close": "閉じる",
       "rv.previewUnsupported": "この形式はプレビューできません。ダウンロードしてご覧ください。",
       "rv.status": "ステータス",
+      "rv.toArticle": "サイトに掲載する →", "rv.toArticleHint": "ステータスだけではサイトに表示されません。「管理」で組版済みのPDFと表紙をアップロードしてください。",
       "rv.saveStatus": "ステータスを保存",
       "rv.saved": "保存しました",
       "rv.notSaved": "保存できませんでした：",
@@ -283,6 +286,7 @@
       "rv.close": "닫기",
       "rv.previewUnsupported": "이 형식은 미리 볼 수 없습니다. 다운로드해서 확인하세요.",
       "rv.status": "상태",
+      "rv.toArticle": "사이트에 올리기 →", "rv.toArticleHint": "상태만 바꾸면 사이트에 표시되지 않습니다. “관리”에서 편집된 PDF와 표지를 올려 주세요.",
       "rv.saveStatus": "상태 저장",
       "rv.saved": "저장됨",
       "rv.notSaved": "저장하지 못했습니다: ",
@@ -583,6 +587,13 @@
     });
     box.appendChild(el("div", { class: "r-statusrow" }, [el("label", { for: "r-status", text: t("rv.status") }), sel, save, saved]));
     box.appendChild(el("p", { class: "r-note", text: t("rv.statusHint") }));
+    // Status is only a label here; the website shows articles uploaded in Manage.
+    if (s.status === "accepted" || s.status === "published") {
+      box.appendChild(el("div", { class: "r-toarticle" }, [
+        el("a", { class: "r-btn", href: "manage.html?from=" + encodeURIComponent(s.id), text: t("rv.toArticle") }),
+        el("p", { class: "r-note", text: t("rv.toArticleHint") })
+      ]));
+    }
     return box;
   }
   function alertIn(node, msg) { node.appendChild(el("li", {}, [errorBox(msg)])); }
