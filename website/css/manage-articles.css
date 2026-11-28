@@ -1,0 +1,24 @@
+/* Articles tab in manage.html (js/manage-articles.js). Builds on css/review.css. */
+.ma .r-head { margin-bottom: 4px; }
+.ma-thumb { display: block; width: 48px; height: 64px; object-fit: cover; object-position: top; background: var(--soft); border: 1px solid var(--line); }
+.ma-table td { vertical-align: middle; }
+.ma-table tbody tr { cursor: default; }
+.ma-order { list-style: decimal; padding-left: 24px; margin: 12px 0; display: grid; gap: 10px; max-width: 760px; }
+.ma-order li { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 8px 12px; background: var(--paper-2); border: 1px solid var(--line); border-radius: 8px; }
+.ma-order li:first-child { border-color: var(--ink); }
+.ma-order-title { display: grid; gap: 2px; overflow-wrap: anywhere; }
+.ma-order-btns { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.ma-form { max-width: 820px; }
+.ma-form h1 { margin: 12px 0 8px; overflow-wrap: anywhere; }
+.ma-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; margin: 16px 0; }
+.ma-field { display: grid; gap: 6px; align-content: start; }
+.ma-field label { font-size: .88rem; font-weight: 600; }
+.ma-field input:not([type="file"]), .ma-field select, .ma-field textarea { font: inherit; padding: 8px 10px; border: 1px solid #D8D0C2; border-radius: 6px; background: var(--paper-2); color: var(--ink); width: 100%; }
+#ma-stand { resize: vertical; }
+.ma-field:has(#ma-stand) { grid-column: 1 / -1; }
+.ma-preview { width: 120px; border: 1px solid var(--line); margin-top: 4px; }
+.ma-ok { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; background: var(--soft); border: 1px solid var(--line); border-radius: 8px; font-weight: 600; cursor: pointer; }
+.ma-ok input { margin-top: 3px; }
+.ma-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+.ma-delete { margin-left: auto; color: var(--bad); }
+@media (max-width: 640px) { .ma-grid { grid-template-columns: 1fr; } }

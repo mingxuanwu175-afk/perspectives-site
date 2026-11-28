@@ -10,6 +10,7 @@
 <link rel="apple-touch-icon" href="img/logo/favicon_180.png">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/review.css">
+<link rel="stylesheet" href="css/manage-articles.css">
 </head>
 <body>
 <!-- 导航栏：与站内其他页面一致（外壳样式在 css/style.css） -->
@@ -45,11 +46,12 @@
     </p>
   </div>
 </footer>
-<!-- Admin console: only admins get here (js/manage.js checks profiles.role). -->
+<!-- Admin console: editors and admins (js/manage.js checks profiles.role). -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="lang.js"></script>
 <script src="js/auth-nav.js"></script>
 <script src="js/nav.js"></script>
+<script src="js/manage-articles.js"></script>
 <script src="js/manage.js"></script>
 </body>
 </html>

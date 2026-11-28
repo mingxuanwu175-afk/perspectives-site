@@ -1,6 +1,7 @@
-/* Perspectives admin console (manage.html): people and roles.
+/* Perspectives admin console (manage.html): articles, people and roles.
  *
- * Only admins get here. Signs in with Supabase Auth in the browser and reads
+ * Editors and admins get here: editors see the Articles tab
+ * (js/manage-articles.js); only admins see People and roles. Signs in with Supabase Auth in the browser and reads
  * profiles with the public key; row level security is what actually decides
  * whether the rows come back. Changing a role goes through the set_role RPC,
  * which is admin-only on the database side too.
@@ -137,7 +138,7 @@
 
   var app = document.getElementById("app");
   var meEl = document.getElementById("me");
-  var state = { user: null, role: null, people: null, query: "" };
+  var state = { user: null, role: null, people: null, query: "", tab: "articles" };
 
   function el(tag, attrs, kids) {
     var n = document.createElement(tag);
@@ -250,9 +251,30 @@
     ]);
   }
 
+  // Tabs: Articles (editors and admins), People and roles (admins only).
+  var ART = window.PerspectivesArticlesAdmin;
+  var artNode = document.createElement("div");
+  var artMounted = false;
+  function tabsBar() {
+    var tabs = [["articles", "mg.tabArticles"]];
+    if (state.role === "admin") tabs.push(["people", "mg.tabPeople"]);
+    return el("div", { class: "r-tabs" }, tabs.map(function (tb) {
+      return el("button", { type: "button", class: "r-tab" + (state.tab === tb[0] ? " is-on" : ""), text: t(tb[1]), on: { click: function () {
+        state.tab = tb[0]; render();
+      } } });
+    }));
+  }
+
   function render() {
     header();
-    app.replaceChildren(rolesView());
+    if (state.tab === "people" && state.role === "admin") {
+      app.replaceChildren(tabsBar(), rolesView());
+      return;
+    }
+    app.replaceChildren(tabsBar(), artNode);
+    if (!ART) return;
+    if (!artMounted) { artMounted = true; ART.mount(artNode, { sb: sb, t: t, el: el, when: when, url: SUPABASE_URL }); }
+    else ART.repaint();
   }
 
   function fail(err) {
@@ -274,10 +296,11 @@
       return sb.from("profiles").select("role").eq("id", user.id).maybeSingle().then(function (p) {
         if (p.error) { fail(p.error); return; }
         state.role = p.data ? p.data.role : "reader";
-        if (state.role !== "admin") { window.location.replace("index.html"); return; }
+        if (state.role !== "admin" && state.role !== "editor") { window.location.replace("index.html"); return; }
         try {
           localStorage.setItem("perspectives:nav-role", JSON.stringify({ id: user.id, role: state.role }));
         } catch (e) { /* storage blocked */ }
+        if (state.role !== "admin") { state.people = []; render(); return; }
         return sb.from("profiles").select("id,email,username,role,created_at").order("created_at").then(function (res) {
           if (res.error) { fail(res.error); return; }
           state.people = res.data || [];

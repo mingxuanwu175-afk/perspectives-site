@@ -165,8 +165,8 @@
       out.push(review);
     }
 
-    // Only admins run the people-and-roles console.
-    if (admin) {
+    // Manage: articles for editors and admins; people and roles for admins only.
+    if (admin || editor) {
       out.push(divider("data-manage-divider"));
       var manage = document.createElement("a");
       manage.href = "manage.html";
