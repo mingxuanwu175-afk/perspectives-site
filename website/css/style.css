@@ -552,3 +552,19 @@ header.nav-collapsed .nav-collapse svg{
        keeps its place right after them instead of taking the free space */
     header.nav-collapsed .nav-collapse{ margin-left: 8px; }
 }
+/* Top bar links: no underline; on hover (or keyboard focus) they turn red. */
+.nav-util > a,
+.nav_links > a{
+    text-decoration: none;
+    transition: color .15s ease;
+}
+.nav-util > a:hover,
+.nav-util > a:focus-visible,
+.nav_links > a:hover,
+.nav_links > a:focus-visible{
+    color: var(--oxblood);
+    text-decoration: none;
+}
+@media (min-width: 769px){
+    .nav_links > a{ text-decoration: none; }
+}
