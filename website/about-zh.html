@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh" data-page-lang="zh">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n="page.about">关于我们 | Perspectives</title>
+<meta name="description" content="Perspectives 是一本面向 13 至 25 岁年轻创作者的国际杂志与网站。">
+<meta name="theme-color" content="#F2ECE0">
+<link rel="icon" type="image/png" sizes="32x32" href="img/logo/favicon_32.png">
+<link rel="apple-touch-icon" href="img/logo/favicon_180.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/about.css">
+<link rel="stylesheet" href="css/about-zh.css">
+<link rel="alternate" hreflang="en" href="about.html">
+<link rel="alternate" hreflang="zh-Hans" href="about-zh.html">
+<!-- Set the reveal state before first paint so blocks never flash in and out. -->
+<script>if ("IntersectionObserver" in window) document.documentElement.classList.add("ab-js");</script>
+<!-- This edition is Chinese: keep the shared navigation in Chinese too. -->
+<script>try { localStorage.setItem("siteLang", "zh"); } catch (e) {}</script>
+</head>
+
+<body>
+<!-- 导航栏 -->
+<header>
+  <a href="index.html"><h1 class="logo"><img class="logo__mark" src="img/logo/P_mark_transparent.png" alt="" width="30" height="41"><span class="logo__word" data-i18n="Perspectives">Perspectives</span></h1></a>
+  <nav class="nav_links">
+    <a href="business.html" data-i18n="Business">商务</a>
+    <div class="nav-sep" aria-hidden="true">|</div>
+    <a href="join_us.html" data-i18n="Join Us">加入我们</a>
+    <div class="nav-sep" aria-hidden="true">|</div>
+    <a href="article.html" data-i18n="Article">文章</a>
+    <div class="nav-sep" aria-hidden="true">|</div>
+    <a href="about-zh.html" data-i18n="About">关于我们</a>
+    <div class="nav-sep" aria-hidden="true">|</div>
+    <a href="contribution.html" data-i18n="Contribution">投稿</a>
+    <button class="lang-btn" id="langSwitch" data-i18n="Language" style="margin-right: 3vw;">语言</button>
+  </nav>
+</header>
+
+<!-- 语言切换：词典和逻辑都在 lang.js（普通 <script>，本地双击打开也能用） -->
+<script src="lang.js"></script>
+<script src="js/about-lang.js"></script>
+
+<!-- 主体部分 -->
+<main class="ab">
+
+  <!-- 开篇：品牌名 + 第一段介绍 -->
+  <section class="ab-hero" aria-label="引言">
+    <img class="ab-hero__mark" src="img/logo/P_mark_transparent.png" alt="" aria-hidden="true">
+    <span class="ab-caption" aria-hidden="true">学生写 · 学生读</span>
+    <div class="ab-hero__inner ab-wrap">
+      <p class="ab-kicker ab-reveal">关于这本杂志</p>
+      <h2 class="ab-title ab-reveal"><i>Perspectives</i><span class="ab-title__dot" aria-hidden="true">.</span></h2>
+      <p class="ab-standfirst ab-reveal"><i>Perspectives</i> 是一本面向 13 至 25 岁年轻创作者的国际杂志与网站。我们发表由年轻人创作、为年轻人而作的娱乐内容，形式不拘：写作、视觉艺术、时尚与设计、摄影与电影、音乐与表演、游戏与数字文化，以及围绕它们展开的评论。</p>
+    </div>
+  </section>
+
+  <!-- 使命：深红色通栏，整页的视觉重心 -->
+  <section class="ab-mission" aria-labelledby="about-mission">
+    <div class="ab-wrap">
+      <h2 class="ab-label ab-label--light ab-reveal" id="about-mission"><span>01</span> 我们的使命</h2>
+      <p class="ab-mission__lead ab-reveal">我们的使命，是把娱乐的创造权交还给年轻人自己。</p>
+      <div class="ab-mission__grid">
+        <div class="ab-mission__body ab-reveal">
+          <p>很长一段时间里，娱乐潮流由他人定义，年轻人只能扮演追随者的角色。我们相信，下一个时代的潮流，应该由年轻人自己创造。</p>
+          <p><i>Perspectives</i> 为新兴创作者提供被看见、被阅读、被听见的舞台，也让那些曾被认为“不值得印成铅字”的热爱，重新回到聚光灯下。</p>
+        </div>
+        <blockquote class="ab-pull ab-reveal">
+          <p>我们不向陈规低头，也不追随潮流。</p>
+        </blockquote>
+      </div>
+      <p class="ab-creed ab-reveal">我们打破边界，<br>定义青年文艺，<br><em>我们就是潮流。</em></p>
+    </div>
+  </section>
+
+  <!-- 四条承诺：左侧标题在桌面端随滚动停住 -->
+  <section class="ab-principles" aria-labelledby="about-principles">
+    <div class="ab-wrap ab-principles__grid">
+      <div class="ab-principles__head">
+        <h2 class="ab-label ab-reveal" id="about-principles"><span>02</span> 我们的原则</h2>
+        <h3 class="ab-h3 ab-reveal">我们向贡献者<br><em>许下的承诺。</em></h3>
+        <p class="ab-intro ab-reveal"><i>Perspectives</i> 在与贡献者的合作中，恪守以下原则：</p>
+      </div>
+      <ol class="ab-rules ab-reveal">
+        <li class="ab-rule">
+          <span class="ab-rule__num" aria-hidden="true">01</span>
+          <div>
+            <h4>版权始终属于创作者</h4>
+            <p>贡献者保留完整版权，每件发表作品都会署上创作者的名字与账号。</p>
+          </div>
+        </li>
+        <li class="ab-rule">
+          <span class="ab-rule__num" aria-hidden="true">02</span>
+          <div>
+            <h4>绝不用于训练 AI</h4>
+            <p>任何投稿都不会被用于训练人工智能，也不会被人工智能改动。</p>
+          </div>
+        </li>
+        <li class="ab-rule">
+          <span class="ab-rule__num" aria-hidden="true">03</span>
+          <div>
+            <h4>你先看到最终版面</h4>
+            <p>发表前，贡献者会审阅最终版面；未经同意，作品不会发表。</p>
+          </div>
+        </li>
+        <li class="ab-rule">
+          <span class="ab-rule__num" aria-hidden="true">04</span>
+          <div>
+            <h4>每一份投稿都会得到回复</h4>
+            <p>每份投稿都会收到编辑团队的回应。</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 征集：来源里的第三段，单独做成一个安静的过渡段 -->
+  <section class="ab-borders" aria-labelledby="about-open">
+    <div class="ab-wrap">
+      <h2 class="ab-label ab-reveal" id="about-open"><span>03</span> 一份公开邀请</h2>
+      <p class="ab-borders__quote ab-reveal"><i>Perspectives</i> 欢迎以任何语言<br>来信与投稿，因为我们相信，<br>文艺没有国界。</p>
+      <a class="ab-cta ab-reveal" href="contribution.html">投递作品 <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- 创刊信息 -->
+  <section class="ab-colophon" aria-labelledby="about-founded">
+    <div class="ab-wrap ab-colophon__inner">
+      <div>
+        <h2 class="ab-label ab-reveal" id="about-founded"><span>04</span> 起点</h2>
+        <p class="ab-colophon__text ab-reveal"><i>Perspectives</i> 由新加坡 XCL World Academy 的学生 Steve Wu 与 Eason Lin 于 2026 年 8 月创办。</p>
+      </div>
+      <div class="ab-colophon__mark ab-reveal">
+        <img src="img/logo/wordmark_transparent.png" alt="Perspectives" width="848" height="142" loading="lazy">
+        <p class="ab-colophon__tag">学生写，学生读。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 底栏 -->
+<footer>
+  <div class="footer-content">
+    <p data-i18n="copyright">© 2027 Perspectives Student Magazine. All rights reserved.</p>
+    <p class="footer-links">
+      <a href="#top" data-i18n="footer.top">Back to top</a>
+      <span aria-hidden="true">·</span>
+      <a href="index.html" data-i18n="footer.home">Back to home</a>
+    </p>
+  </div>
+</footer>
+<script src="js/about.js"></script>
+<script src="js/auth-nav.js"></script>
+<script src="js/nav.js"></script>
+</body>
+
+</html>
