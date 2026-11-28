@@ -1,9 +1,11 @@
 /* Perspectives: the submission form on contribution.html.
  *
- * Any file type. Files go straight from the browser to Supabase Storage
- * through signed upload URLs from /api/submit; the page then tells the server
- * they arrived. Afterwards the submitter gets a progress link
- * (contribution.html?t=<token>), which shows the submission's status.
+ * Any file type. No sign-in page first: the form's email and password sign
+ * the person in, or create the account on the spot (no email is sent).
+ * Files go straight from the browser to Supabase Storage through signed upload
+ * URLs from /api/submit; the page then tells the server they arrived, and shows
+ * "My submissions" with each one's status. Old progress links
+ * (contribution.html?t=<token>) still show their submission.
  *
  * Words: all four site languages here, merged into lang.js. The Japanese and
  * Korean are a first draft: ask a native speaker to read them.
@@ -16,25 +18,21 @@
 
   var WORDS = {
     en: {
-      "a.ask": "Create an account?",
-      "a.text": "Choose a password for {email}. Signed in, you can see all your submissions any time, without keeping links.",
-      "a.pass": "Password (at least 8 characters)",
-      "a.yes": "Create account",
-      "a.signin": "Sign in",
-      "a.have": "I already have an account",
-      "a.new": "I need a new account",
-      "a.no": "No thanks",
-      "a.done": "Done. This submission is now in your account.",
-      "a.close": "Close",
-      "a.err.exists": "This email already has an account. Sign in instead.",
-      "a.err.login": "Wrong password for this email.",
-      "a.err.short": "The password needs at least 8 characters.",
-      "a.err.other": "Something went wrong. You can still use the link above.",
+      "c.lead": "Writing, art, photos, anything else. Any file type, up to 10 files, 50 MB each. Your email and a password make your account, so you can follow your submissions here any time.",
+      "c.password": "Password",
+      "c.passwordHint": "First time: choose one (at least 8 characters) and your account is made. Been here before: use the same one.",
+      "c.signout": "Not you? Sign out",
+      "c.done": "Received. Thank you!",
+      "c.mine": "My submissions",
+      "c.none": "Nothing here yet.",
+      "c.mineHint": "Sign in any time (My account, top right) to see where each one is.",
+      "err.password": "The password needs at least 8 characters.",
+      "err.login": "This email already has an account, and that password is not right.",
+      "err.signin": "Please sign in first.",
       "s.add": "Add to my account",
       "s.added": "Added to your account.",
       "s.other": "This submission belongs to another account.",
       "c.title": "Submit your work",
-      "c.lead": "Writing, art, photos, anything else. Any file type, up to 10 files, 50 MB each. Our editors read everything and write back by email.",
       "c.name": "Name or pen name",
       "c.email": "Email",
       "c.emailHint": "We write back here.",
@@ -57,10 +55,6 @@
       "c.consent": "This is my own work. I agree that the Perspectives editors may read it; nothing is published without asking me first.",
       "c.send": "Submit",
       "c.sending": "Uploading…",
-      "c.done": "Received. Thank you!",
-      "c.doneText": "Keep this link to see where your submission is:",
-      "c.copy": "Copy link",
-      "c.copied": "Copied",
       "c.another": "Submit another",
       "s.heading": "Your submission",
       "s.status": "Status",
@@ -89,25 +83,21 @@
       "err.unknown": "This link does not match any submission."
     },
     zh: {
-      "a.ask": "要不要建个账号？",
-      "a.text": "给 {email} 设一个密码就行。登录后随时能看到你所有投稿的进度，不用保存链接。",
-      "a.pass": "密码（至少 8 位）",
-      "a.yes": "建账号",
-      "a.signin": "登录",
-      "a.have": "我已经有账号了",
-      "a.new": "我要新建账号",
-      "a.no": "不用了",
-      "a.done": "好了，这篇投稿已经放进你的账号。",
-      "a.close": "关闭",
-      "a.err.exists": "这个邮箱已经有账号了，请直接登录。",
-      "a.err.login": "密码不对。",
-      "a.err.short": "密码至少要 8 位。",
-      "a.err.other": "出了点问题。你仍然可以用上面的进度链接。",
+      "c.lead": "文章、画、摄影，什么都可以。文件格式不限，最多 10 个，每个 50 MB 以内。邮箱加密码就是你的账号，随时能在这里看投稿进度。",
+      "c.password": "密码",
+      "c.passwordHint": "第一次来：设一个密码（至少 8 位），账号就建好了。来过的：用原来的密码。",
+      "c.signout": "不是你？退出登录",
+      "c.done": "已收到，谢谢！",
+      "c.mine": "我的投稿",
+      "c.none": "还没有投稿。",
+      "c.mineHint": "以后随时登录（右上角\"我的账号\"）就能看到每篇的进度。",
+      "err.password": "密码至少要 8 位。",
+      "err.login": "这个邮箱已经有账号了，密码不对。",
+      "err.signin": "请先登录。",
       "s.add": "放进我的账号",
       "s.added": "已放进你的账号。",
       "s.other": "这篇投稿属于另一个账号。",
       "c.title": "投稿",
-      "c.lead": "文章、画、摄影，什么都可以。文件格式不限，最多 10 个，每个 50 MB 以内。编辑会逐一阅读，用邮件回复你。",
       "c.name": "姓名或笔名",
       "c.email": "邮箱",
       "c.emailHint": "我们会回复到这里。",
@@ -130,10 +120,6 @@
       "c.consent": "这是我本人的作品。我同意 Perspectives 编辑阅读它；刊登前会先征得我同意。",
       "c.send": "提交",
       "c.sending": "上传中……",
-      "c.done": "已收到，谢谢！",
-      "c.doneText": "请保存这个链接，随时查看投稿进度：",
-      "c.copy": "复制链接",
-      "c.copied": "已复制",
       "c.another": "再投一篇",
       "s.heading": "你的投稿",
       "s.status": "状态",
@@ -162,25 +148,21 @@
       "err.unknown": "这个链接找不到对应的投稿。"
     },
     ja: {
-      "a.ask": "アカウントを作りますか？",
-      "a.text": "{email} のパスワードを決めるだけです。ログインすれば、リンクを保存しなくても投稿の状況をいつでも見られます。",
-      "a.pass": "パスワード（8文字以上）",
-      "a.yes": "作成する",
-      "a.signin": "ログイン",
-      "a.have": "すでにアカウントがあります",
-      "a.new": "新しく作ります",
-      "a.no": "今はしない",
-      "a.done": "完了しました。この投稿はあなたのアカウントに入りました。",
-      "a.close": "閉じる",
-      "a.err.exists": "このメールアドレスはすでに登録されています。ログインしてください。",
-      "a.err.login": "パスワードが違います。",
-      "a.err.short": "パスワードは8文字以上にしてください。",
-      "a.err.other": "問題が起きました。上のリンクはそのまま使えます。",
+      "c.lead": "文章、絵、写真など、なんでも歓迎します。形式は自由、最大10個、1つ50MBまで。メールアドレスとパスワードがあなたのアカウントになり、ここでいつでも投稿の状況を見られます。",
+      "c.password": "パスワード",
+      "c.passwordHint": "初めての方：パスワード（8文字以上）を決めるとアカウントができます。2回目以降：同じパスワードを使ってください。",
+      "c.signout": "別の人ですか？ログアウト",
+      "c.done": "受け取りました。ありがとうございます！",
+      "c.mine": "自分の投稿",
+      "c.none": "まだ投稿はありません。",
+      "c.mineHint": "いつでもログイン（右上の「マイアカウント」）すると、それぞれの状況を確認できます。",
+      "err.password": "パスワードは8文字以上にしてください。",
+      "err.login": "このメールアドレスはすでに登録されていて、パスワードが違います。",
+      "err.signin": "先にログインしてください。",
       "s.add": "自分のアカウントに追加",
       "s.added": "アカウントに追加しました。",
       "s.other": "この投稿は別のアカウントのものです。",
       "c.title": "作品を投稿する",
-      "c.lead": "文章、絵、写真など、なんでも歓迎します。ファイル形式は自由、最大10個、1つ50MBまで。編集部がすべて読み、メールでお返事します。",
       "c.name": "名前またはペンネーム",
       "c.email": "メールアドレス",
       "c.emailHint": "お返事はこちらに送ります。",
@@ -203,10 +185,6 @@
       "c.consent": "これは自分の作品です。Perspectives編集部が読むことに同意します。掲載する前に必ず確認があります。",
       "c.send": "投稿する",
       "c.sending": "アップロード中…",
-      "c.done": "受け取りました。ありがとうございます！",
-      "c.doneText": "このリンクを保存すると、いつでも進み具合を確認できます：",
-      "c.copy": "リンクをコピー",
-      "c.copied": "コピーしました",
       "c.another": "もう一つ投稿する",
       "s.heading": "あなたの投稿",
       "s.status": "状況",
@@ -235,25 +213,21 @@
       "err.unknown": "このリンクに対応する投稿が見つかりません。"
     },
     ko: {
-      "a.ask": "계정을 만들까요?",
-      "a.text": "{email}의 비밀번호만 정하면 됩니다. 로그인하면 링크를 저장하지 않아도 모든 투고의 진행 상황을 볼 수 있습니다.",
-      "a.pass": "비밀번호 (8자 이상)",
-      "a.yes": "계정 만들기",
-      "a.signin": "로그인",
-      "a.have": "이미 계정이 있어요",
-      "a.new": "새 계정을 만들게요",
-      "a.no": "괜찮아요",
-      "a.done": "완료했습니다. 이 투고가 내 계정에 들어갔습니다.",
-      "a.close": "닫기",
-      "a.err.exists": "이미 가입된 이메일입니다. 로그인해 주세요.",
-      "a.err.login": "비밀번호가 맞지 않습니다.",
-      "a.err.short": "비밀번호는 8자 이상이어야 합니다.",
-      "a.err.other": "문제가 생겼습니다. 위의 링크는 그대로 쓸 수 있습니다.",
+      "c.lead": "글, 그림, 사진 등 무엇이든 좋습니다. 형식은 자유, 최대 10개, 파일당 50MB까지. 이메일과 비밀번호가 곧 계정이 되어, 여기서 언제든 투고 진행 상황을 볼 수 있습니다.",
+      "c.password": "비밀번호",
+      "c.passwordHint": "처음이라면 비밀번호(8자 이상)를 정하면 계정이 만들어집니다. 전에 온 적이 있다면 같은 비밀번호를 쓰세요.",
+      "c.signout": "본인이 아닌가요? 로그아웃",
+      "c.done": "잘 받았습니다. 감사합니다!",
+      "c.mine": "내 투고",
+      "c.none": "아직 투고가 없습니다.",
+      "c.mineHint": "언제든 로그인하면(오른쪽 위 \"내 계정\") 각 투고의 진행 상황을 볼 수 있습니다.",
+      "err.password": "비밀번호는 8자 이상이어야 합니다.",
+      "err.login": "이미 가입된 이메일인데 비밀번호가 맞지 않습니다.",
+      "err.signin": "먼저 로그인해 주세요.",
       "s.add": "내 계정에 추가",
       "s.added": "계정에 추가했습니다.",
       "s.other": "이 투고는 다른 계정의 것입니다.",
       "c.title": "작품 투고",
-      "c.lead": "글, 그림, 사진 등 무엇이든 좋습니다. 파일 형식은 자유이며 최대 10개, 파일당 50MB까지입니다. 편집부가 모두 읽고 이메일로 답장드립니다.",
       "c.name": "이름 또는 필명",
       "c.email": "이메일",
       "c.emailHint": "이 주소로 답장을 보냅니다.",
@@ -276,10 +250,6 @@
       "c.consent": "본인의 작품입니다. Perspectives 편집부가 읽는 데 동의합니다. 게재 전에는 반드시 먼저 동의를 구합니다.",
       "c.send": "투고하기",
       "c.sending": "업로드 중…",
-      "c.done": "잘 받았습니다. 감사합니다!",
-      "c.doneText": "이 링크를 저장하면 언제든 진행 상황을 볼 수 있습니다:",
-      "c.copy": "링크 복사",
-      "c.copied": "복사됨",
       "c.another": "하나 더 투고하기",
       "s.heading": "내 투고",
       "s.status": "상태",
@@ -331,6 +301,7 @@
     Object.keys(attrs || {}).forEach(function (k) {
       if (k === "text") n.textContent = attrs[k];
       else if (k === "i18n") { n.setAttribute("data-i18n", attrs[k]); n.textContent = t(attrs[k]); }
+      else if (k === "on") Object.keys(attrs.on).forEach(function (e) { n.addEventListener(e, attrs.on[e]); });
       else n.setAttribute(k, attrs[k]);
     });
     (kids || []).forEach(function (c) { if (c) n.appendChild(c); });
@@ -401,7 +372,7 @@
         btn.remove(); note.setAttribute("data-i18n", "s.added"); note.textContent = t("s.added");
       }, function (err) {
         btn.disabled = false;
-        var k = err && err.key === "err.claimed" ? "s.other" : "a.err.other";
+        var k = err && err.key === "err.claimed" ? "s.other" : "err.server";
         note.setAttribute("data-i18n", k); note.textContent = t(k);
       });
     });
@@ -476,7 +447,7 @@
     ]);
   }
 
-  function formView(email) {
+  function formView(sess) {
     var kind = el("select", { id: "c-kind", name: "kind" }, ["writing", "art", "photo", "other"].map(function (k) {
       return el("option", { value: k, i18n: "k." + k });
     }));
@@ -486,9 +457,18 @@
     var error = el("p", { class: "c-error", role: "alert" });
     var send = el("button", { type: "submit", class: "c-send", i18n: "c.send" });
 
-    // 登录状态下进来：邮箱先填好账号的邮箱，省得再敲一遍（仍然可以改）
+    // 已登录：邮箱就是账号邮箱（不能改），下面给一行"不是你？退出登录"。
+    // 没登录：表单里多一个密码栏，提交时登录或当场建账号，不先跳登录页。
     var emailInput = el("input", { id: "c-email", name: "email", type: "email", maxlength: "120", autocomplete: "email", required: "" });
-    if (email) emailInput.value = email;
+    if (sess) { emailInput.value = sess.user.email; emailInput.readOnly = true; }
+    var who = sess
+      ? el("p", { class: "c-hint c-who" }, [
+          el("span", { text: sess.user.email + " · " }),
+          el("button", { type: "button", class: "c-linkbtn", i18n: "c.signout", on: { click: function () {
+            SB.auth.signOut().then(function () { location.reload(); });
+          } } })
+        ])
+      : field("c-pass", "c.password", el("input", { id: "c-pass", name: "password", type: "password", minlength: "8", autocomplete: "current-password", required: "" }), "c.passwordHint");
 
     // 其他联系方式：平台下拉 -> 出现对应的填空（WhatsApp 前面多一个国家区号）
     var channel = el("select", { id: "c-channel" }, [el("option", { value: "", i18n: "c.channelPick" })].concat(
@@ -536,7 +516,8 @@
 
     var form = el("form", { class: "c-form", novalidate: "" }, [
       field("c-name", "c.name", el("input", { id: "c-name", name: "name", maxlength: "80", autocomplete: "name", required: "" })),
-      field("c-email", "c.email", emailInput, "c.emailHint"),
+      field("c-email", "c.email", emailInput, sess ? null : "c.emailHint"),
+      who,
       contactField,
       field("c-title", "c.workTitle", el("input", { id: "c-title", name: "title", maxlength: "200", required: "" })),
       field("c-kind", "c.kind", kind),
@@ -572,6 +553,7 @@
       var total = files.reduce(function (n, f) { return n + f.size; }, 0);
       if (!v("c-name")) return fail("err.name");
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v("c-email"))) return fail("err.email");
+      if (!sess && document.getElementById("c-pass").value.length < 8) return fail("err.password");
       if (!v("c-title")) return fail("err.title");
       if (channel.value && !contact.value.trim()) return fail("err.contact");
       if (!files.length) return fail("err.noFiles");
@@ -586,10 +568,16 @@
       fileInput.disabled = true;
 
       var started;
-      api("/api/submit", {
+      (sess ? Promise.resolve(sess) : ensureAccount(v("c-email"), document.getElementById("c-pass").value))
+        .catch(function (err) {
+          throw Object.assign(err, { key: err.key || (/password/i.test(String(err.message)) ? "err.password" : "err.server") });
+        })
+        .then(function () {
+          return api("/api/submit", {
         action: "start", name: v("c-name"), email: v("c-email"), contact: contactValue(),
         title: v("c-title"), kind: kind.value, note: document.getElementById("c-note").value,
         files: files.map(function (f) { return { name: f.name, size: f.size, type: f.type }; })
+          });
       }).then(function (s) {
         started = s;
         // One file at a time keeps phones and school networks happy.
@@ -601,7 +589,7 @@
       }).then(function () {
         return api("/api/submit", { action: "finish", id: started.id, token: started.token });
       }).then(function () {
-        doneView(started.token, v("c-email"));
+        mineView("c.done");
       }).catch(function (err) {
         fail(err.key || "err.server");
         send.disabled = false; send.setAttribute("data-i18n", "c.send"); send.textContent = t("c.send");
@@ -613,29 +601,35 @@
     apply();
   }
 
-  /* ---------------- optional account after submitting ---------------- */
+  /* ---------------- accounts ---------------- */
 
   var SB = window.supabase && window.supabase.createClient(
     "https://itnylaavtwmhvzepmxrt.supabase.co",
     "sb_publishable_zrfDWNTiHJSEdaK4lxlo3Q_3vz08ZR_" // public by design
   );
-  function fill(key, email) { return t(key).replace("{email}", email); }
-
-  // Shown once on the thank-you screen, to people who are not signed in.
-  // Sign-up sends no email: the account is ready at once, and this submission
-  // is added to it with its progress-link token as proof that it is theirs.
-  function errKey(err) {
-    var m = String(err && err.message || err);
-    if (/already registered/i.test(m)) return "a.err.exists";
-    if (/invalid login/i.test(m)) return "a.err.login";
-    if (/password/i.test(m) && /(least|short|characters)/i.test(m)) return "a.err.short";
-    console.warn(m);
-    return "a.err.other";
+  function session() {
+    return SB ? SB.auth.getSession().then(function (r) { return r.data && r.data.session; }) : Promise.resolve(null);
   }
 
+  // Sign in; if the email has no account yet, create one. No email is sent:
+  // sign-up is instant, so the submission form doubles as the sign-up form.
+  function ensureAccount(email, password) {
+    if (!SB) return Promise.reject(Object.assign(new Error("no auth"), { key: "err.server" }));
+    return SB.auth.signInWithPassword({ email: email, password: password }).then(function (r) {
+      if (!r.error) return r.data.session;
+      if (!/invalid login/i.test(r.error.message)) throw r.error;
+      return SB.auth.signUp({ email: email, password: password }).then(function (s) {
+        if (s.error && /already registered/i.test(s.error.message)) throw Object.assign(new Error("login"), { key: "err.login" });
+        if (s.error) throw s.error;
+        if (!s.data.session) throw Object.assign(new Error("login"), { key: "err.login" });
+        return s.data.session;
+      });
+    });
+  }
+
+  // Old progress links: add that submission to the signed-in account.
   function claim(token) {
-    return SB.auth.getSession().then(function (r) {
-      var s = r.data && r.data.session;
+    return session().then(function (s) {
       if (!s) throw new Error("no session");
       return fetch("/api/claim", {
         method: "POST",
@@ -650,100 +644,37 @@
     });
   }
 
-  function askAccount(email, token) {
-    if (!SB || accessToken()) return;
-    var mode = "new";
-    var text = el("p");
-    var pass = el("input", { id: "c-pass", type: "password", minlength: "8", autocomplete: "new-password" });
-    var passLabel = el("label", { for: "c-pass" });
-    var passField = el("div", { class: "c-field" }, [passLabel, pass]);
-    var msg = el("p", { class: "c-error", role: "status" });
-    var yes = el("button", { type: "button", class: "c-send" });
-    var no = el("button", { type: "button", class: "c-ghost" });
-    var swap = el("button", { type: "button", class: "c-linkbtn" });
-    var dlg = el("dialog", { class: "c-dialog", "aria-labelledby": "c-ask" }, [
-      el("h3", { id: "c-ask" }), text, passField, msg, el("div", { class: "c-actions" }, [yes, no]), swap
-    ]);
-    function words() {
-      var done = !!dlg.dataset.done;
-      dlg.querySelector("h3").textContent = t(done ? "a.done" : "a.ask");
-      text.textContent = done ? "" : fill("a.text", email);
-      passLabel.textContent = t("a.pass");
-      passField.hidden = done; swap.hidden = done; yes.hidden = done;
-      yes.textContent = t(mode === "new" ? "a.yes" : "a.signin");
-      swap.textContent = t(mode === "new" ? "a.have" : "a.new");
-      no.textContent = t(done ? "a.close" : "a.no");
-      msg.textContent = msg.dataset.key ? t(msg.dataset.key) : "";
-    }
-    function close() { dlg.close(); dlg.remove(); document.removeEventListener("languagechange", words); }
-    document.addEventListener("languagechange", words);
-    no.addEventListener("click", close);
-    swap.addEventListener("click", function () {
-      mode = mode === "new" ? "old" : "new";
-      pass.setAttribute("autocomplete", mode === "new" ? "new-password" : "current-password");
-      msg.dataset.key = "";
-      words();
-    });
-    yes.addEventListener("click", function () {
-      if (mode === "new" && pass.value.length < 8) { msg.dataset.key = "a.err.short"; return words(); }
-      yes.disabled = true;
-      var go = mode === "new"
-        ? SB.auth.signUp({ email: email, password: pass.value })
-        : SB.auth.signInWithPassword({ email: email, password: pass.value });
-      go.then(function (r) {
-        if (r.error) throw r.error;
-        if (!r.data.session) throw new Error("no session");
-        return claim(token);
-      }).then(function () {
-        dlg.dataset.done = "1"; msg.dataset.key = "";
-      }, function (err) {
-        msg.dataset.key = err && err.key ? "a.err.other" : errKey(err);
-      }).then(function () { yes.disabled = false; words(); });
-    });
-    words();
-    document.body.appendChild(dlg);
-    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
-  }
+  /* ---------------- my submissions ---------------- */
 
-  function doneView(token, email) {
-    var link = location.origin + location.pathname + "?t=" + token;
-    var copy = el("button", { type: "button", class: "c-copy", i18n: "c.copy" });
-    var out = el("input", { class: "c-out", readonly: "", value: link, "aria-label": "link" });
-    copy.addEventListener("click", function () {
-      var ok = function () { copy.setAttribute("data-i18n", "c.copied"); copy.textContent = t("c.copied"); };
-      if (navigator.clipboard) navigator.clipboard.writeText(link).then(ok, function () { out.select(); });
-      else out.select();
+  function mineView(notice) {
+    session().then(function (sess) {
+      if (!sess) return formView(null);
+      return SB.from("submissions").select("title,status,created_at")
+        .eq("user_id", sess.user.id).order("created_at", { ascending: false })
+        .then(function (r) {
+          var rows = r.data || [];
+          put(
+            notice ? el("h2", { i18n: notice }) : null,
+            el("h3", { i18n: "c.mine" }),
+            rows.length ? el("ul", { class: "c-mine" }, rows.map(function (s) {
+              return el("li", {}, [
+                el("span", { class: "c-mine-title", text: s.title }),
+                el("span", { class: "c-pill c-pill--" + s.status, i18n: "st." + s.status }),
+                el("span", { class: "c-hint", text: new Date(s.created_at).toLocaleDateString() })
+              ]);
+            })) : el("p", { class: "c-hint", i18n: "c.none" }),
+            el("p", { class: "c-hint", i18n: "c.mineHint" }),
+            el("p", {}, [el("a", { class: "c-link", href: "contribution.html", i18n: "c.another" })])
+          );
+          apply();
+          window.scrollTo(0, 0);
+        });
     });
-    root.replaceChildren(
-      el("h2", { i18n: "c.done" }),
-      el("p", { i18n: "c.doneText" }),
-      el("div", { class: "c-linkrow" }, [out, copy]),
-      el("p", {}, [el("a", { class: "c-link", href: "contribution.html", i18n: "c.another" })])
-    );
-    apply();
-    window.scrollTo(0, 0);
-    askAccount(email, token);
   }
 
   /* ---------------- start ---------------- */
 
-  // Submitting needs an account. Without a session the reader is sent to the
-  // sign-in page and handed straight back here after signing in. Progress
-  // links (?t=…) stay readable while signed out: anonymous submissions were
-  // never linked to an account, so the link is the only way back to them.
-  function goSignin() {
-    location.replace("account.html?next=" + encodeURIComponent("contribution.html"));
-  }
-  function requireSession() {
-    if (!SB) return formView();
-    root.replaceChildren(el("p", { class: "c-muted", text: "…" }));
-    SB.auth.getSession().then(function (r) {
-      var s = r.data && r.data.session;
-      if (s) return formView((s.user && s.user.email) || "");
-      goSignin();
-    }, goSignin);
-  }
-
   var token = new URLSearchParams(location.search).get("t");
-  if (token) statusView(token); else requireSession();
+  if (token) statusView(token);
+  else session().then(formView, function () { formView(null); });
 })();
