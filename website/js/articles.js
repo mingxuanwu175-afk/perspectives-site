@@ -1,6 +1,6 @@
 /* Perspectives: published articles on the public pages.
  *
- *   index.html   <div id="ar-home">  front page after science.org: featured carousel as the lead story, cards, a Latest rail, the current issue
+ *   index.html   <div id="ar-home">  front page after nature.com: featured carousel as the lead story, a row of cards with the current issue, the latest
  *   article.html <div id="ar-list">  every published article, newest first, filter by type and issue
  *   read.html    <div id="ar-read">  one article: details, PDF reader, download
  *
@@ -20,7 +20,7 @@
 
   var WORDS = {
     en: {
-      "ar.more": "More articles", "ar.byShort": "By {name}",
+      "ar.contents": "Contents", "ar.currentIssue": "Current issue",
       "ar.featured": "Featured", "ar.prev": "Previous", "ar.next": "Next",
       "ar.articles": "Articles", "ar.latest": "Latest articles", "ar.all": "All articles",
       "ar.type": "Type", "ar.issue": "Issue", "ar.any": "All", "ar.issueN": "Issue {n}",
@@ -31,7 +31,7 @@
       "k.writing": "Writing", "k.art": "Art", "k.photo": "Photography", "k.other": "Other"
     },
     zh: {
-      "ar.more": "更多文章", "ar.byShort": "作者 {name}",
+      "ar.contents": "目录", "ar.currentIssue": "本期",
       "ar.featured": "精选", "ar.prev": "上一篇", "ar.next": "下一篇",
       "ar.articles": "文章", "ar.latest": "最新文章", "ar.all": "全部文章",
       "ar.type": "类型", "ar.issue": "期号", "ar.any": "全部", "ar.issueN": "第 {n} 期",
@@ -42,7 +42,7 @@
       "k.writing": "文章", "k.art": "绘画", "k.photo": "摄影", "k.other": "其他"
     },
     ja: {
-      "ar.more": "記事一覧", "ar.byShort": "{name}",
+      "ar.contents": "目次", "ar.currentIssue": "最新号",
       "ar.featured": "注目の記事", "ar.prev": "前へ", "ar.next": "次へ",
       "ar.articles": "記事", "ar.latest": "最新の記事", "ar.all": "すべての記事",
       "ar.type": "種類", "ar.issue": "号", "ar.any": "すべて", "ar.issueN": "第{n}号",
@@ -53,7 +53,7 @@
       "k.writing": "文章", "k.art": "アート", "k.photo": "写真", "k.other": "その他"
     },
     ko: {
-      "ar.more": "기사 더 보기", "ar.byShort": "{name}",
+      "ar.contents": "목차", "ar.currentIssue": "이번 호",
       "ar.featured": "추천 기사", "ar.prev": "이전", "ar.next": "다음",
       "ar.articles": "기사", "ar.latest": "최신 기사", "ar.all": "전체 기사",
       "ar.type": "종류", "ar.issue": "호", "ar.any": "전체", "ar.issueN": "제{n}호",
@@ -135,63 +135,40 @@
   }
   function message(root, key) { root.replaceChildren(el("p", { class: "ar-msg", text: t(key) })); }
 
-  /* ---------------- homepage (after science.org) ---------------- */
+  /* ---------------- homepage (after nature.com) ---------------- */
 
-  // Small pieces of the science.org front page: a red type label with the
-  // date, a bold sans title, an upper-case by-line.
-  function label(a, light) {
-    return el("p", { class: "sc-label" + (light ? " sc-label--light" : "") }, [
-      el("span", { class: "sc-kind", text: t("k." + a.kind) }),
-      a.issue ? el("span", { class: "sc-date", text: t("ar.issueN", { n: a.issue }) }) : null,
-      el("span", { class: "sc-date", text: day(a.published_at) })
-    ]);
-  }
-  function byline(a, cls) {
-    return a.author_name ? el("p", { class: cls || "sc-by", text: t("ar.byShort", { name: a.author_name }) }) : null;
-  }
-  function textCard(a) {
-    return el("li", { class: "sc-card" }, [
-      label(a),
-      el("h3", { class: "sc-title" }, [el("a", { href: href(a), text: a.title })]),
-      byline(a)
-    ]);
-  }
-  function imageCard(a) {
-    return el("li", { class: "sc-card sc-card--img" }, [
-      el("a", { href: href(a), tabindex: "-1", "aria-hidden": "true" }, [cover(a, "sc-card-img")]),
-      label(a),
-      el("h3", { class: "sc-title" }, [el("a", { href: href(a), text: a.title })]),
-      byline(a)
-    ]);
-  }
-
-  // The lead story box. Science shows one story there; ours takes turns
-  // through the featured articles (up to 5, in the order set in Manage): one
-  // every 6 seconds with a fade, paused under the pointer or keyboard focus,
-  // while the tab is hidden, and for readers who ask for less motion.
+  // nature.com's front page: a lead story (dark panel with the title on the
+  // left, picture on the right) across the page, then one row of cards
+  // (picture, title, summary, author, type | date) ending with the current
+  // issue's cover, then a "Latest" list under a heavy rule.
+  // Our lead takes turns through the featured articles (up to 5, in the order
+  // set in Manage): one every 6 seconds with a fade, paused under the pointer
+  // or keyboard focus, while the tab is hidden, and for readers who ask for
+  // less motion.
   var slideAt = 0, timer = null;
   function lead(feat) {
     if (timer) { clearInterval(timer); timer = null; }
     if (slideAt >= feat.length) slideAt = 0;
     var slides = feat.map(function (a, i) {
-      return el("a", { class: "sc-slide", href: href(a), "aria-hidden": i === slideAt ? null : "true", tabindex: i === slideAt ? null : "-1" }, [
-        cover(a, "sc-slide-img"),
-        el("div", { class: "sc-slide-text" }, [
-          label(a, true),
-          el("h2", { class: "sc-slide-title", text: a.title }),
-          byline(a, "sc-by sc-by--light"),
-          a.standfirst ? el("p", { class: "sc-slide-stand", text: a.standfirst }) : null
-        ])
+      return el("a", { class: "nt-slide", href: href(a), "aria-hidden": i === slideAt ? null : "true", tabindex: i === slideAt ? null : "-1" }, [
+        el("div", { class: "nt-lead-text" }, [
+          el("h2", { class: "nt-lead-title" }, [el("span", { text: a.title })]),
+          a.standfirst ? el("p", { class: "nt-lead-stand", text: a.standfirst }) : null,
+          a.author_name ? el("p", { class: "nt-lead-by", text: a.author_name }) : null
+        ]),
+        cover(a, "nt-lead-img")
       ]);
     });
     var dots = feat.map(function (a, i) {
-      return el("button", { type: "button", class: "sc-dot", "aria-label": (i + 1) + " / " + feat.length + ": " + a.title, on: { click: function () { go(i); } } });
+      return el("button", { type: "button", class: "nt-dot", "aria-label": (i + 1) + " / " + feat.length + ": " + a.title, on: { click: function () { go(i); } } });
     });
-    var box = el("div", { class: "sc-lead", "aria-roledescription": "carousel", "aria-label": t("ar.featured") }, [
-      el("div", { class: "sc-slides" }, slides),
-      feat.length > 1 ? el("button", { type: "button", class: "sc-arrow sc-arrow--prev", "aria-label": t("ar.prev"), on: { click: function () { go(slideAt - 1); } } }) : null,
-      feat.length > 1 ? el("button", { type: "button", class: "sc-arrow sc-arrow--next", "aria-label": t("ar.next"), on: { click: function () { go(slideAt + 1); } } }) : null,
-      feat.length > 1 ? el("div", { class: "sc-dots" }, dots) : null
+    var box = el("section", { class: "nt-lead", "aria-roledescription": "carousel", "aria-label": t("ar.featured") }, [
+      el("div", { class: "nt-slides" }, slides),
+      feat.length > 1 ? el("div", { class: "nt-controls" }, [
+        el("button", { type: "button", class: "nt-arrow", "aria-label": t("ar.prev"), text: "‹", on: { click: function () { go(slideAt - 1); } } }),
+        el("div", { class: "nt-dots" }, dots),
+        el("button", { type: "button", class: "nt-arrow", "aria-label": t("ar.next"), text: "›", on: { click: function () { go(slideAt + 1); } } })
+      ]) : null
     ]);
     function go(i) {
       slideAt = (i + feat.length) % feat.length;
@@ -222,10 +199,28 @@
     return box;
   }
 
-  // The science.org front page top block: the lead story (here the carousel)
-  // with a row of three text cards under it, a narrow column of two picture
-  // cards, and a "Latest" rail on the right. Under it, the current issue: its
-  // cover beside its table of contents.
+  function card(a) {
+    return el("li", { class: "nt-card" }, [
+      el("a", { href: href(a), tabindex: "-1", "aria-hidden": "true" }, [cover(a, "nt-card-img")]),
+      el("h3", { class: "nt-card-title" }, [el("a", { href: href(a), text: a.title })]),
+      a.standfirst ? el("p", { class: "nt-card-stand", text: a.standfirst }) : null,
+      el("div", { class: "nt-card-foot" }, [
+        a.author_name ? el("p", { class: "nt-card-by", text: a.author_name }) : null,
+        typeLine(a)
+      ])
+    ]);
+  }
+
+  // The last card of the row, as on nature.com: the current issue's cover with
+  // a Contents button (to the Articles page filtered to that issue).
+  function issueCard(no, a) {
+    return el("li", { class: "nt-card nt-issue" }, [
+      el("a", { href: "article.html?issue=" + no, tabindex: "-1", "aria-hidden": "true" }, [cover(a, "nt-issue-img")]),
+      el("a", { class: "nt-btn", href: "article.html?issue=" + no, text: t("ar.contents") }),
+      el("p", { class: "ar-type" }, [el("b", { text: t("ar.currentIssue") }), el("span", { text: t("ar.issueN", { n: no }) })])
+    ]);
+  }
+
   function home(root) {
     var data = null;
     function paint() {
@@ -235,50 +230,16 @@
       var inLead = {};
       feat.forEach(function (a) { inLead[a.id] = 1; });
       var others = all.filter(function (a) { return !inLead[a.id]; });
-      var pics = others.slice(0, 2), texts = others.slice(2, 5);
 
-      // The lead story runs the full width of the page; the cards and the
-      // "Latest" rail sit under it in Science's column widths.
-      var shape = (texts.length ? "t" : "") + (pics.length ? "p" : "");
-      var top = el("section", { class: "sc-top sc-top--" + (shape || "rail") }, [
-        texts.length ? el("ul", { class: "sc-row" }, texts.map(textCard)) : null,
-        pics.length ? el("ul", { class: "sc-mid" }, pics.map(imageCard)) : null,
-        el("aside", { class: "sc-rail" }, [
-          el("h2", { class: "sc-head", text: t("ar.latest") }),
-          el("ul", { class: "sc-latest" }, all.slice(0, 6).map(function (a) {
-            return el("li", {}, [
-              el("p", { class: "sc-date", text: day(a.published_at) }),
-              el("a", { class: "sc-latest-title", href: href(a), text: a.title })
-            ]);
-          })),
-          el("a", { class: "sc-more", href: "article.html", text: t("ar.more") + " ›" })
-        ])
-      ]);
-
-      var parts = [lead(feat), top];
       var issueNo = all.reduce(function (m, a) { return Math.max(m, a.issue || 0); }, 0);
-      if (issueNo) {
-        var inIssue = all.filter(function (a) { return a.issue === issueNo; });
-        var withCover = inIssue.filter(function (a) { return a.cover_path; })[0];
-        parts.push(el("section", { class: "sc-issue" }, [
-          el("h2", { class: "sc-issue-head" }, [
-            el("span", { class: "sc-issue-name", text: "Perspectives" }),
-            el("span", { class: "sc-issue-meta", text: t("ar.issueN", { n: issueNo }) })
-          ]),
-          el("div", { class: "sc-issue-body" }, [
-            withCover ? el("a", { class: "sc-issue-cover", href: href(withCover), tabindex: "-1", "aria-hidden": "true" }, [cover(withCover, "sc-issue-img")]) : null,
-            el("ul", { class: "sc-toc" }, inIssue.map(function (a) {
-              return el("li", {}, [
-                el("p", { class: "sc-label" }, [
-                  el("span", { class: "sc-kind", text: t("k." + a.kind) }),
-                  a.author_name ? el("span", { class: "sc-date", text: t("ar.byShort", { name: a.author_name }) }) : null
-                ]),
-                el("a", { class: "sc-toc-title", href: href(a), text: a.title })
-              ]);
-            }))
-          ])
-        ]));
-      }
+      var issueCover = issueNo ? all.filter(function (a) { return a.issue === issueNo && a.cover_path; })[0] : null;
+      var cards = others.slice(0, issueCover ? 4 : 5).map(card);
+      if (issueCover) cards.push(issueCard(issueNo, issueCover));
+
+      var parts = [lead(feat)];
+      if (cards.length) parts.push(el("ul", { class: "nt-cards" }, cards));
+      parts.push(el("h2", { class: "ar-sec" }, [el("a", { href: "article.html", text: t("ar.latest") + " ›" })]));
+      parts.push(el("ul", { class: "ar-list" }, all.slice(0, 8).map(row)));
       root.replaceChildren.apply(root, parts);
     }
     Promise.all([
@@ -294,7 +255,7 @@
   /* ---------------- all articles ---------------- */
 
   function list(root) {
-    var all = null, kind = "", issue = "";
+    var all = null, kind = "", issue = new URLSearchParams(location.search).get("issue") || "";
     function select(id, labelKey, options, value, onChange) {
       var s = el("select", { id: id, on: { change: function () { onChange(s.value); } } }, options.map(function (o) {
         return el("option", { value: o[0], text: o[1], selected: o[0] === value });
