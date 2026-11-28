@@ -20,6 +20,7 @@
 
   var WORDS = {
     en: {
+      "ar.secWriting": "Writing", "ar.secVisual": "Art & Photography", "ar.issues": "Issues", "ar.nArticles": "{n} pieces", "ar.stripText": "Students write, students read. Send us your writing, art or photos: every submission gets a reply.", "ar.submit": "Submit your work", "ar.joinTeam": "Join the team",
       "ar.contents": "Contents", "ar.currentIssue": "Current issue",
       "ar.featured": "Featured", "ar.prev": "Previous", "ar.next": "Next",
       "ar.articles": "Articles", "ar.latest": "Latest articles", "ar.all": "All articles",
@@ -31,6 +32,7 @@
       "k.writing": "Writing", "k.art": "Art", "k.photo": "Photography", "k.other": "Other"
     },
     zh: {
+      "ar.secWriting": "文字", "ar.secVisual": "绘画与摄影", "ar.issues": "往期", "ar.nArticles": "{n} 篇", "ar.stripText": "学生写，学生读。文章、画、摄影都可以投给我们，每一篇都会回复。", "ar.submit": "投稿", "ar.joinTeam": "加入我们",
       "ar.contents": "目录", "ar.currentIssue": "本期",
       "ar.featured": "精选", "ar.prev": "上一篇", "ar.next": "下一篇",
       "ar.articles": "文章", "ar.latest": "最新文章", "ar.all": "全部文章",
@@ -42,6 +44,7 @@
       "k.writing": "文章", "k.art": "绘画", "k.photo": "摄影", "k.other": "其他"
     },
     ja: {
+      "ar.secWriting": "文章", "ar.secVisual": "絵と写真", "ar.issues": "バックナンバー", "ar.nArticles": "{n}本", "ar.stripText": "学生が書き、学生が読む。文章・絵・写真を送ってください。すべての投稿に返事します。", "ar.submit": "投稿する", "ar.joinTeam": "チームに参加",
       "ar.contents": "目次", "ar.currentIssue": "最新号",
       "ar.featured": "注目の記事", "ar.prev": "前へ", "ar.next": "次へ",
       "ar.articles": "記事", "ar.latest": "最新の記事", "ar.all": "すべての記事",
@@ -53,6 +56,7 @@
       "k.writing": "文章", "k.art": "アート", "k.photo": "写真", "k.other": "その他"
     },
     ko: {
+      "ar.secWriting": "글", "ar.secVisual": "그림과 사진", "ar.issues": "지난 호", "ar.nArticles": "{n}편", "ar.stripText": "학생이 쓰고 학생이 읽습니다. 글, 그림, 사진을 보내 주세요. 모든 투고에 답합니다.", "ar.submit": "투고하기", "ar.joinTeam": "팀 합류",
       "ar.contents": "목차", "ar.currentIssue": "이번 호",
       "ar.featured": "추천 기사", "ar.prev": "이전", "ar.next": "다음",
       "ar.articles": "기사", "ar.latest": "최신 기사", "ar.all": "전체 기사",
@@ -239,6 +243,96 @@
     ]);
   }
 
+  /* ---- the rest of the nature.com front page, filled with our articles ---- */
+
+  function secHead(key, link) {
+    return el("h2", { class: "ar-sec" }, [link ? el("a", { href: link, text: t(key) + " ›" }) : t(key)]);
+  }
+  function metaLine(a) {
+    return el("div", { class: "nt-card-foot" }, [
+      a.author_name ? el("p", { class: "nt-card-by", text: a.author_name }) : null,
+      typeLine(a)
+    ]);
+  }
+  function smallCard(a, withImg) {
+    return el("li", { class: "nt-card" }, [
+      withImg ? el("a", { href: href(a), tabindex: "-1", "aria-hidden": "true" }, [cover(a, "nt-card-img")]) : null,
+      el("h3", { class: "nt-card-title" }, [el("a", { href: href(a), text: a.title })]),
+      withImg ? null : (a.standfirst ? el("p", { class: "nt-card-stand", text: a.standfirst }) : null),
+      metaLine(a)
+    ]);
+  }
+
+  // "News & Comment": a dark tile on the left (picture strip, title, summary),
+  // six picture cards beside it in a 3 x 2 grid.
+  function newsBlock(key, link, items) {
+    if (!items.length) return [];
+    var big = items[0], rest = items.slice(1, 7);
+    return [secHead(key, link), el("div", { class: "nt-news" }, [
+      el("a", { class: "nt-news-big", href: href(big) }, [
+        cover(big, "nt-news-big-img"),
+        el("div", { class: "nt-news-big-text" }, [
+          el("h3", { class: "nt-news-big-title" }, [el("span", { text: big.title })]),
+          big.standfirst ? el("p", { text: big.standfirst }) : null,
+          el("div", { class: "nt-news-big-foot" }, [
+            big.author_name ? el("p", { text: big.author_name }) : null,
+            el("p", { class: "nt-news-big-type" }, [el("b", { text: t("k." + big.kind) }), el("span", { text: day(big.published_at) })])
+          ])
+        ])
+      ]),
+      rest.length ? el("ul", { class: "nt-news-grid" }, rest.map(function (a) { return smallCard(a, true); })) : null
+    ])];
+  }
+
+  // "Latest Reviews & Analysis": a text lead on the left, its picture large in
+  // the middle, a column of text items on the right; picture cards under it.
+  function reviewBlock(key, link, items) {
+    if (!items.length) return [];
+    var first = items[0], side = items.slice(1, 4), under = items.slice(4, 8);
+    return [secHead(key, link), el("div", { class: "nt-rev" }, [
+      el("div", { class: "nt-rev-lead" }, [
+        el("h3", { class: "nt-rev-title" }, [el("a", { href: href(first), text: first.title })]),
+        first.standfirst ? el("p", { class: "nt-card-stand", text: first.standfirst }) : null,
+        metaLine(first)
+      ]),
+      el("a", { class: "nt-rev-img", href: href(first), tabindex: "-1", "aria-hidden": "true" }, [cover(first, "nt-rev-pic")]),
+      el("ul", { class: "nt-rev-side" }, side.map(function (a) { return smallCard(a, false); }))
+    ]), under.length ? el("ul", { class: "nt-cards nt-cards--4" }, under.map(function (a) { return smallCard(a, true); })) : null];
+  }
+
+  // "Collections": one entry per issue, words on the left, cover on the right.
+  function issuesBlock(all) {
+    var nos = all.map(function (a) { return a.issue; }).filter(function (n, i, arr) { return n && arr.indexOf(n) === i; }).sort(function (x, y) { return y - x; });
+    if (!nos.length) return [];
+    return [secHead("ar.issues", "article.html"), el("ul", { class: "nt-coll" }, nos.map(function (n) {
+      var inIssue = all.filter(function (a) { return a.issue === n; });
+      var pic = inIssue.filter(function (a) { return a.cover_path; })[0];
+      return el("li", {}, [
+        el("div", {}, [
+          el("h3", { class: "nt-card-title" }, [el("a", { href: "article.html?issue=" + n, text: t("ar.issueN", { n: n }) })]),
+          el("p", { class: "nt-card-stand", text: inIssue.slice(0, 4).map(function (a) { return a.title; }).join(" · ") }),
+          el("p", { class: "ar-type" }, [el("b", { text: t("ar.nArticles", { n: inIssue.length }) }), el("span", { text: day(inIssue[0].published_at) })])
+        ]),
+        pic ? el("a", { href: "article.html?issue=" + n, tabindex: "-1", "aria-hidden": "true" }, [cover(pic, "nt-coll-img")]) : null
+      ]);
+    }))];
+  }
+
+  // The Nature Briefing strip at the foot of the page, here the way in for
+  // contributors and new team members.
+  function joinStrip() {
+    return el("section", { class: "nt-strip" }, [
+      el("div", { class: "nt-strip-text" }, [
+        el("p", { class: "nt-strip-name", text: "Perspectives" }),
+        el("p", { text: t("ar.stripText") })
+      ]),
+      el("div", { class: "nt-strip-actions" }, [
+        el("a", { class: "nt-strip-btn", href: "contribution.html", text: t("ar.submit") }),
+        el("a", { class: "nt-strip-link", href: "join_us.html", text: t("ar.joinTeam") + " ›" })
+      ])
+    ]);
+  }
+
   function home(root) {
     var data = null;
     function paint() {
@@ -256,9 +350,18 @@
 
       var parts = [lead(feat)];
       if (cards.length) parts.push(el("ul", { class: "nt-cards" }, cards));
-      parts.push(el("h2", { class: "ar-sec" }, [el("a", { href: "article.html", text: t("ar.latest") + " ›" })]));
-      parts.push(el("ul", { class: "ar-list" }, all.slice(0, 8).map(row)));
-      root.replaceChildren.apply(root, parts);
+      // Then, as on nature.com: a "News & Comment" block (writing), a "Reviews &
+      // Analysis" block (art and photography), the dated latest list, the
+      // issues as collections, and the sign-up strip (here: submit / join).
+      var writing = all.filter(function (a) { return a.kind === "writing" || a.kind === "other"; });
+      var visual = all.filter(function (a) { return a.kind === "art" || a.kind === "photo"; });
+      parts = parts.concat(newsBlock("ar.secWriting", "article.html?kind=writing", writing));
+      parts = parts.concat(reviewBlock("ar.secVisual", "article.html?kind=art", visual));
+      parts.push(secHead("ar.latest", "article.html"));
+      parts.push(el("ul", { class: "ar-list" }, all.slice(0, 5).map(row)));
+      parts = parts.concat(issuesBlock(all));
+      parts.push(joinStrip());
+      root.replaceChildren.apply(root, parts.filter(Boolean));
     }
     Promise.all([
       get("featured=is.true&order=featured_rank.asc&limit=5"),
@@ -273,7 +376,8 @@
   /* ---------------- all articles ---------------- */
 
   function list(root) {
-    var all = null, kind = "", issue = new URLSearchParams(location.search).get("issue") || "";
+    var qs = new URLSearchParams(location.search);
+    var all = null, kind = qs.get("kind") || "", issue = qs.get("issue") || "";
     function select(id, labelKey, options, value, onChange) {
       var s = el("select", { id: id, on: { change: function () { onChange(s.value); } } }, options.map(function (o) {
         return el("option", { value: o[0], text: o[1], selected: o[0] === value });
