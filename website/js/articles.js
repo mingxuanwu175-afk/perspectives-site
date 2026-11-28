@@ -173,7 +173,7 @@
           ]),
           shots,
           a.standfirst ? el("p", { class: "st-reason", text: a.standfirst }) : null,
-          el("p", { class: "st-tag", text: t("ar.featured") })
+          el("p", { class: "st-tag", text: day(a.published_at) })
         ])
       ]);
     });
@@ -182,6 +182,7 @@
     });
     var many = feat.length > 1;
     var box = el("section", { class: "st-cap", "aria-roledescription": "carousel", "aria-label": t("ar.featured") }, [
+      el("h2", { class: "st-head", text: t("ar.featured") }),
       many ? el("button", { type: "button", class: "st-arrow st-arrow--left", "aria-label": t("ar.prev"), on: { click: function () { go(slideAt - 1); } } }) : null,
       el("div", { class: "st-frame" }, slides),
       many ? el("button", { type: "button", class: "st-arrow st-arrow--right", "aria-label": t("ar.next"), on: { click: function () { go(slideAt + 1); } } }) : null,

@@ -26,6 +26,8 @@
    arrows outside the frame, 15 x 8 bars under it. Colours stay the site's
    (nature.com palette): a dark #222 info column instead of Steam's navy. */
 .st-cap { position: relative; margin: 0 auto; }
+/* Section name over the frame, as Steam's "Featured & Recommended". */
+.st-head { margin: 0 0 10px; font-family: inherit; font-size: 16px; line-height: 1.3; font-weight: 500; letter-spacing: .03em; text-transform: uppercase; color: var(--ink); }
 .st-frame { display: grid; aspect-ratio: 1200 / 481; background: #222; box-shadow: 0 0 7px rgba(0,0,0,.35); }
 .st-slide { grid-area: 1 / 1; display: grid; grid-template-columns: minmax(0, 840fr) minmax(0, 360fr); min-height: 0; text-decoration: none; opacity: 0; visibility: hidden; transition: opacity .5s ease, visibility 0s linear .5s; }
 .st-slide.is-on { opacity: 1; visibility: visible; transition: opacity .5s ease; }
@@ -43,7 +45,7 @@
 .st-shots img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .st-reason { margin: 12px 0 0; font-size: 14px; line-height: 1.45; font-weight: 300; color: #fff; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 .st-tag { margin: auto 0 0; padding-top: 10px; font-size: 13px; color: #c6c6c6; }
-.st-arrow { position: absolute; z-index: 2; top: calc((100% - 36px) / 2); transform: translateY(-50%); width: 46px; height: 90px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.st-arrow { position: absolute; z-index: 2; top: calc(31px + (100% - 67px) / 2); transform: translateY(-50%); width: 46px; height: 90px; padding: 0; border: 0; background: transparent; cursor: pointer; }
 .st-arrow::before { content: ""; position: absolute; top: 50%; left: 50%; width: 22px; height: 22px; border-left: 3px solid #222; border-bottom: 3px solid #222; }
 .st-arrow:hover::before { border-color: #006699; }
 .st-arrow--left { left: -58px; }
