@@ -476,7 +476,7 @@
     ]);
   }
 
-  function formView() {
+  function formView(email) {
     var kind = el("select", { id: "c-kind", name: "kind" }, ["writing", "art", "photo", "other"].map(function (k) {
       return el("option", { value: k, i18n: "k." + k });
     }));
@@ -485,6 +485,10 @@
     var consent = el("input", { id: "c-consent", type: "checkbox" });
     var error = el("p", { class: "c-error", role: "alert" });
     var send = el("button", { type: "submit", class: "c-send", i18n: "c.send" });
+
+    // 登录状态下进来：邮箱先填好账号的邮箱，省得再敲一遍（仍然可以改）
+    var emailInput = el("input", { id: "c-email", name: "email", type: "email", maxlength: "120", autocomplete: "email", required: "" });
+    if (email) emailInput.value = email;
 
     // 其他联系方式：平台下拉 -> 出现对应的填空（WhatsApp 前面多一个国家区号）
     var channel = el("select", { id: "c-channel" }, [el("option", { value: "", i18n: "c.channelPick" })].concat(
@@ -532,7 +536,7 @@
 
     var form = el("form", { class: "c-form", novalidate: "" }, [
       field("c-name", "c.name", el("input", { id: "c-name", name: "name", maxlength: "80", autocomplete: "name", required: "" })),
-      field("c-email", "c.email", el("input", { id: "c-email", name: "email", type: "email", maxlength: "120", autocomplete: "email", required: "" }), "c.emailHint"),
+      field("c-email", "c.email", emailInput, "c.emailHint"),
       contactField,
       field("c-title", "c.workTitle", el("input", { id: "c-title", name: "title", maxlength: "200", required: "" })),
       field("c-kind", "c.kind", kind),
@@ -734,7 +738,8 @@
     if (!SB) return formView();
     root.replaceChildren(el("p", { class: "c-muted", text: "…" }));
     SB.auth.getSession().then(function (r) {
-      if (r.data && r.data.session) return formView();
+      var s = r.data && r.data.session;
+      if (s) return formView((s.user && s.user.email) || "");
       goSignin();
     }, goSignin);
   }

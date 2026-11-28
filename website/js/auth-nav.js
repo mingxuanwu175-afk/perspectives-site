@@ -3,18 +3,19 @@
  * keeps in localStorage, so ordinary pages do not load the Supabase library.
  * account.html hands over the name from the profiles table via setName(), so a
  * name changed there appears in the bar at once (and is remembered for later
- * pages). Admins also get a blue "Admin" tag after their name and a link to
- * review.html; that role comes from a cached copy (written by account.html and
- * review.html) and, when the stored session is still fresh, one profiles read.
+ * pages). Editors and admins also get a coloured role tag after their name
+ * (yellow "Editor", blue "Admin") and a link to review.html; that role comes
+ * from a cached copy (written by account.html and review.html) and, when the
+ * stored session is still fresh, one profiles read.
  * Load it after lang.js.
  */
 (function () {
   "use strict";
   var WORDS = {
-    en: { "nav.signin": "Sign in", "nav.account": "My account", "nav.review": "Review", "nav.admin": "Admin" },
-    zh: { "nav.signin": "登录", "nav.account": "我的账号", "nav.review": "审稿", "nav.admin": "管理员" },
-    ja: { "nav.signin": "ログイン", "nav.account": "マイアカウント", "nav.review": "レビュー", "nav.admin": "管理者" },
-    ko: { "nav.signin": "로그인", "nav.account": "내 계정", "nav.review": "검토", "nav.admin": "관리자" }
+    en: { "nav.signin": "Sign in", "nav.account": "My account", "nav.review": "Review", "nav.manage": "Manage", "nav.admin": "Admin", "nav.editor": "Editor" },
+    zh: { "nav.signin": "登录", "nav.account": "我的账号", "nav.review": "审稿", "nav.manage": "管理", "nav.admin": "管理员", "nav.editor": "编辑" },
+    ja: { "nav.signin": "ログイン", "nav.account": "マイアカウント", "nav.review": "レビュー", "nav.manage": "管理", "nav.admin": "管理者", "nav.editor": "編集者" },
+    ko: { "nav.signin": "로그인", "nav.account": "내 계정", "nav.review": "검토", "nav.manage": "관리", "nav.admin": "관리자", "nav.editor": "편집자" }
   };
   var NAME_KEY = "perspectives:nav-name";
   var ROLE_KEY = "perspectives:nav-role";
@@ -128,7 +129,8 @@
 
   function divider(attr) {
     var d = document.createElement("div");
-    d.style.color = "#fff";
+    d.className = "nav-sep";
+    d.setAttribute("aria-hidden", "true");
     d.textContent = "|";
     d.setAttribute(attr, "");
     return d;
@@ -137,7 +139,8 @@
   function render() {
     var nav = document.querySelector(".nav_links");
     if (!nav) return;
-    ["data-auth-link", "data-auth-divider", "data-admin-link", "data-admin-divider"].forEach(function (attr) {
+    ["data-auth-link", "data-auth-divider", "data-review-link", "data-review-divider",
+      "data-manage-link", "data-manage-divider"].forEach(function (attr) {
       var old = nav.querySelector("[" + attr + "]");
       if (old) old.parentNode.removeChild(old);
     });
@@ -145,19 +148,32 @@
     var s = readSession();
     var user = s && s.user;
     var name = user ? displayName(user) : "";
-    var admin = !!user && roleOf(user, s) === "admin";
+    var role = user ? roleOf(user, s) : "";
+    var admin = role === "admin";
+    var editor = role === "editor";
     var before = nav.querySelector("#langSwitch");
     var out = [];
 
-    // Admins get a way into the review dashboard from every page.
-    if (admin) {
-      out.push(divider("data-admin-divider"));
+    // Editors and admins both review submissions, so both get the way in.
+    if (admin || editor) {
+      out.push(divider("data-review-divider"));
       var review = document.createElement("a");
       review.href = "review.html";
-      review.setAttribute("data-admin-link", "");
+      review.setAttribute("data-review-link", "");
       review.setAttribute("data-i18n", "nav.review");
       review.textContent = WORDS.en["nav.review"];
       out.push(review);
+    }
+
+    // Only admins run the people-and-roles console.
+    if (admin) {
+      out.push(divider("data-manage-divider"));
+      var manage = document.createElement("a");
+      manage.href = "manage.html";
+      manage.setAttribute("data-manage-link", "");
+      manage.setAttribute("data-i18n", "nav.manage");
+      manage.textContent = WORDS.en["nav.manage"];
+      out.push(manage);
     }
 
     out.push(divider("data-auth-divider"));
@@ -173,11 +189,12 @@
       label.className = "nav-name";
       label.textContent = name;
       a.appendChild(label);
-      if (admin) {
+      var badgeKey = admin ? "nav.admin" : editor ? "nav.editor" : "";
+      if (badgeKey) {
         var badge = document.createElement("span");
-        badge.className = "nav-badge";
-        badge.setAttribute("data-i18n", "nav.admin");
-        badge.textContent = WORDS.en["nav.admin"];
+        badge.className = "nav-badge " + (admin ? "nav-badge--admin" : "nav-badge--editor");
+        badge.setAttribute("data-i18n", badgeKey);
+        badge.textContent = WORDS.en[badgeKey];
         a.appendChild(badge);
       }
     } else {

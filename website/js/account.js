@@ -35,6 +35,7 @@
       "ac.resetSent": "Check your email: we sent you a link to choose a new password.",
       "ac.created": "Account created. Open the confirmation link we emailed you, then sign in.",
       "ac.toSubmit": "Sign in to submit your work. After signing in you will land back on the submission form.",
+      "ac.toManage": "Sign in to manage people and roles. After signing in you will land back on the management page.",
       "ac.needEmail": "Please give your email address.",
       "ac.hello": "Hello", "ac.mine": "My submissions", "ac.none": "You have not submitted anything with this account yet.",
       "ac.submit": "Submit your work", "ac.review": "Open the review dashboard", "ac.signout": "Sign out",
@@ -57,6 +58,7 @@
       "ac.resetSent": "请查看邮箱：设置新密码的链接已发出。",
       "ac.created": "账号已建好。请打开邮箱里的验证链接，然后回来登录。",
       "ac.toSubmit": "登录后即可投稿。登录成功会直接回到投稿页面。",
+      "ac.toManage": "登录后即可管理成员与角色。登录成功会直接回到管理页面。",
       "ac.needEmail": "请填写邮箱。",
       "ac.hello": "你好", "ac.mine": "我的投稿", "ac.none": "这个账号还没有投过稿。",
       "ac.submit": "去投稿", "ac.review": "打开审稿后台", "ac.signout": "退出登录",
@@ -79,6 +81,7 @@
       "ac.resetSent": "メールを確認してください。新しいパスワードを設定するリンクを送りました。",
       "ac.created": "アカウントを作成しました。メールの確認リンクを開いてから、ログインしてください。",
       "ac.toSubmit": "ログインすると投稿できます。ログイン後は投稿ページに戻ります。",
+      "ac.toManage": "ログインするとメンバーと役割を管理できます。ログイン後は管理ページに戻ります。",
       "ac.needEmail": "メールアドレスを入力してください。",
       "ac.hello": "こんにちは", "ac.mine": "自分の投稿", "ac.none": "このアカウントからの投稿はまだありません。",
       "ac.submit": "作品を投稿する", "ac.review": "審査ページを開く", "ac.signout": "ログアウト",
@@ -101,6 +104,7 @@
       "ac.resetSent": "이메일을 확인해 주세요. 새 비밀번호를 설정하는 링크를 보냈습니다.",
       "ac.created": "계정을 만들었습니다. 이메일의 인증 링크를 연 다음 로그인해 주세요.",
       "ac.toSubmit": "로그인하면 투고할 수 있습니다. 로그인 후 투고 페이지로 돌아갑니다.",
+      "ac.toManage": "로그인하면 멤버와 역할을 관리할 수 있습니다. 로그인 후 관리 페이지로 돌아갑니다.",
       "ac.needEmail": "이메일을 입력해 주세요.",
       "ac.hello": "안녕하세요", "ac.mine": "내 투고", "ac.none": "이 계정으로 보낸 투고가 아직 없습니다.",
       "ac.submit": "작품 투고하기", "ac.review": "검토 페이지 열기", "ac.signout": "로그아웃",
@@ -375,6 +379,6 @@
     if (location.hash) history.replaceState(null, "", location.pathname + location.search);
     if (s && recovering) return resetView();
     if (s) return afterAuth(s.user);
-    signinView(NEXT ? "ac.toSubmit" : undefined);
+    signinView(NEXT ? (/^manage\.html/.test(NEXT) ? "ac.toManage" : "ac.toSubmit") : undefined);
   });
 })();

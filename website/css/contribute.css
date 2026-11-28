@@ -1,4 +1,4 @@
-/* The submission form (js/contribute.js). Black and white like the rest of the site. */
+/* The submission form (js/contribute.js). Uses the journal palette from css/style.css. */
 #contribute {
   width: 100%;
   max-width: 560px;
@@ -8,7 +8,7 @@
   align-self: start;
 }
 #contribute h2 { font-size: 1.6rem; margin: 0 0 8px; }
-.c-lead, .c-hint, .c-muted { color: #555; }
+.c-lead, .c-hint, .c-muted { color: var(--muted); }
 .c-lead { margin: 0 0 28px; line-height: 1.6; }
 .c-form { display: grid; gap: 18px; }
 .c-field { display: grid; gap: 6px; }
@@ -20,53 +20,56 @@
 .c-contact-row[hidden] { display: none; }
 #c-dial { flex: 0 0 auto; width: auto; max-width: 45%; }
 .c-contact-row input { flex: 1 1 0; width: auto; min-width: 0; }
-.c-form input::placeholder, .c-form textarea::placeholder { color: #aaa; opacity: 1; }
+.c-form input::placeholder, .c-form textarea::placeholder { color: #A39A8C; opacity: 1; }
 .c-form input:not([type="checkbox"]), .c-form select, .c-form textarea, .c-out {
   font: inherit; width: 100%; box-sizing: border-box;
-  padding: 10px 12px; border: 1px solid #999; border-radius: 6px; background: #fff; color: #000;
+  padding: 10px 12px; border: 1px solid #D8D0C2; border-radius: 6px; background: var(--paper-2); color: var(--ink);
 }
 .c-form textarea { resize: vertical; }
 .c-form input:focus-visible, .c-form select:focus-visible, .c-form textarea:focus-visible,
-.c-send:focus-visible, .c-copy:focus-visible { outline: 2px solid #000; outline-offset: 2px; }
+.c-send:focus-visible, .c-copy:focus-visible { outline: 2px solid var(--oxblood); outline-offset: 2px; }
 .c-filelist { list-style: none; margin: -6px 0 0; padding: 0; display: grid; gap: 6px; }
 .c-filelist li {
   display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; font-size: .88rem;
 }
 .c-fname { overflow-wrap: anywhere; }
-.c-fsize { color: #555; }
+.c-fsize { color: var(--muted); }
 .c-bar {
-  grid-column: 1 / -1; height: 4px; border-radius: 2px; background: #e5e5e5;
-  background-image: linear-gradient(#000, #000); background-repeat: no-repeat;
+  grid-column: 1 / -1; height: 4px; border-radius: 2px; background: var(--line);
+  background-image: linear-gradient(var(--oxblood), var(--oxblood)); background-repeat: no-repeat;
   background-size: calc(var(--p, 0) * 100%) 100%;
 }
 .c-consent { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; font-size: .9rem; line-height: 1.5; }
 .c-consent input { margin-top: 3px; width: 18px; height: 18px; }
-.c-error { color: #b00020; margin: 0; min-height: 1.2em; }
+.c-error { color: #8A2B2B; margin: 0; min-height: 1.2em; }
 .c-send, .c-copy {
   font: inherit; font-weight: 600; cursor: pointer;
-  padding: 12px 20px; border: 0; border-radius: 6px; background: #000; color: #fff; justify-self: start;
+  padding: 12px 20px; border: 0; border-radius: 6px; background: var(--oxblood); color: var(--ivory); justify-self: start;
+  transition: background .15s ease;
 }
+.c-send:hover:not(:disabled), .c-copy:hover { background: var(--oxblood-dark); }
 .c-send:disabled { opacity: .55; cursor: wait; }
 .c-linkrow { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 24px; }
 .c-out { flex: 1 1 260px; min-width: 0; }
-#contribute a.c-link { color: #000; text-decoration: underline; }
+#contribute a.c-link { color: var(--oxblood); text-decoration: underline; }
 .c-work { font-size: 1.15rem; font-weight: 600; margin: 8px 0 16px; overflow-wrap: anywhere; }
 .c-status { display: grid; grid-template-columns: auto 1fr; gap: 10px 20px; margin: 0 0 24px; align-items: center; }
-.c-status dt { color: #555; }
+.c-status dt { color: var(--muted); }
 .c-status dd { margin: 0; }
-.c-pill { justify-self: start; padding: 3px 10px; border-radius: 999px; background: #eee; font-size: .9rem; }
-.c-pill--accepted, .c-pill--published { background: #000; color: #fff; }
-.c-pill--revise { background: #fff2cc; }
+.c-pill { justify-self: start; padding: 3px 10px; border-radius: 999px; background: #EFEDE8; color: var(--muted); font-size: .9rem; }
+.c-pill--accepted { background: #E7F0EA; color: #2F5D50; }
+.c-pill--published { background: var(--ink); color: var(--ivory); }
+.c-pill--revise { background: #F6EDD6; color: #7A5A12; }
 
 /* "Create an account?" after submitting */
-.c-dialog { max-width: min(440px, calc(100vw - 32px)); border: 0; border-radius: 12px; padding: 24px; text-align: left; color: #000; }
-.c-dialog::backdrop { background: rgba(0, 0, 0, .45); }
+.c-dialog { max-width: min(440px, calc(100vw - 32px)); border: 0; border-radius: 12px; padding: 24px; text-align: left; color: var(--ink); background: var(--paper-2); }
+.c-dialog::backdrop { background: rgba(28, 25, 23, .55); }
 .c-dialog h3 { margin: 0 0 8px; font-size: 1.2rem; }
 .c-dialog p { line-height: 1.6; }
 .c-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
-.c-ghost { font: inherit; padding: 12px 16px; border: 1px solid #999; border-radius: 6px; background: #fff; color: #000; cursor: pointer; }
-.c-notice { background: #eef7f1; border-radius: 6px; padding: 10px 14px; margin: 0 0 16px; }
+.c-ghost { font: inherit; padding: 12px 16px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper-2); color: var(--ink); cursor: pointer; }
+.c-notice { background: #EFF3EC; border-left: 3px solid #2F5D50; border-radius: 6px; padding: 10px 14px; margin: 0 0 16px; }
 
-.c-linkbtn { font: inherit; font-size: .9rem; background: none; border: 0; padding: 0; margin-top: 12px; color: #000; text-decoration: underline; cursor: pointer; }
+.c-linkbtn { font: inherit; font-size: .9rem; background: none; border: 0; padding: 0; margin-top: 12px; color: var(--oxblood); text-decoration: underline; cursor: pointer; }
 .c-dialog .c-field { margin: 4px 0 8px; }
-.c-dialog input { font: inherit; width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #999; border-radius: 6px; }
+.c-dialog input { font: inherit; width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #D8D0C2; border-radius: 6px; }
