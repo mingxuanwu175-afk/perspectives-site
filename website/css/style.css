@@ -1,5 +1,23 @@
+/* Brand palette taken from img/logo (the wordmark red is #BE0C15). The site is
+   meant to read like a printed journal: warm paper, ink text, crimson only as
+   the accent and hairlines. */
+:root{
+    --paper: #FAF8F3;
+    /* 比主背景略深一档，用来把顶栏从纸面里“压”出来 */
+    --paper-3: #F2ECE0;
+    --paper-2: #FFFFFF;
+    --ink: #1C1917;
+    --muted: #6B645C;
+    --line: #E6DFD3;
+    --crimson: #BE0C15;
+    --oxblood: #A50E16;
+    --oxblood-dark: #7F0A10;
+    --ivory: #F5F0E6;
+    --gold: #C8A24A;
+    --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Noto Serif SC", "Songti SC", SimSun, serif;
+}
 header{
-    background-color: #000000;
+    background-color: var(--paper-3);
     /* sticky：顶栏占住自己的位置（内容不会被挡住），滚动时又始终贴在最上面 */
     position: sticky;
     top: 0;
@@ -8,16 +26,30 @@ header{
     display: flex;
     align-items: center;
     padding: 0 20px;
-    min-height: 50px;
+    min-height: 56px;
+    border-bottom: 2px solid var(--crimson);
     /* 不加这条，width:100% + 左右 padding 会把页面撑出横向滚动条 */
     box-sizing: border-box;
     z-index: 10;
 }
 .logo{
+    display: inline-flex;
+    align-items: center;
+    gap: .55em;
     margin-left: 0.5vw;
-    font-size:clamp(0.6rem, 2.5vw, 1.2rem);
-    color: #ffffff;
-    font-family: sans-serif;
+    font-size:clamp(0.85rem, 2.2vw, 1.3rem);
+    font-weight: 600;
+    letter-spacing: .01em;
+    color: var(--ink);
+    font-family: var(--serif);
+}
+.logo__mark{
+    height: 1.9em;
+    width: auto;
+    flex: 0 0 auto;
+}
+.logo__word{
+    line-height: 1;
 }
 .nav_links{
     display: flex;
@@ -34,6 +66,18 @@ header{
 .lang-btn{
     flex: 0 0 auto;
     white-space: nowrap;
+}
+.nav_links > a{
+    color: var(--ink);
+    transition: color .15s ease;
+}
+.nav_links > a:hover,
+.nav_links > a:focus-visible{
+    color: var(--oxblood);
+}
+/* The thin “|” between nav items: decorative, so keep it quiet. */
+.nav-sep{
+    color: #B9AE9C;
 }
 /* 登录后这里显示名字：名字可能较长，保持一行，超出用省略号；
    管理员的名字后面再跟一个蓝色小标签（标签不能被省略号吃掉） */
@@ -55,11 +99,15 @@ header{
     flex: 0 0 auto;
     padding: 3px 7px;
     border-radius: 999px;
-    background: #2563eb;
-    color: #ffffff;
+    background: #274C77;
+    color: var(--ivory);
     font-size: 0.78em;
     line-height: 1;
     letter-spacing: 0.02em;
+}
+.nav-badge--editor{
+    background: var(--gold);
+    color: var(--ink);
 }
 /* 窄屏（≤480px）：导航项变多以后会挤，收紧间距、去掉装饰性的竖线 */
 @media (max-width: 480px){
@@ -83,8 +131,7 @@ header{
 }
 .lang-btn{
     background: transparent;
-    background-color: #000000;
-    color: #ffffff;
+    color: var(--ink);
     border: none;
     cursor: pointer;
     font-size:clamp(0.5rem, 1.5vw, 0.8rem);
@@ -109,10 +156,10 @@ header{
     transform: rotate(180deg);
 }
 .lang-btn:hover{
-    opacity: .7;
+    color: var(--oxblood);
 }
 .lang-btn:focus-visible{
-    outline: 2px solid #ffffff;
+    outline: 2px solid var(--oxblood);
     outline-offset: 3px;
 }
 
@@ -126,11 +173,11 @@ header{
     overscroll-behavior: contain;
     margin: 0;
     padding: 6px;
-    background: #141419;
-    border: 1px solid rgba(255, 255, 255, .16);
+    background: var(--paper-2);
+    border: 1px solid var(--line);
     border-radius: 10px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, .5);
-    font-family: sans-serif;
+    box-shadow: 0 16px 40px rgba(28, 25, 23, .18);
+    font-family: inherit;
     text-align: left;
     animation: lang-menu-in .14s ease-out;
 }
@@ -156,7 +203,7 @@ header{
     border: 0;
     border-radius: 6px;
     background: transparent;
-    color: #e6e6ee;
+    color: var(--ink);
     font: inherit;
     font-size: .82rem;
     line-height: 1.2;
@@ -166,12 +213,12 @@ header{
 }
 .lang-menu__item:hover,
 .lang-menu__item:focus-visible{
-    background: rgba(255, 255, 255, .1);
-    color: #ffffff;
+    background: var(--paper);
+    color: var(--oxblood);
     outline: none;
 }
 .lang-menu__item[aria-checked="true"]{
-    color: #ffffff;
+    color: var(--oxblood);
     font-weight: 600;
 }
 .lang-menu__tick{
@@ -189,6 +236,9 @@ header{
 }
 html{
     scroll-behavior:smooth;
+    /* 兜底：页面比视口矮、或手机上 dvh 与真实可视高度有差时，底栏下面露出的那块
+       也用底栏（=顶栏）的颜色，不会闪出一条白边 */
+    background-color: var(--paper-3, #F2ECE0);
 }
 @media (prefers-reduced-motion: reduce){
     html{
@@ -197,9 +247,9 @@ html{
 }
 body{
     margin:0;
-    background:#fff;
-    color:#000;
-    font-family:sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:system-ui, -apple-system, "Segoe UI", "Noto Sans SC", sans-serif;
     /* svh/dvh 取手机浏览器工具栏收起后的可视高度，避免 100vh 把底栏顶到屏幕外 */
     min-height:100vh;
     min-height:100dvh;
@@ -210,11 +260,17 @@ body{
 }
 a{
     text-decoration:none;
-    color:#fff;
+    color:var(--oxblood);
 }
+/* Headings carry the serif from the logo; body copy stays in the UI sans. */
+h1, h2, h3{
+    font-family:var(--serif);
+    font-weight:600;
+}
+/* 底栏与顶栏共用同一套配色：一样的纸色底 + 墨色字（底栏上方不加分隔线） */
 footer{
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--paper-3, #F2ECE0);
+    color: var(--ink);
     padding: 8px 0 10px;
     text-align: center;
     width: 100%;
@@ -237,13 +293,15 @@ footer{
     gap: 8px;
 }
 .footer-links a{
-    color: #fff;
+    color: var(--ink);
     text-decoration: underline;
     text-underline-offset: 2px;
+    transition: color .15s ease;
 }
-.footer-links a:hover{
-    opacity: .75;
+.footer-links a:hover,
+.footer-links a:focus-visible{
+    color: var(--oxblood);
 }
 .footer-links span{
-    opacity: .55;
+    color: var(--muted);
 }

@@ -3,7 +3,8 @@
  * Signs in with Supabase Auth in the browser and reads the tables directly
  * with the public key. Row level security decides what comes back: only
  * profiles with role editor or admin see submissions, can change their status
- * and download the originals; only admins can change people's roles.
+ * and download the originals. People and roles moved to the admin console
+ * (manage.html, js/manage.js).
  *
  * 界面文案跟随站内语言（lang.js）：字典键以 rv. 开头，这里合并进
  * PerspectivesI18N.translations，切换语言时整页重绘当前视图。
@@ -65,24 +66,15 @@
       "rv.loadingFiles": "Loading files…",
       "rv.noFiles": "No files.",
       "rv.download": "Download",
+      "rv.preview": "Preview",
+      "rv.close": "Close",
+      "rv.previewUnsupported": "This file type cannot be previewed here. Download it to open.",
       "rv.status": "Status",
       "rv.saveStatus": "Save status",
       "rv.saved": "Saved",
       "rv.notSaved": "Not saved: ",
       "rv.noPermission": "no permission",
       "rv.statusHint": "Changing the status does not notify the author; they see it when they open their progress link. Email them if something needs explaining.",
-      "rv.members": "People and roles",
-      "rv.membersHint": "Everyone starts as a reader. Editors see submissions, change their status and download the files; admins can also change roles.",
-      "rv.colJoined": "Joined",
-      "rv.colRole": "Role",
-      "rv.searchMembers": "Search by username or email",
-      "rv.memberMatches": "{n} of {total}",
-      "rv.noMemberMatch": "No member matches that search.",
-      "rv.clearSearch": "Clear search",
-      "rv.changed": "Changed",
-      "rv.roleFor": "Role for {email}",
-      "rv.noAccess": "No review access yet",
-      "rv.readerNote": "Your account ({email}) is a reader. Ask an admin to make you an editor.",
       "rv.error": "Something went wrong: {msg}",
       "rv.status.received": "Received",
       "rv.status.reviewing": "In review",
@@ -145,24 +137,15 @@
       "rv.loadingFiles": "正在加载文件…",
       "rv.noFiles": "没有文件。",
       "rv.download": "下载",
+      "rv.preview": "预览",
+      "rv.close": "关闭",
+      "rv.previewUnsupported": "该文件类型无法在线预览，请下载后查看。",
       "rv.status": "状态",
       "rv.saveStatus": "保存状态",
       "rv.saved": "已保存",
       "rv.notSaved": "未保存：",
       "rv.noPermission": "没有权限",
       "rv.statusHint": "修改状态不会通知作者；作者打开进度链接时才能看到。如需解释，请单独邮件联系。",
-      "rv.members": "成员与角色",
-      "rv.membersHint": "每个人默认都是读者。编辑可以查看投稿、修改状态并下载文件；管理员还可以调整角色。",
-      "rv.colJoined": "加入时间",
-      "rv.colRole": "角色",
-      "rv.searchMembers": "搜索用户名或邮箱",
-      "rv.memberMatches": "{n} / 共 {total} 人",
-      "rv.noMemberMatch": "没有匹配的成员。",
-      "rv.clearSearch": "清除搜索",
-      "rv.changed": "已更新",
-      "rv.roleFor": "{email} 的角色",
-      "rv.noAccess": "暂无审稿权限",
-      "rv.readerNote": "你的账号（{email}）是读者。请让管理员把你设为编辑。",
       "rv.error": "出错了：{msg}",
       "rv.status.received": "已收到",
       "rv.status.reviewing": "审核中",
@@ -225,24 +208,15 @@
       "rv.loadingFiles": "ファイルを読み込み中…",
       "rv.noFiles": "ファイルはありません。",
       "rv.download": "ダウンロード",
+      "rv.preview": "プレビュー",
+      "rv.close": "閉じる",
+      "rv.previewUnsupported": "この形式はプレビューできません。ダウンロードしてご覧ください。",
       "rv.status": "ステータス",
       "rv.saveStatus": "ステータスを保存",
       "rv.saved": "保存しました",
       "rv.notSaved": "保存できませんでした：",
       "rv.noPermission": "権限がありません",
       "rv.statusHint": "ステータスを変えても作者に通知されません。作者が進捗リンクを開いたときに表示されます。説明が必要なら個別にメールしてください。",
-      "rv.members": "メンバーと役割",
-      "rv.membersHint": "全員が最初は読者です。編集者は投稿の閲覧・ステータス変更・ファイルのダウンロードができ、管理者は役割も変更できます。",
-      "rv.colJoined": "参加日",
-      "rv.colRole": "役割",
-      "rv.searchMembers": "ユーザー名またはメールで検索",
-      "rv.memberMatches": "{n} / {total} 人",
-      "rv.noMemberMatch": "該当するメンバーはいません。",
-      "rv.clearSearch": "検索をクリア",
-      "rv.changed": "変更しました",
-      "rv.roleFor": "{email} の役割",
-      "rv.noAccess": "レビュー権限がありません",
-      "rv.readerNote": "あなたのアカウント（{email}）は読者です。管理者に編集者への変更を依頼してください。",
       "rv.error": "エラーが発生しました：{msg}",
       "rv.status.received": "受信済み",
       "rv.status.reviewing": "レビュー中",
@@ -305,24 +279,15 @@
       "rv.loadingFiles": "파일 불러오는 중…",
       "rv.noFiles": "파일이 없습니다.",
       "rv.download": "다운로드",
+      "rv.preview": "미리보기",
+      "rv.close": "닫기",
+      "rv.previewUnsupported": "이 형식은 미리 볼 수 없습니다. 다운로드해서 확인하세요.",
       "rv.status": "상태",
       "rv.saveStatus": "상태 저장",
       "rv.saved": "저장됨",
       "rv.notSaved": "저장하지 못했습니다: ",
       "rv.noPermission": "권한 없음",
       "rv.statusHint": "상태를 바꿔도 작성자에게 알림이 가지 않습니다. 작성자가 진행 링크를 열 때 확인할 수 있습니다. 설명이 필요하면 따로 메일을 보내세요.",
-      "rv.members": "멤버와 역할",
-      "rv.membersHint": "모든 사용자는 독자로 시작합니다. 편집자는 투고를 보고 상태를 바꾸며 파일을 내려받을 수 있고, 관리자는 역할도 바꿀 수 있습니다.",
-      "rv.colJoined": "가입일",
-      "rv.colRole": "역할",
-      "rv.searchMembers": "사용자 이름 또는 이메일 검색",
-      "rv.memberMatches": "{n} / 전체 {total}명",
-      "rv.noMemberMatch": "일치하는 멤버가 없습니다.",
-      "rv.clearSearch": "검색 지우기",
-      "rv.changed": "변경됨",
-      "rv.roleFor": "{email}의 역할",
-      "rv.noAccess": "검토 권한이 없습니다",
-      "rv.readerNote": "회원님의 계정({email})은 독자입니다. 관리자에게 편집자로 변경해 달라고 요청하세요.",
       "rv.error": "문제가 발생했습니다: {msg}",
       "rv.status.received": "접수됨",
       "rv.status.reviewing": "검토 중",
@@ -371,7 +336,6 @@
 
   var STATUS = ["received", "reviewing", "revise", "accepted", "published", "declined", "uploading"];
   var KINDS = ["writing", "art", "photo", "other"];
-  var ROLE_CODES = ["reader", "writer", "editor", "admin"];
   var COLS = "id,created_at,name,email,contact,title,kind,note,status,user_id";
 
   function statusName(code) { return t("rv.status." + code); }
@@ -382,8 +346,7 @@
   var meEl = document.getElementById("me");
   var state = {
     user: null, role: null, filter: "active", subs: [], open: null,
-    view: null, mode: "signin", note: null, lastError: null,
-    memberQuery: ""
+    view: null, mode: "signin", note: null, lastError: null
   };
 
   function el(tag, attrs, kids) {
@@ -519,6 +482,63 @@
     ])]);
   }
 
+  // Signed URLs are short lived, so a download asks for a fresh one and hands
+  // the browser a URL with an attachment disposition.
+  function downloadFile(f, btn, showError) {
+    btn.disabled = true;
+    sb.storage.from("submissions").createSignedUrl(f.path, 300, { download: f.name }).then(function (r) {
+      btn.disabled = false;
+      if (r.error) { showError(r.error.message); return; }
+      location.href = r.data.signedUrl;
+    });
+  }
+
+  // Show a file in a dialog over the dashboard. Images and PDFs are rendered by
+  // the browser itself (PDF through its built-in viewer); anything else gets a
+  // note and a download shortcut, since browsers cannot open Office files.
+  function previewFile(f, opener) {
+    var wrap = el("div", { class: "r-preview", role: "dialog", "aria-modal": "true", "aria-label": f.name });
+    var panel = el("div", { class: "r-preview__panel" });
+    var body = el("div", { class: "r-preview__body" }, [el("p", { class: "r-muted", text: t("rv.loadingFiles") })]);
+    var close = el("button", { type: "button", class: "r-btn r-btn--small r-btn--download", text: t("rv.close") });
+    function shut() {
+      document.removeEventListener("keydown", onKey);
+      if (wrap.parentNode) wrap.parentNode.removeChild(wrap);
+      document.body.classList.remove("r-preview-open");
+      if (opener && opener.focus) opener.focus();
+    }
+    function onKey(e) { if (e.key === "Escape") shut(); }
+    close.addEventListener("click", shut);
+    wrap.addEventListener("click", function (e) { if (e.target === wrap) shut(); });
+    document.addEventListener("keydown", onKey);
+    panel.appendChild(el("div", { class: "r-preview__head" }, [el("span", { class: "r-preview__name", text: f.name }), close]));
+    panel.appendChild(body);
+    wrap.appendChild(panel);
+    document.body.appendChild(wrap);
+    document.body.classList.add("r-preview-open");
+    close.focus();
+    sb.storage.from("submissions").createSignedUrl(f.path, 300).then(function (r) {
+      if (r.error) { body.replaceChildren(errorBox(r.error.message)); return; }
+      var url = r.data.signedUrl;
+      var kind = String(f.type || "").toLowerCase();
+      var named = String(f.name || "").toLowerCase();
+      if (kind.indexOf("image/") === 0 || /\.(png|jpe?g|gif|webp|avif|svg)$/.test(named)) {
+        body.replaceChildren(el("img", { class: "r-preview__img", src: url, alt: f.name }));
+      } else if (kind === "application/pdf" || /\.pdf$/.test(named)) {
+        body.replaceChildren(el("iframe", { class: "r-preview__frame", src: url, title: f.name }));
+      } else {
+        var again = el("button", { type: "button", class: "r-btn r-btn--small r-btn--download", text: t("rv.download") });
+        again.addEventListener("click", function () {
+          downloadFile(f, again, function (msg) { body.replaceChildren(errorBox(msg)); });
+        });
+        body.replaceChildren(el("div", { class: "r-preview__msg" }, [
+          el("p", { class: "r-muted", text: t("rv.previewUnsupported") }),
+          again
+        ]));
+      }
+    });
+  }
+
   function detail(s) {
     var box = el("section", { class: "r-detail", "aria-label": t("rv.detail") }, [el("h2", { text: s.title })]);
     var dl = el("dl", { class: "r-fields" });
@@ -534,16 +554,17 @@
     sb.from("submission_files").select("path,name,size,type").eq("submission_id", s.id).order("path").then(function (res) {
       if (res.error) { files.replaceChildren(errorBox(res.error.message)); return; }
       files.replaceChildren.apply(files, res.data.map(function (f) {
-        var btn = el("button", { type: "button", class: "r-btn r-btn--small", text: t("rv.download") });
+        var view = el("button", { type: "button", class: "r-btn r-btn--small r-btn--preview", text: t("rv.preview") });
+        view.addEventListener("click", function () { previewFile(f, view); });
+        var btn = el("button", { type: "button", class: "r-btn r-btn--small r-btn--download", text: t("rv.download") });
         btn.addEventListener("click", function () {
-          btn.disabled = true;
-          sb.storage.from("submissions").createSignedUrl(f.path, 300, { download: f.name }).then(function (r) {
-            btn.disabled = false;
-            if (r.error) { alertIn(files, r.error.message); return; }
-            location.href = r.data.signedUrl;
-          });
+          downloadFile(f, btn, function (msg) { alertIn(files, msg); });
         });
-        return el("li", {}, [el("span", { class: "r-fname", text: f.name }), el("span", { class: "r-muted", text: size(f.size) }), btn]);
+        return el("li", {}, [
+          el("span", { class: "r-fname", text: f.name }),
+          el("span", { class: "r-muted", text: size(f.size) }),
+          el("div", { class: "r-file-actions" }, [view, btn])
+        ]);
       }));
       if (!res.data.length) files.replaceChildren(el("li", { class: "r-muted", text: t("rv.noFiles") }));
     });
@@ -566,78 +587,21 @@
   }
   function alertIn(node, msg) { node.appendChild(el("li", {}, [errorBox(msg)])); }
 
-  function memberRow(p) {
-    var sel = el("select", { "aria-label": t("rv.roleFor", { email: p.email || p.id }) }, ROLE_CODES.map(function (code) { return el("option", { value: code, selected: code === p.role, text: roleName(code) }); }));
-    var note = el("span", { class: "r-muted" });
-    sel.addEventListener("change", function () {
-      sel.disabled = true;
-      sb.rpc("set_role", { target: p.id, new_role: sel.value }).then(function (r) {
-        sel.disabled = false;
-        if (r.error) { note.textContent = r.error.message; sel.value = p.role; } else { p.role = sel.value; note.textContent = t("rv.changed"); }
-      });
-    });
-    return el("tr", {}, [el("td", { text: p.email || "—" }), el("td", { text: p.username || "—" }), el("td", { class: "r-nowrap", text: when(p.created_at) }), el("td", {}, [sel, " ", note])]);
-  }
-
-  function members() {
-    var h2 = el("h2", { text: t("rv.members") });
-    var box = el("section", { class: "r-members" }, [h2, el("p", { class: "r-muted", text: t("rv.loading") })]);
-    sb.from("profiles").select("id,email,username,role,created_at").order("created_at").then(function (res) {
-      if (res.error) { box.replaceChildren(h2, errorBox(res.error.message)); return; }
-      var people = res.data || [];
-      var tbody = el("tbody");
-      var count = el("span", { class: "r-muted", "aria-live": "polite" });
-      var search = el("input", {
-        type: "search", id: "r-member-search", class: "r-search",
-        placeholder: t("rv.searchMembers"), "aria-label": t("rv.searchMembers"),
-        autocomplete: "off", spellcheck: "false"
-      });
-      search.value = state.memberQuery;
-      var table = el("table", { class: "r-table" }, [
-        el("thead", {}, [el("tr", {}, [t("rv.emailField"), t("rv.username"), t("rv.colJoined"), t("rv.colRole")].map(function (h) { return el("th", { text: h }); }))]),
-        tbody
-      ]);
-      var fold = function (value) {
-        var s = String(value || "");
-        if (s.normalize) s = s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        return s.toLowerCase();
-      };
-      function paint() {
-        var q = fold(search.value.trim());
-        state.memberQuery = search.value;
-        var hits = !q ? people : people.filter(function (p) {
-          return fold(p.username).indexOf(q) >= 0 || fold(p.email).indexOf(q) >= 0;
-        });
-        tbody.replaceChildren.apply(tbody, hits.length
-          ? hits.map(memberRow)
-          : [el("tr", {}, [el("td", { colspan: "4", class: "r-muted", text: t("rv.noMemberMatch") })])]);
-        count.textContent = q ? t("rv.memberMatches", { n: hits.length, total: people.length }) : "";
-      }
-      search.addEventListener("input", paint);
-      paint();
-      box.replaceChildren(h2,
-        el("p", { class: "r-muted", text: t("rv.membersHint") }),
-        el("div", { class: "r-members-tools" }, [search, count]),
-        el("div", { class: "r-tablewrap" }, [table]));
-    });
-    return box;
-  }
-
   function render() {
     state.view = "dash";
     header();
     var open = state.subs.filter(function (s) { return s.id === state.open; })[0];
     var fresh = state.subs.filter(function (s) { return s.status === "received"; }).length;
-    app.replaceChildren(
+    var nodes = [
       el("div", { class: "r-head" }, [
         el("h1", { text: t("rv.submissions") }),
         el("span", { class: "r-muted", text: fresh ? t("rv.waiting", { n: fresh }) : t("rv.noneWaiting") }),
         el("button", { type: "button", class: "r-btn r-btn--ghost", text: t("rv.refresh"), on: { click: function () { load().then(render, fail); } } })
       ]),
       tabs(),
-      el("div", { class: "r-split" }, [list(), open ? detail(open) : null]),
-      state.role === "admin" ? members() : null
-    );
+      el("div", { class: "r-split" }, [list(), open ? detail(open) : null])
+    ].filter(Boolean);
+    app.replaceChildren.apply(app, nodes);
   }
 
   function fail(err) {
@@ -655,19 +619,18 @@
       // a session exists on this page.
       if (window.PerspectivesAuthNav) window.PerspectivesAuthNav.refresh();
       return sb.from("profiles").select("role").eq("id", user.id).maybeSingle().then(function (p) {
+        if (p.error) { fail(p.error); return; }
         state.role = p.data ? p.data.role : "reader";
         // Remember it so the top bar of ordinary pages can show the admin
         // badge and the review link without asking again (see js/auth-nav.js).
         try {
           localStorage.setItem("perspectives:nav-role", JSON.stringify({ id: user.id, role: state.role }));
         } catch (e) { /* storage blocked */ }
+        // Readers and writers have no business here: send them home instead of
+        // showing a dead-end message. index.html is the site root one level up
+        // from this page, so a plain relative redirect works.
         if (state.role !== "editor" && state.role !== "admin") {
-          state.view = "noaccess";
-          header();
-          app.replaceChildren(el("div", { class: "r-auth" }, [
-            el("h1", { text: t("rv.noAccess") }),
-            el("p", { text: t("rv.readerNote", { email: user.email }) })
-          ]));
+          window.location.replace("index.html");
           return;
         }
         return load().then(render);
@@ -679,7 +642,6 @@
   document.addEventListener("languagechange", function () {
     if (state.view === "dash") render();
     else if (state.view === "auth") authView(state.mode, state.note);
-    else if (state.view === "noaccess") boot();
     else if (state.view === "error") fail(state.lastError);
   });
 
