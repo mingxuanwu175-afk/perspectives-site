@@ -1,0 +1,79 @@
+/* Chinese edition of the About page. Loaded after about.css; only adjusts
+   the typographic rhythm where Han glyphs need more room than Latin. */
+
+:lang(zh) .ab-standfirst {
+  line-height: 1.95;
+  letter-spacing: 0;
+}
+
+:lang(zh) .ab-mission__lead {
+  letter-spacing: 0;
+  line-height: 1.5;
+  max-width: 14.2em;
+}
+:lang(zh) .ab-mission__body {
+  line-height: 2.05;
+  letter-spacing: 0;
+}
+
+/* Chinese has no true italic; the gold colour carries the emphasis instead. */
+:lang(zh) .ab-pull p {
+  font-style: normal;
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+:lang(zh) .ab-creed {
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+:lang(zh) .ab-creed em {
+  font-style: normal;
+  color: var(--ab-gold-light);
+}
+
+:lang(zh) .ab-h3 {
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+:lang(zh) .ab-h3 em {
+  font-style: normal;
+  color: var(--oxblood);
+}
+:lang(zh) .ab-intro {
+  line-height: 1.95;
+}
+
+:lang(zh) .ab-rule h4,
+:lang(zh) .ab-rule p {
+  letter-spacing: 0;
+}
+:lang(zh) .ab-rule p {
+  line-height: 1.95;
+}
+
+:lang(zh) .ab-borders__quote {
+  letter-spacing: 0;
+  line-height: 1.6;
+}
+
+:lang(zh) .ab-colophon__text {
+  line-height: 1.95;
+  max-width: 48ch;
+}
+
+:lang(zh) .ab-label {
+  letter-spacing: .18em;
+}
+:lang(zh) .ab-kicker {
+  letter-spacing: .26em;
+}
+:lang(zh) .ab-cta {
+  letter-spacing: .18em;
+}
+:lang(zh) .ab-colophon__tag {
+  letter-spacing: .22em;
+}
+:lang(zh) .ab-caption {
+  font-size: .64rem;
+  letter-spacing: .3em;
+}

@@ -1,15 +1,20 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-page-lang="en">
 
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title data-i18n="page.about">About | Perspectives</title>
-<meta name="description" content="students write, students read">
+<meta name="description" content="Perspectives is an international magazine and website for young creators aged 13 to 25.">
 <meta name="theme-color" content="#F2ECE0">
 <link rel="icon" type="image/png" sizes="32x32" href="img/logo/favicon_32.png">
 <link rel="apple-touch-icon" href="img/logo/favicon_180.png">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/about.css">
+<link rel="alternate" hreflang="en" href="about.html">
+<link rel="alternate" hreflang="zh-Hans" href="about-zh.html">
+<!-- Set the reveal state before first paint so blocks never flash in and out. -->
+<script>if ("IntersectionObserver" in window) document.documentElement.classList.add("ab-js");</script>
 </head>
 
 <body>
@@ -32,9 +37,103 @@
 
 <!-- 语言切换：词典和逻辑都在 lang.js（普通 <script>，本地双击打开也能用） -->
 <script src="lang.js"></script>
+<script src="js/about-lang.js"></script>
 
 <!-- 主体部分 -->
-<main>
+<main class="ab">
+
+  <!-- 开篇：品牌名 + 第一段介绍 -->
+  <section class="ab-hero" aria-label="Introduction">
+    <img class="ab-hero__mark" src="img/logo/P_mark_transparent.png" alt="" aria-hidden="true">
+    <span class="ab-caption" aria-hidden="true">Students write · Students read</span>
+    <div class="ab-hero__inner ab-wrap">
+      <p class="ab-kicker ab-reveal">About the magazine</p>
+      <h2 class="ab-title ab-reveal"><i>Perspectives</i><span class="ab-title__dot" aria-hidden="true">.</span></h2>
+      <p class="ab-standfirst ab-reveal"><i>Perspectives</i> is an international magazine and website for young creators aged 13 to 25. We publish entertainment made by young people, for young people, in every form: writing, visual art, fashion and design, photography and film, music and performance, games and digital culture, and the criticism that surrounds them.</p>
+    </div>
+  </section>
+
+  <!-- 使命：深红色通栏，整页的视觉重心 -->
+  <section class="ab-mission" aria-labelledby="about-mission">
+    <div class="ab-wrap">
+      <h2 class="ab-label ab-label--light ab-reveal" id="about-mission"><span>01</span> Our mission</h2>
+      <p class="ab-mission__lead ab-reveal">Our mission is to return the creation of entertainment to young people themselves.</p>
+      <div class="ab-mission__grid">
+        <div class="ab-mission__body ab-reveal">
+          <p>For a long time, entertainment trends have been defined by others, and young people could only play the part of followers. We believe the trends of the next era should be created by young people themselves.</p>
+          <p><i>Perspectives</i> gives emerging creators a stage on which to be seen, read and heard, and brings into the spotlight the passions once dismissed as unworthy of print.</p>
+        </div>
+        <blockquote class="ab-pull ab-reveal">
+          <p>We do not bow to convention, and we do not follow trends.</p>
+        </blockquote>
+      </div>
+      <p class="ab-creed ab-reveal">We break boundaries, define youth entertainment, and <i>we are the trend.</i></p>
+    </div>
+  </section>
+
+  <!-- 四条承诺：左侧标题在桌面端随滚动停住 -->
+  <section class="ab-principles" aria-labelledby="about-principles">
+    <div class="ab-wrap ab-principles__grid">
+      <div class="ab-principles__head">
+        <h2 class="ab-label ab-reveal" id="about-principles"><span>02</span> Principles</h2>
+        <h3 class="ab-h3 ab-reveal">What we promise<br><i>our contributors.</i></h3>
+        <p class="ab-intro ab-reveal"><i>Perspectives</i> is committed to the following principles in its work with contributors:</p>
+      </div>
+      <ol class="ab-rules ab-reveal">
+        <li class="ab-rule">
+          <span class="ab-rule__num" aria-hidden="true">01</span>
+          <div>
+            <h4>Copyright stays with the creator</h4>
+            <p>Contributors retain full copyright, and every published work is credited with the creator's name and account.</p>
+          </div>
+        </li>
+        <li class="ab-rule">
+          <span class="ab-rule__num" aria-hidden="true">02</span>
+          <div>
+            <h4>Never used to train AI</h4>
+            <p>No submitted work is used to train artificial intelligence or altered by it.</p>
+          </div>
+        </li>
+        <li class="ab-rule">
+          <span class="ab-rule__num" aria-hidden="true">03</span>
+          <div>
+            <h4>You see the final layout first</h4>
+            <p>Contributors review the final layout prior to publication, and no work is published without their consent.</p>
+          </div>
+        </li>
+        <li class="ab-rule">
+          <span class="ab-rule__num" aria-hidden="true">04</span>
+          <div>
+            <h4>Every submission gets a reply</h4>
+            <p>Every submission receives a response from the editorial team.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 征集：来源里的第三段，单独做成一个安静的过渡段 -->
+  <section class="ab-borders" aria-labelledby="about-open">
+    <div class="ab-wrap">
+      <h2 class="ab-label ab-reveal" id="about-open"><span>03</span> An open invitation</h2>
+      <p class="ab-borders__quote ab-reveal"><i>Perspectives</i> welcomes correspondence and submissions in every language, in the belief that entertainment knows no borders.</p>
+      <a class="ab-cta ab-reveal" href="contribution.html">Submit your work <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- 创刊信息 -->
+  <section class="ab-colophon" aria-labelledby="about-founded">
+    <div class="ab-wrap ab-colophon__inner">
+      <div>
+        <h2 class="ab-label ab-reveal" id="about-founded"><span>04</span> The beginning</h2>
+        <p class="ab-colophon__text ab-reveal">Founded in August 2026 by Steve Wu and Eason Lin, students at XCL World Academy, Singapore.</p>
+      </div>
+      <div class="ab-colophon__mark ab-reveal">
+        <img src="img/logo/wordmark_transparent.png" alt="Perspectives" width="848" height="142" loading="lazy">
+        <p class="ab-colophon__tag">Students write, students read.</p>
+      </div>
+    </div>
+  </section>
 
 </main>
 
@@ -49,7 +148,9 @@
     </p>
   </div>
 </footer>
+<script src="js/about.js"></script>
 <script src="js/auth-nav.js"></script>
+<script src="js/nav.js"></script>
 </body>
 
 </html>
