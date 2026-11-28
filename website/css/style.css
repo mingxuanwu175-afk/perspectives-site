@@ -547,3 +547,8 @@ header.nav-collapsed .nav-collapse svg{
     .nav_links .lang-btn{ margin-left: auto; }
     .nav_links > [data-review-link] ~ .lang-btn{ margin-left: 8px; }
 }
+@media (min-width: 769px){
+    /* folding the main links must not move the quick links: the fold arrow
+       keeps its place right after them instead of taking the free space */
+    header.nav-collapsed .nav-collapse{ margin-left: 8px; }
+}
