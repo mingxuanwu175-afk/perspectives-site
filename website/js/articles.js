@@ -237,11 +237,11 @@
       var others = all.filter(function (a) { return !inLead[a.id]; });
       var pics = others.slice(0, 2), texts = others.slice(2, 5);
 
-      var top = el("section", { class: "sc-top" + (pics.length ? "" : " sc-top--nomid") }, [
-        el("div", { class: "sc-main" }, [
-          lead(feat),
-          texts.length ? el("ul", { class: "sc-row" }, texts.map(textCard)) : null
-        ]),
+      // The lead story runs the full width of the page; the cards and the
+      // "Latest" rail sit under it in Science's column widths.
+      var shape = (texts.length ? "t" : "") + (pics.length ? "p" : "");
+      var top = el("section", { class: "sc-top sc-top--" + (shape || "rail") }, [
+        texts.length ? el("ul", { class: "sc-row" }, texts.map(textCard)) : null,
         pics.length ? el("ul", { class: "sc-mid" }, pics.map(imageCard)) : null,
         el("aside", { class: "sc-rail" }, [
           el("h2", { class: "sc-head", text: t("ar.latest") }),
@@ -255,7 +255,7 @@
         ])
       ]);
 
-      var parts = [top];
+      var parts = [lead(feat), top];
       var issueNo = all.reduce(function (m, a) { return Math.max(m, a.issue || 0); }, 0);
       if (issueNo) {
         var inIssue = all.filter(function (a) { return a.issue === issueNo; });
