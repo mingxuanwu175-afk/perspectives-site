@@ -356,11 +356,11 @@ footer{
 }
 /* 箭头上下指：展开时朝上（点一下把导航收上去），收起后朝下（点一下放下来） */
 .nav-collapse svg{
-    transform: rotate(90deg);
+    transform: rotate(-90deg);
     transition: transform .18s ease;
 }
 header.nav-collapsed .nav-collapse svg{
-    transform: rotate(-90deg);
+    transform: rotate(90deg);
 }
 
 /* 大屏：导航照常横排；点箭头可以整条收起，再点恢复（状态跨页面记住） */
