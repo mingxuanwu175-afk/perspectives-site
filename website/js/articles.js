@@ -20,6 +20,7 @@
 
   var WORDS = {
     en: {
+      "ar.read": "Read",
       "ar.featured": "Featured", "ar.prev": "Previous", "ar.next": "Next",
       "ar.articles": "Articles", "ar.latest": "Latest articles", "ar.all": "All articles",
       "ar.type": "Type", "ar.issue": "Issue", "ar.any": "All", "ar.issueN": "Issue {n}",
@@ -30,6 +31,7 @@
       "k.writing": "Writing", "k.art": "Art", "k.photo": "Photography", "k.other": "Other"
     },
     zh: {
+      "ar.read": "阅读全文",
       "ar.featured": "精选", "ar.prev": "上一篇", "ar.next": "下一篇",
       "ar.articles": "文章", "ar.latest": "最新文章", "ar.all": "全部文章",
       "ar.type": "类型", "ar.issue": "期号", "ar.any": "全部", "ar.issueN": "第 {n} 期",
@@ -40,6 +42,7 @@
       "k.writing": "文章", "k.art": "绘画", "k.photo": "摄影", "k.other": "其他"
     },
     ja: {
+      "ar.read": "読む",
       "ar.featured": "注目の記事", "ar.prev": "前へ", "ar.next": "次へ",
       "ar.articles": "記事", "ar.latest": "最新の記事", "ar.all": "すべての記事",
       "ar.type": "種類", "ar.issue": "号", "ar.any": "すべて", "ar.issueN": "第{n}号",
@@ -50,6 +53,7 @@
       "k.writing": "文章", "k.art": "アート", "k.photo": "写真", "k.other": "その他"
     },
     ko: {
+      "ar.read": "읽기",
       "ar.featured": "추천 기사", "ar.prev": "이전", "ar.next": "다음",
       "ar.articles": "기사", "ar.latest": "최신 기사", "ar.all": "전체 기사",
       "ar.type": "종류", "ar.issue": "호", "ar.any": "전체", "ar.issueN": "제{n}호",
@@ -136,22 +140,26 @@
 
   /* ---------------- homepage carousel ---------------- */
 
-  // Featured articles (up to 5, in the order set in Manage) take turns in the
-  // lead slot: one every 6 seconds, paused while the pointer or keyboard focus
+  // Featured articles (up to 5, in the order set in Manage) take turns at the
+  // top of the homepage, full width, after Vogue Singapore, Teen Ink and
+  // Polyphony Lit: one every 4.5 seconds with a fade, paused while the pointer or keyboard focus
   // is on it, while the tab is hidden, and for readers who ask for less motion.
   var slideAt = 0, timer = null;
   function carousel(feat) {
     if (timer) { clearInterval(timer); timer = null; }
     if (slideAt >= feat.length) slideAt = 0;
     var slides = feat.map(function (a, i) {
-      return el("a", { class: "ar-lead ar-slide", href: href(a), "aria-hidden": i === slideAt ? null : "true", tabindex: i === slideAt ? null : "-1" }, [
-        el("div", { class: "ar-lead-text" }, [
+      // Full-bleed picture, words laid over its lower left on a dark fade
+      // (Teen Ink), title in the display serif (Vogue Singapore).
+      return el("a", { class: "ar-slide", href: href(a), "aria-hidden": i === slideAt ? null : "true", tabindex: i === slideAt ? null : "-1" }, [
+        cover(a, "ar-slide-img"),
+        el("div", { class: "ar-slide-text" }, [
           typeLine(a),
-          el("h2", { class: "ar-lead-title" }, [el("span", { text: a.title })]),
-          a.standfirst ? el("p", { text: a.standfirst }) : null,
-          a.author_name ? el("p", { class: "ar-lead-by", text: a.author_name }) : null
-        ]),
-        cover(a, "ar-lead-img")
+          el("h2", { class: "ar-slide-title", text: a.title }),
+          a.standfirst ? el("p", { class: "ar-slide-stand", text: a.standfirst }) : null,
+          a.author_name ? el("p", { class: "ar-slide-by", text: a.author_name }) : null,
+          el("span", { class: "ar-slide-btn", text: t("ar.read") })
+        ])
       ]);
     });
     var dots = feat.map(function (a, i) {
@@ -159,11 +167,10 @@
     });
     var box = el("section", { class: "ar-carousel", "aria-roledescription": "carousel", "aria-label": t("ar.featured") }, [
       el("div", { class: "ar-slides" }, slides),
-      feat.length > 1 ? el("div", { class: "ar-controls" }, [
-        el("button", { type: "button", class: "ar-arrow", "aria-label": t("ar.prev"), text: "‹", on: { click: function () { go(slideAt - 1); } } }),
-        el("div", { class: "ar-dots" }, dots),
-        el("button", { type: "button", class: "ar-arrow", "aria-label": t("ar.next"), text: "›", on: { click: function () { go(slideAt + 1); } } })
-      ]) : null
+      // Thin arrows at the sides (Polyphony Lit), white dots at the bottom (Vogue Singapore).
+      feat.length > 1 ? el("button", { type: "button", class: "ar-arrow ar-arrow--prev", "aria-label": t("ar.prev"), on: { click: function () { go(slideAt - 1); } } }) : null,
+      feat.length > 1 ? el("button", { type: "button", class: "ar-arrow ar-arrow--next", "aria-label": t("ar.next"), on: { click: function () { go(slideAt + 1); } } }) : null,
+      feat.length > 1 ? el("div", { class: "ar-dots" }, dots) : null
     ]);
     function go(i) {
       slideAt = (i + feat.length) % feat.length;
@@ -190,7 +197,7 @@
       x0 = null; resume();
     });
     if (feat.length > 1 && !still) {
-      timer = setInterval(function () { if (!paused && !document.hidden) go(slideAt + 1); }, 6000);
+      timer = setInterval(function () { if (!paused && !document.hidden) go(slideAt + 1); }, 4500);
     }
     return box;
   }
