@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy | Perspectives</title>
+<meta name="description" content="students write, students read">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" type="image/png" sizes="32x32" href="img/logo/favicon_32.png">
+<link rel="apple-touch-icon" href="img/logo/favicon_180.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/articles.css">
+<style>
+.pv { max-width: 760px; line-height: 1.65; }
+.pv h2 { font-family: var(--serif); font-size: 1.3rem; margin: 28px 0 8px; }
+.pv-date { color: var(--muted); margin-top: -8px; }
+.pv ul { padding-left: 20px; }
+.pv li { margin-bottom: 8px; }
+.ar-main.pv a { text-decoration: underline; }
+</style>
+</head>
+
+<body>
+<!-- 导航栏 -->
+<header>
+  <a href="index.html"><h1 class="logo"><img class="logo__mark" src="img/logo/P_mark_transparent.png" alt="" width="30" height="41"><span class="logo__word" data-i18n="Perspectives">Perspectives</span></h1></a>
+  <div class="nav-util">
+    <a href="index.html" class="nav-util-ico"><svg aria-hidden="true" width="23" height="23" viewBox="0 0 24 24"><path d="M2.6 11.6 12 3.6l9.4 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10.4V20.5h14V10.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.8 20.5v-5.2h4.4v5.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span data-i18n="Home">Home</span></a>
+    <a href="account.html" class="nav-util-ico"><svg aria-hidden="true" width="18" height="22" viewBox="0 0 18 22"><path d="M2 1h14v19l-7-5-7 5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span data-i18n="util.mine">My submissions</span></a>
+    <a href="article.html?focus=search" class="nav-util-ico"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 22 22"><circle cx="9" cy="9" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14.5 14.5l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="util.search">Search Articles</span></a>
+  </div>
+  <nav class="nav_links">
+    <a href="index.html" data-i18n="Home">Home</a>
+    <div class="nav-sep" aria-hidden="true">|</div>
+    <a href="business.html" data-i18n="Business">Business</a>
+    <div class="nav-sep" aria-hidden="true">|</div>
+    <a href="article.html" data-i18n="Article">Article</a>
+    <div class="nav-sep" aria-hidden="true">|</div>
+    <a href="contribution.html" data-i18n="Contribution">Contribution</a>
+    <div class="nav-sep" aria-hidden="true">|</div>
+    <a href="about.html" data-i18n="About">About Us</a>
+    <div class="nav-sep" aria-hidden="true">|</div>
+    <a href="join_us.html" data-i18n="Join Us">Join Us</a>
+    <button class="lang-btn" id="langSwitch" data-i18n="Language" style="margin-right: 3vw;">Language</button>
+  </nav>
+</header>
+
+<!-- 语言切换：词典和逻辑都在 lang.js（普通 <script>，本地双击打开也能用） -->
+<script src="lang.js"></script>
+
+<!-- 主体部分 -->
+<main class="ar-main pv">
+  <h1 class="ar-h1">Privacy</h1>
+  <p class="pv-date">Last updated 29 November 2026</p>
+
+  <p>Perspectives is a student magazine. This page says what the website keeps about you, why, and what you can ask us to do with it.</p>
+
+  <h2>What we keep</h2>
+  <ul>
+    <li><b>Your account:</b> your email address, the name you choose, and your password (stored only as a one-way hash by our sign-in provider; we never see it). If you sign in with Google, Google tells us your email address and name, and nothing else.</li>
+    <li><b>Your submissions:</b> the name or pen name, email and any other contact you type into the submission form, the title and note, and the files you upload.</li>
+    <li><b>Basic technical records:</b> the network address a submission came from, kept for a short time to stop spam.</li>
+  </ul>
+
+  <h2>Why</h2>
+  <p>To let you sign in, to receive and review your work, to tell you where your submission is, and to write back to you. We do not sell your information, show you adverts, or use your work to train AI.</p>
+
+  <h2>Who can see it</h2>
+  <p>Only the Perspectives editors can open submissions and their files. Nothing you send is published without asking you first. Published pieces show the title, the name you gave for print, and the work itself.</p>
+
+  <h2>Where it is stored</h2>
+  <p>On Supabase (database, file storage and sign-in) and Vercel (the website itself). Both keep data on secure servers and only our editors' accounts have access to submissions.</p>
+
+  <h2>Your choices</h2>
+  <p>You can change your name on the <a href="account.html">My account</a> page. To delete your account, your submissions or a published piece, write to us through the <a href="join_us.html">Join Us</a> page and we will do it.</p>
+</main>
+
+<!-- 底栏 -->
+<footer>
+  <div class="footer-content">
+    <p data-i18n="copyright">© 2027 Perspectives Student Magazine. All rights reserved.</p>
+    <p class="footer-links">
+      <a href="#top" data-i18n="footer.top">Back to top</a>
+      <span aria-hidden="true">·</span>
+      <a href="index.html" data-i18n="footer.home">Back to home</a>
+      <span aria-hidden="true">·</span>
+      <a href="privacy.html" data-i18n="footer.privacy">Privacy</a>
+    </p>
+  </div>
+</footer>
+<script src="js/auth-nav.js"></script>
+<script src="js/nav.js"></script>
+</body>
+
+</html>
