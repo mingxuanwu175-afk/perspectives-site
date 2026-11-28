@@ -1,13 +1,20 @@
 /* Review dashboard (review.html): a working tool, plain and dense. */
 :root { --ink: #111; --muted: #5f6368; --line: #dadce0; --soft: #f4f5f7; --accent: #000; --bad: #b00020; }
 * { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, -apple-system, sans-serif; color: var(--ink); background: #fff; font-size: 15px; line-height: 1.5; }
-.r-top { display: flex; gap: 14px; align-items: center; padding: 12px max(16px, 3vw); background: #000; color: #fff; flex-wrap: wrap; }
-.r-logo { color: #fff; font-weight: 700; text-decoration: none; }
-.r-where { opacity: .7; }
-.r-me { margin-left: auto; display: flex; gap: 12px; align-items: center; font-size: .9rem; }
-.r-me .r-link { color: #fff; }
-.r-main { max-width: 1200px; margin: 0 auto; padding: 24px max(16px, 3vw) 64px; }
+/* css/style.css centres the body in a grid for the reading pages; this page
+   uses the same header but lays the rest of the page out normally. */
+body {
+  display: flex; flex-direction: column; place-items: normal; text-align: left;
+  margin: 0; font-family: system-ui, -apple-system, sans-serif; color: var(--ink);
+  background: #fff; font-size: 15px; line-height: 1.5;
+  min-height: 100vh; min-height: 100dvh;
+}
+.r-main a, .r-who a { color: var(--ink); }
+/* The signed-in account line, moved out of the top bar so the bar matches the rest of the site. */
+.r-who { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 12px; margin: 0 0 16px; color: var(--muted); font-size: .85rem; }
+.r-who span { overflow-wrap: anywhere; }
+.r-who:empty { display: none; }
+.r-main { flex: 1 0 auto; width: 100%; max-width: 1200px; margin: 0 auto; padding: 24px max(16px, 3vw) 64px; }
 .r-muted { color: var(--muted); }
 .r-note { color: var(--muted); font-size: .88rem; }
 .r-error { color: var(--bad); margin: 0; min-height: 1.2em; }
@@ -60,3 +67,17 @@ body { margin: 0; font-family: system-ui, -apple-system, sans-serif; color: var(
 .r-statusrow { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 18px; }
 .r-statusrow select, .r-members select { font: inherit; padding: 6px 8px; border: 1px solid #999; border-radius: 6px; }
 .r-members { margin-top: 48px; }
+/* Search box above the people-and-roles table. */
+.r-members-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 0 0 14px; }
+.r-search {
+  font: inherit; color: var(--ink); background: #fff;
+  flex: 0 1 320px; min-width: 0; width: 100%; max-width: 320px;
+  padding: 8px 11px; border: 1px solid var(--line); border-radius: 6px;
+}
+.r-search::placeholder { color: #8a8f94; }
+.r-search:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.r-members-tools .r-muted { font-size: .85rem; font-variant-numeric: tabular-nums; }
+
+/* The site footer (css/style.css) is shared; the dashboard body is a column
+   so it stays at the bottom even when the table is short. */
+.r-main + footer { margin-top: 0; }

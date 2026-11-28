@@ -134,6 +134,12 @@
       window.PerspectivesAuthNav.setName(id, name);
     }
   }
+  // Same for the role, so the bar can show the admin badge and the review link.
+  function navRole(id, role) {
+    if (window.PerspectivesAuthNav && window.PerspectivesAuthNav.setRole) {
+      window.PerspectivesAuthNav.setRole(id, role);
+    }
+  }
 
   var root = document.getElementById("account");
   function el(tag, attrs, kids) {
@@ -316,6 +322,7 @@
     }).then(function (res) {
       var prof = res[0].data || {};
       navName(user.id, prof.username || "");
+      navRole(user.id, prof.role || "");
       var subs = res[1].data || [];
       var name = el("input", { id: "ac-uname", maxlength: "40", value: prof.username || "" });
       var saved = el("span", { class: "c-hint", role: "status" });
