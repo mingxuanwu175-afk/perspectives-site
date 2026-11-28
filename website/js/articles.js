@@ -1,6 +1,6 @@
 /* Perspectives: published articles on the public pages.
  *
- *   index.html   <div id="ar-home">  front page after nature.com: featured carousel as the lead story, a row of cards with the current issue, the latest
+ *   index.html   <div id="ar-home">  featured carousel (Steam store layout), then after nature.com a row of cards with the current issue and the latest list
  *   article.html <div id="ar-list">  every published article, newest first, filter by type and issue
  *   read.html    <div id="ar-read">  one article: details, PDF reader, download
  *
@@ -16,7 +16,7 @@
   var KEY = "sb_publishable_zrfDWNTiHJSEdaK4lxlo3Q_3vz08ZR_"; // public by design
   var I18N = window.PerspectivesI18N;
   var LOCALES = { en: "en-GB", zh: "zh-CN", ja: "ja-JP", ko: "ko-KR" };
-  var FIELDS = "id,title,author_name,kind,issue,standfirst,cover_path,pdf_path,featured,featured_rank,published_at";
+  var FIELDS = "id,title,author_name,kind,issue,standfirst,cover_path,pdf_path,page_paths,featured,featured_rank,published_at";
 
   var WORDS = {
     en: {
@@ -137,38 +137,55 @@
 
   /* ---------------- homepage (after nature.com) ---------------- */
 
-  // nature.com's front page: a lead story (dark panel with the title on the
-  // left, picture on the right) across the page, then one row of cards
+  // Front page: the featured carousel (Steam store layout, below), then as on
+  // nature.com one row of cards
   // (picture, title, summary, author, type | date) ending with the current
   // issue's cover, then a "Latest" list under a heavy rule.
-  // Our lead takes turns through the featured articles (up to 5, in the order
-  // set in Manage): one every 6 seconds with a fade, paused under the pointer
-  // or keyboard focus, while the tab is hidden, and for readers who ask for
-  // less motion.
+  // Featured carousel, laid out after the Steam store's "Featured &
+  // Recommended" box (measured at 1440 px): one frame, big picture on the left
+  // (840 of 1200), a 360 info column on the right with the title, a meta line,
+  // a 2 x 2 grid of page previews (hovering one shows it in the big picture)
+  // and the summary; big arrows outside the frame, small bars under it.
+  // Turns every 6 seconds; pauses under the pointer or keyboard focus, while
+  // the tab is hidden, and for readers who ask for less motion.
   var slideAt = 0, timer = null;
   function lead(feat) {
     if (timer) { clearInterval(timer); timer = null; }
     if (slideAt >= feat.length) slideAt = 0;
     var slides = feat.map(function (a, i) {
-      return el("a", { class: "nt-slide", href: href(a), "aria-hidden": i === slideAt ? null : "true", tabindex: i === slideAt ? null : "-1" }, [
-        el("div", { class: "nt-lead-text" }, [
-          el("h2", { class: "nt-lead-title" }, [el("span", { text: a.title })]),
-          a.standfirst ? el("p", { class: "nt-lead-stand", text: a.standfirst }) : null,
-          a.author_name ? el("p", { class: "nt-lead-by", text: a.author_name }) : null
-        ]),
-        cover(a, "nt-lead-img")
+      var big = cover(a, "st-main-img");
+      var pages = (a.page_paths || []).slice(0, 4);
+      var shots = pages.length ? el("ul", { class: "st-shots" }, pages.map(function (p) {
+        var u = file(p);
+        return el("li", { on: { mouseenter: function () { if (big.tagName === "IMG") big.src = u; } } }, [
+          el("img", { src: u, alt: "", loading: "lazy" })
+        ]);
+      })) : null;
+      if (shots) shots.addEventListener("mouseleave", function () { if (big.tagName === "IMG") big.src = file(a.cover_path); });
+      return el("a", { class: "st-slide", href: href(a), "aria-hidden": i === slideAt ? null : "true", tabindex: i === slideAt ? null : "-1" }, [
+        el("div", { class: "st-main" }, [big]),
+        el("div", { class: "st-info" }, [
+          el("h2", { class: "st-name", text: a.title }),
+          el("p", { class: "st-meta" }, [
+            el("b", { text: t("k." + a.kind) }),
+            a.issue ? el("span", { text: t("ar.issueN", { n: a.issue }) }) : null,
+            a.author_name ? el("span", { text: a.author_name }) : null
+          ]),
+          shots,
+          a.standfirst ? el("p", { class: "st-reason", text: a.standfirst }) : null,
+          el("p", { class: "st-tag", text: t("ar.featured") })
+        ])
       ]);
     });
-    var dots = feat.map(function (a, i) {
-      return el("button", { type: "button", class: "nt-dot", "aria-label": (i + 1) + " / " + feat.length + ": " + a.title, on: { click: function () { go(i); } } });
+    var bars = feat.map(function (a, i) {
+      return el("button", { type: "button", class: "st-bar", "aria-label": (i + 1) + " / " + feat.length + ": " + a.title, on: { click: function () { go(i); } } });
     });
-    var box = el("section", { class: "nt-lead", "aria-roledescription": "carousel", "aria-label": t("ar.featured") }, [
-      el("div", { class: "nt-slides" }, slides),
-      feat.length > 1 ? el("div", { class: "nt-controls" }, [
-        el("button", { type: "button", class: "nt-arrow", "aria-label": t("ar.prev"), text: "‹", on: { click: function () { go(slideAt - 1); } } }),
-        el("div", { class: "nt-dots" }, dots),
-        el("button", { type: "button", class: "nt-arrow", "aria-label": t("ar.next"), text: "›", on: { click: function () { go(slideAt + 1); } } })
-      ]) : null
+    var many = feat.length > 1;
+    var box = el("section", { class: "st-cap", "aria-roledescription": "carousel", "aria-label": t("ar.featured") }, [
+      many ? el("button", { type: "button", class: "st-arrow st-arrow--left", "aria-label": t("ar.prev"), on: { click: function () { go(slideAt - 1); } } }) : null,
+      el("div", { class: "st-frame" }, slides),
+      many ? el("button", { type: "button", class: "st-arrow st-arrow--right", "aria-label": t("ar.next"), on: { click: function () { go(slideAt + 1); } } }) : null,
+      many ? el("div", { class: "st-bars" }, bars) : null
     ]);
     function go(i) {
       slideAt = (i + feat.length) % feat.length;
@@ -178,7 +195,7 @@
         if (on) { s.removeAttribute("aria-hidden"); s.removeAttribute("tabindex"); }
         else { s.setAttribute("aria-hidden", "true"); s.setAttribute("tabindex", "-1"); }
       });
-      dots.forEach(function (d, j) { d.classList.toggle("is-on", j === slideAt); d.setAttribute("aria-current", j === slideAt ? "true" : "false"); });
+      bars.forEach(function (d, j) { d.classList.toggle("is-on", j === slideAt); d.setAttribute("aria-current", j === slideAt ? "true" : "false"); });
     }
     go(slideAt);
     var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -193,7 +210,7 @@
       if (x0 != null) { var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(slideAt + (dx < 0 ? 1 : -1)); }
       x0 = null; paused = false;
     });
-    if (feat.length > 1 && !still) {
+    if (many && !still) {
       timer = setInterval(function () { if (!paused && !document.hidden) go(slideAt + 1); }, 6000);
     }
     return box;

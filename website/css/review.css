@@ -1,5 +1,5 @@
 /* Review dashboard (review.html): a working tool, plain and dense. */
-:root { --paper: #FFFFFF; --paper-2: #FFFFFF; --ink: #262626; --muted: #595959; --line: #DBDBDB; --soft: #F5F5F5; --accent: #A50E16; --accent-dark: #7F0A10; --crimson: #BE0C15; --ivory: #F5F0E6; --bad: #8A2B2B; }
+:root { --paper: #FFFFFF; --paper-2: #FFFFFF; --ink: #222222; --muted: #555555; --line: #DADADA; --soft: #F3F3F3; --accent: #A50E16; --accent-dark: #7F0A10; --crimson: #BE0C15; --ivory: #F5F0E6; --bad: #8A2B2B; }
 * { box-sizing: border-box; }
 /* css/style.css centres the body in a grid for the reading pages; this page
    uses the same header but lays the rest of the page out normally. */

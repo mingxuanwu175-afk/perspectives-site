@@ -250,6 +250,45 @@
       });
     }
 
+    // The homepage carousel shows the first four pages beside the cover (like
+    // the screenshots in Steam's featured box). They are drawn here from the
+    // PDF with pdf.js and stored as small JPEGs. If pdf.js is missing or the
+    // PDF cannot be read, the article is still saved, just without previews.
+    function pagePreviews(id, pdfFile) {
+      var lib = window.pdfjsLib;
+      if (!lib) return Promise.resolve([]);
+      lib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      var stamp = Date.now();
+      return pdfFile.arrayBuffer().then(function (buf) {
+        return lib.getDocument({ data: buf }).promise;
+      }).then(function (doc) {
+        var n = Math.min(4, doc.numPages), jobs = [];
+        for (var i = 1; i <= n; i++) jobs.push(i);
+        return jobs.reduce(function (chain, i) {
+          return chain.then(function (out) {
+            return doc.getPage(i).then(function (page) {
+              var v = page.getViewport({ scale: 1 });
+              var scale = 640 / v.width;
+              var vp = page.getViewport({ scale: scale });
+              var canvas = document.createElement("canvas");
+              canvas.width = Math.round(vp.width); canvas.height = Math.round(vp.height);
+              var g = canvas.getContext("2d");
+              g.fillStyle = "#fff"; g.fillRect(0, 0, canvas.width, canvas.height);
+              return page.render({ canvasContext: g, viewport: vp }).promise.then(function () {
+                return new Promise(function (res) { canvas.toBlob(res, "image/jpeg", 0.82); });
+              }).then(function (blob) {
+                var path = id + "/page-" + i + "-" + stamp + ".jpg";
+                return ctx.sb.storage.from("articles").upload(path, blob, { contentType: "image/jpeg", upsert: false }).then(function (r) {
+                  if (r.error) throw r.error;
+                  return out.concat([path]);
+                });
+              });
+            });
+          });
+        }, Promise.resolve([]));
+      }).catch(function (err) { console.warn("page previews", err); return []; });
+    }
+
     function save(status) {
       var c = cover.files[0], p = pdf.files[0];
       if (!title.value.trim()) return (msg.textContent = t("ma.err.title"));
@@ -264,7 +303,7 @@
         author_confirmed: ok.checked
       };
       if (!a.id && a.submission_id) fields.submission_id = a.submission_id;
-      var old = { cover: a.cover_path, pdf: a.pdf_path };
+      var old = { cover: a.cover_path, pdf: a.pdf_path, pages: a.page_paths || [] };
       var id = a.id;
       // A new article gets its row first: its id names the folder for its files.
       var start = id ? Promise.resolve(id) : ctx.sb.from("articles").insert(Object.assign({}, fields, { status: "draft" })).select("id").single().then(function (r) {
@@ -272,16 +311,18 @@
         return (id = r.data.id);
       });
       start.then(function () {
-        return Promise.all([c ? upload(id, c, "cover") : null, p ? upload(id, p, "article") : null]);
+        return Promise.all([c ? upload(id, c, "cover") : null, p ? upload(id, p, "article") : null, p ? pagePreviews(id, p) : null]);
       }).then(function (paths) {
         if (paths[0]) fields.cover_path = paths[0];
         if (paths[1]) fields.pdf_path = paths[1];
+        if (paths[2]) fields.page_paths = paths[2];
         if (status) fields.status = status;
         return update(id, fields);
       }).then(function (saved) {
         var stale = [];
         if (fields.cover_path && old.cover) stale.push(old.cover);
         if (fields.pdf_path && old.pdf) stale.push(old.pdf);
+        if (fields.page_paths) stale = stale.concat(old.pages);
         if (stale.length) ctx.sb.storage.from("articles").remove(stale);
         return load().then(function () { editing = saved; flash = ""; paint(); root.querySelector(".ma-form .r-error").textContent = t("ma.saved"); });
       }).catch(function (err) {
